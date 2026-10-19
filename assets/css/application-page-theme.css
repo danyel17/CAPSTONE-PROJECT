@@ -1,0 +1,57 @@
+/**
+ * application.php — completion / confirm / submit stay white (light + dark).
+ * Page subtitle matches renewal.php (soft white / slate in dark).
+ */
+body.page-application:not(.darkmode) .main-container main .accounts-subtitle,
+body.page-application:not(.darkmode) .app-form-ui .accounts-subtitle {
+  color: rgba(255, 255, 255, 0.78) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.78) !important;
+}
+
+body.page-application.darkmode .main-container main .accounts-subtitle,
+body.page-application.darkmode .app-form-ui .accounts-subtitle {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+}
+
+body.page-application .app-completion,
+body.page-application .app-completion__label,
+body.page-application .app-completion__pct,
+body.page-application.darkmode .app-completion__label,
+body.page-application.darkmode .app-completion__pct,
+body.page-application .app-form-footer,
+body.page-application .app-confirm-row,
+body.page-application .app-confirm-row label,
+body.page-application .app-confirm-row span,
+body.page-application .app-form-ui .app-confirm-row,
+body.page-application .app-form-ui .app-confirm-row label,
+body.page-application .app-form-ui .app-confirm-row span,
+body.page-application.darkmode .app-form-ui .app-confirm-row,
+body.page-application.darkmode .app-form-ui .app-confirm-row label,
+body.page-application.darkmode .app-form-ui .app-confirm-row span,
+body.page-application .app-confirm-row .app-rules-link,
+body.page-application.darkmode .app-confirm-row .app-rules-link {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body.page-application .main-container main .submit-all-footer-btn,
+body.page-application .main-container main .submit-all-footer-btn i,
+body.page-application .main-container main .submit-all-footer-btn span,
+body.page-application .main-container main .submit-all-footer-btn .submit-all-footer-btn__text,
+body.page-application.darkmode .main-container main .submit-all-footer-btn,
+body.page-application.darkmode .main-container main .submit-all-footer-btn i,
+body.page-application.darkmode .main-container main .submit-all-footer-btn span,
+body.page-application.darkmode .main-container main .submit-all-footer-btn .submit-all-footer-btn__text,
+body.page-application:not(.darkmode) .main-container main .submit-all-footer-btn,
+body.page-application:not(.darkmode) .main-container main .submit-all-footer-btn i,
+body.page-application:not(.darkmode) .main-container main .submit-all-footer-btn span,
+body.page-application:not(.darkmode) .main-container main .submit-all-footer-btn .submit-all-footer-btn__text {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body.page-application .app-confirm-row .app-rules-link:hover {
+  color: #ff8555 !important;
+  -webkit-text-fill-color: #ff8555 !important;
+}

@@ -1,0 +1,662 @@
+/**
+ * Match application.php liquid glass on renewal, profile, and notification.
+ * Light: white cards + frosted fields + dark text.
+ * Dark: black cards + dark frosted fields + white text.
+ * Load last, after vendor-light-mode-text.css.
+ */
+
+/* Page titles stay light on the indigo background */
+body:not(.darkmode) .main-container main .accounts-title,
+body:not(.darkmode) .main-container main .accounts-title span:not(.app-title-accent) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.35rem, 5vw, 3.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-shadow: none;
+}
+body:not(.darkmode) .main-container main .accounts-title .app-title-accent,
+body.darkmode .main-container main .accounts-title .app-title-accent {
+  color: #ff6b35 !important;
+  -webkit-text-fill-color: #ff6b35 !important;
+  font-style: italic;
+  font-family: 'DM Serif Display', Georgia, serif;
+}
+body:not(.darkmode) .main-container main .accounts-subtitle {
+  color: rgba(255, 255, 255, 0.82) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.82) !important;
+}
+body.darkmode .main-container main .accounts-title,
+body.darkmode .main-container main .accounts-title span:not(.app-title-accent) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.35rem, 5vw, 3.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+body.darkmode .main-container main .accounts-subtitle {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+}
+
+/* Profile / Notifications — title left-aligned (not under fixed center nav pill) */
+body.page-profile .accounts-header-profile,
+body.page-notification .accounts-header-notifications {
+  align-items: flex-start !important;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+body.page-profile .accounts-header-profile .accounts-header-text,
+body.page-notification .accounts-header-notifications .accounts-header-text {
+  text-align: left !important;
+  flex: 1;
+  min-width: 0;
+}
+body.page-profile .main-container main .accounts-title,
+body.page-notification .main-container main .accounts-title {
+  font-family: 'DM Serif Display', Georgia, serif !important;
+  font-weight: 400 !important;
+  font-size: clamp(2.35rem, 5vw, 3.1rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.02em !important;
+  display: block !important;
+}
+body.page-notification .main-container main .accounts-title .app-title-accent {
+  color: #ff6b35 !important;
+  -webkit-text-fill-color: #ff6b35 !important;
+  font-style: italic;
+  font-family: 'DM Serif Display', Georgia, serif;
+}
+body.page-notification .main-container main .notif-page-sub {
+  color: rgba(255, 255, 255, 0.78) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.78) !important;
+}
+body.darkmode.page-notification .main-container main .notif-page-sub {
+  color: rgba(255, 255, 255, 0.72) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Shared card surfaces */
+body:not(.darkmode) .main-container main .form-box,
+body:not(.darkmode) .main-container main .my-stall-card,
+body:not(.darkmode) .main-container main .notif-card,
+body:not(.darkmode) .main-container main .card-block,
+body:not(.darkmode) .main-container main .accounts-card,
+body:not(.darkmode) .main-container main .accounts-total-card,
+body:not(.darkmode) .main-container main .accounts-insights-card,
+body:not(.darkmode) .main-container main .accounts-chart-card,
+body:not(.darkmode) .main-container main .account-card,
+body:not(.darkmode) .main-container main .account-item-card,
+body:not(.darkmode) .main-container main .profile-action-card,
+body:not(.darkmode) .main-container main .account-content-card,
+body:not(.darkmode) .main-container main .account-card-expandable {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #1c1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 12px 32px rgba(46, 35, 108, 0.12) !important;
+}
+
+body.darkmode .main-container main .form-box,
+body.darkmode .main-container main .my-stall-card,
+body.darkmode .main-container main .notif-card,
+body.darkmode .main-container main .card-block,
+body.darkmode .main-container main .accounts-card,
+body.darkmode .main-container main .accounts-total-card,
+body.darkmode .main-container main .accounts-insights-card,
+body.darkmode .main-container main .accounts-chart-card,
+body.darkmode .main-container main .account-card,
+body.darkmode .main-container main .account-item-card,
+body.darkmode .main-container main .profile-action-card,
+body.darkmode .main-container main .account-content-card,
+body.darkmode .main-container main .account-card-expandable {
+  background: #0b0b0d !important;
+  background-color: #0b0b0d !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Light mode card text */
+body:not(.darkmode) .main-container main .form-box,
+body:not(.darkmode) .main-container main .form-box label,
+body:not(.darkmode) .main-container main .my-stall-title,
+body:not(.darkmode) .main-container main .my-stall-meta,
+body:not(.darkmode) .main-container main .stall-hint,
+body:not(.darkmode) .main-container main .label-stall,
+body:not(.darkmode) .main-container main .notif-card-title,
+body:not(.darkmode) .main-container main .notif-card-desc,
+body:not(.darkmode) .main-container main .notif-time,
+body:not(.darkmode) .main-container main .notif-card-reason,
+body:not(.darkmode) .main-container main .accounts-total-label,
+body:not(.darkmode) .main-container main .accounts-total-value,
+body:not(.darkmode) .main-container main .accounts-insights-card p,
+body:not(.darkmode) .main-container main .insights-text,
+body:not(.darkmode) .main-container main .account-name,
+body:not(.darkmode) .main-container main .account-type,
+body:not(.darkmode) .main-container main .profile-action-card h3,
+body:not(.darkmode) .main-container main .profile-action-card p,
+body:not(.darkmode) .main-container main .info-item label,
+body:not(.darkmode) .main-container main .info-item span,
+body:not(.darkmode) .main-container main .account-item-card h3,
+body:not(.darkmode) .main-container main .chart-label,
+body:not(.darkmode) .main-container main .chart-date-range,
+body:not(.darkmode) .main-container main .chart-day {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+}
+body:not(.darkmode) .main-container main .form-box label,
+body:not(.darkmode) .main-container main .my-stall-meta,
+body:not(.darkmode) .main-container main .stall-hint,
+body:not(.darkmode) .main-container main .notif-card-desc,
+body:not(.darkmode) .main-container main .notif-time,
+body:not(.darkmode) .main-container main .account-type,
+body:not(.darkmode) .main-container main .info-item label,
+body:not(.darkmode) .main-container main .accounts-total-label {
+  color: #3a3a3c !important;
+  -webkit-text-fill-color: #3a3a3c !important;
+}
+
+/* Dark mode card text */
+body.darkmode .main-container main .form-box,
+body.darkmode .main-container main .my-stall-title,
+body.darkmode .main-container main .notif-card-title,
+body.darkmode .main-container main .accounts-total-value,
+body.darkmode .main-container main .account-name,
+body.darkmode .main-container main .profile-action-card h3,
+body.darkmode .main-container main .account-item-card h3,
+body.darkmode .main-container main .info-item span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+body.darkmode .main-container main .form-box label,
+body.darkmode .main-container main .my-stall-meta,
+body.darkmode .main-container main .stall-hint,
+body.darkmode .main-container main .label-stall,
+body.darkmode .main-container main .notif-card-desc,
+body.darkmode .main-container main .notif-time,
+body.darkmode .main-container main .notif-card-reason,
+body.darkmode .main-container main .accounts-total-label,
+body.darkmode .main-container main .account-type,
+body.darkmode .main-container main .profile-action-card p,
+body.darkmode .main-container main .info-item label,
+body.darkmode .main-container main .chart-label,
+body.darkmode .main-container main .chart-day {
+  color: rgba(255, 255, 255, 0.72) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Frosted fields */
+body:not(.darkmode) .main-container main .form-box input[type="text"],
+body:not(.darkmode) .main-container main .form-box input[type="number"],
+body:not(.darkmode) .main-container main .form-box input[type="email"],
+body:not(.darkmode) .main-container main .form-box select,
+body:not(.darkmode) .main-container main .form-box textarea,
+body:not(.darkmode) .main-container main .info-item input,
+body:not(.darkmode) .main-container main .info-item select,
+body:not(.darkmode) .main-container main .info-item textarea,
+body:not(.darkmode) .main-container main .renewal-requirements-box,
+body:not(.darkmode) .main-container main .requirements-callout,
+body:not(.darkmode) .main-container main .my-stalls-empty {
+  background: rgba(255, 255, 255, 0.42) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  box-shadow: 0 10px 28px rgba(46, 35, 108, 0.1) !important;
+}
+
+body.darkmode .main-container main .form-box input[type="text"],
+body.darkmode .main-container main .form-box input[type="number"],
+body.darkmode .main-container main .form-box input[type="email"],
+body.darkmode .main-container main .form-box select,
+body.darkmode .main-container main .form-box textarea,
+body.darkmode .main-container main .info-item input,
+body.darkmode .main-container main .info-item select,
+body.darkmode .main-container main .info-item textarea,
+body.darkmode .main-container main .renewal-requirements-box,
+body.darkmode .main-container main .requirements-callout,
+body.darkmode .main-container main .my-stalls-empty {
+  background: rgba(40, 40, 44, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Notifications elevated feed — keep transparent shell + orange filter/CTA accents */
+body.page-notification .main-container main .notif-feed-panel {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+/* Filter rail pills — notification-filter-pills.css (matches top nav) */
+body.page-notification .main-container main .notif-card-loc {
+  color: #ff6b35 !important;
+  -webkit-text-fill-color: #ff6b35 !important;
+}
+body.page-notification .main-container main .notif-edit-btn,
+body.page-notification .main-container main .notif-edit-btn i,
+body.page-notification .main-container main .notif-edit-btn span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+body:not(.darkmode).page-notification .main-container main .notif-date-group-label {
+  color: rgba(255, 255, 255, 0.7) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Renewal stall cards + due badges */
+body:not(.darkmode) .main-container main .my-stall-card.is-due {
+  border-color: #f6cd7a !important;
+  background: #fffaf0 !important;
+}
+body:not(.darkmode) .main-container main .my-stall-card.is-overdue {
+  border-color: #f5b4a8 !important;
+  background: #fff5f3 !important;
+}
+body.darkmode .main-container main .my-stall-card.is-due {
+  border-color: rgba(246, 167, 35, 0.55) !important;
+  background: #16120c !important;
+}
+body.darkmode .main-container main .my-stall-card.is-overdue {
+  border-color: rgba(239, 68, 68, 0.55) !important;
+  background: #160c0c !important;
+}
+body:not(.darkmode) .main-container main .my-stall-due-badge,
+body:not(.darkmode) .main-container main .my-stall-due-badge span {
+  color: #a5670a !important;
+  -webkit-text-fill-color: #a5670a !important;
+}
+body:not(.darkmode) .main-container main .my-stall-due-badge--overdue,
+body:not(.darkmode) .main-container main .my-stall-due-badge--overdue span {
+  background: #ffe4e0 !important;
+  color: #b42318 !important;
+  -webkit-text-fill-color: #b42318 !important;
+  border-color: #f5b4a8 !important;
+}
+body:not(.darkmode) .main-container main .my-stall-due-badge--overdue i { color: #ef4444 !important; }
+
+/* Dark mode: pure white reminder text for readability */
+body.darkmode .main-container main .my-stall-due-badge,
+body.darkmode .main-container main .my-stall-due-badge span,
+body.darkmode .main-container main .my-stall-due-badge i,
+body.darkmode .main-container main .my-stall-due-badge--overdue,
+body.darkmode .main-container main .my-stall-due-badge--overdue span,
+body.darkmode .main-container main .my-stall-due-badge--overdue i {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+body.darkmode .main-container main .my-stall-due-badge {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+}
+body.darkmode .main-container main .my-stall-due-badge--overdue {
+  background: rgba(239, 68, 68, 0.38) !important;
+  border-color: rgba(248, 113, 113, 0.65) !important;
+}
+
+/* Renewal submit pill */
+.main-container main .submit-all-footer-btn,
+.main-container main .form-box .form-btn.submit-all-btn {
+  width: auto !important;
+  min-width: min(280px, 100%);
+  background: linear-gradient(135deg, #ff7a45 0%, #ff6b35 48%, #f35a22 100%) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 999px !important;
+  font-family: 'DM Serif Display', Georgia, serif !important;
+  font-weight: 400 !important;
+  font-size: 1.12rem !important;
+  padding: 1.05rem 1.85rem !important;
+  box-shadow: 0 10px 28px rgba(255, 107, 53, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+.main-container main .submit-all-footer-btn i,
+.main-container main .submit-all-footer-btn span,
+.main-container main .form-box .form-btn.submit-all-btn i,
+.main-container main .form-box .form-btn.submit-all-btn span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body:not(.darkmode) .main-container main .my-stall-title i,
+body.darkmode .main-container main .my-stall-title i,
+body:not(.darkmode) .main-container main .account-card-icon,
+body.darkmode .main-container main .account-card-icon {
+  color: #ff6b35 !important;
+}
+body:not(.darkmode) .main-container main .account-card-icon,
+body.darkmode .main-container main .account-card-icon {
+  background: rgba(255, 107, 53, 0.16) !important;
+}
+
+/* Profile page — elevated glass cards. Page background stays the indigo shell. */
+body:not(.darkmode).page-profile .profile-stage,
+body:not(.darkmode).page-profile .profile-stat-card,
+body:not(.darkmode).page-profile .profile-apps-panel,
+body:not(.darkmode).page-profile .profile-manage-panel,
+body:not(.darkmode).page-profile .profile-today-card,
+body:not(.darkmode).page-profile .profile-elevate .activity-log-card,
+body:not(.darkmode).page-profile .profile-activity-panel {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #1c1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 12px 32px rgba(46, 35, 108, 0.12) !important;
+}
+body.darkmode.page-profile .profile-stage,
+body.darkmode.page-profile .profile-stat-card,
+body.darkmode.page-profile .profile-apps-panel,
+body.darkmode.page-profile .profile-manage-panel,
+body.darkmode.page-profile .profile-today-card,
+body.darkmode.page-profile .profile-elevate .activity-log-card,
+body.darkmode.page-profile .profile-activity-panel {
+  background: #0b0b0d !important;
+  background-color: #0b0b0d !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4) !important;
+}
+body:not(.darkmode).page-profile .profile-stage .accounts-title,
+body:not(.darkmode).page-profile .profile-stage .accounts-title span:not(.app-title-accent),
+body:not(.darkmode).page-profile .profile-person-name,
+body:not(.darkmode).page-profile .profile-stat-value,
+body:not(.darkmode).page-profile .profile-block-title,
+body:not(.darkmode).page-profile .profile-app-title {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+}
+body.darkmode.page-profile .profile-stage .accounts-title,
+body.darkmode.page-profile .profile-stage .accounts-title span:not(.app-title-accent),
+body.darkmode.page-profile .profile-person-name,
+body.darkmode.page-profile .profile-stat-value,
+body.darkmode.page-profile .profile-block-title,
+body.darkmode.page-profile .profile-app-title,
+body.darkmode.page-profile .profile-manage-panel .account-name {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+body:not(.darkmode).page-profile .profile-kicker,
+body:not(.darkmode).page-profile .profile-stat-label,
+body:not(.darkmode).page-profile .profile-block-sub,
+body:not(.darkmode).page-profile .profile-app-meta,
+body:not(.darkmode).page-profile .profile-apps-empty {
+  color: #3a3a3c !important;
+  -webkit-text-fill-color: #3a3a3c !important;
+}
+body.darkmode.page-profile .profile-kicker,
+body.darkmode.page-profile .profile-stat-label,
+body.darkmode.page-profile .profile-block-sub,
+body.darkmode.page-profile .profile-app-meta,
+body.darkmode.page-profile .profile-apps-empty,
+body.darkmode.page-profile .profile-manage-panel .account-type {
+  color: rgba(255, 255, 255, 0.68) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.68) !important;
+}
+body:not(.darkmode).page-profile .profile-apps-panel .profile-app-row,
+body:not(.darkmode).page-profile .profile-apps-panel .profile-app-card,
+body:not(.darkmode).page-profile .profile-apps-panel .profile-app-card.account-card {
+  background: rgba(28, 28, 30, 0.03) !important;
+  background-color: rgba(28, 28, 30, 0.03) !important;
+  border: 1px solid rgba(28, 28, 30, 0.06) !important;
+  box-shadow: none !important;
+}
+body.darkmode.page-profile .profile-apps-panel .profile-app-row,
+body.darkmode.page-profile .profile-apps-panel .profile-app-card,
+body.darkmode.page-profile .profile-apps-panel .profile-app-card.account-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+/* Force full-width rows so status + CTA pin to the right edge */
+body.page-profile .main-container main .profile-apps-panel .profile-app-card.account-card,
+body.page-profile .main-container main .profile-apps-panel .profile-app-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+body.page-profile .main-container main .profile-apps-panel .profile-app-card-top,
+body.page-profile .main-container main .profile-apps-panel .profile-app-card-foot {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+body.page-profile .main-container main .profile-apps-panel .profile-status-pill,
+body.page-profile .main-container main .profile-apps-panel .profile-app-cta {
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
+}
+body.page-profile .profile-status-pill.status-renewal_due {
+  color: #d97706 !important;
+  -webkit-text-fill-color: #d97706 !important;
+}
+body.darkmode.page-profile .profile-status-pill.status-renewal_due {
+  color: #fbbf24 !important;
+  -webkit-text-fill-color: #fbbf24 !important;
+}
+body:not(.darkmode).page-profile .profile-app-cta,
+body:not(.darkmode).page-profile .profile-app-cta span,
+body:not(.darkmode).page-profile .profile-app-cta i {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+}
+body.darkmode.page-profile .profile-app-cta,
+body.darkmode.page-profile .profile-app-cta span,
+body.darkmode.page-profile .profile-app-cta i {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+body.darkmode.page-profile .profile-activity-title,
+body.darkmode.page-profile .profile-activity-count {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+body:not(.darkmode).page-profile .profile-activity-title,
+body:not(.darkmode).page-profile .profile-activity-count {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+}
+body.darkmode.page-profile .profile-activity-details,
+body.darkmode.page-profile .profile-activity-time,
+body.darkmode.page-profile .profile-activity-day-label,
+body.darkmode.page-profile .profile-activity-ref {
+  color: rgba(255, 255, 255, 0.68) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.68) !important;
+}
+body:not(.darkmode).page-profile .profile-activity-details,
+body:not(.darkmode).page-profile .profile-activity-time,
+body:not(.darkmode).page-profile .profile-activity-day-label,
+body:not(.darkmode).page-profile .profile-activity-ref {
+  color: #3a3a3c !important;
+  -webkit-text-fill-color: #3a3a3c !important;
+}
+body.page-profile .profile-activity-filter.is-active,
+body.page-profile .profile-activity-filter.is-active span,
+body.page-profile .profile-activity-filter.is-active i {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+/* Manage account: light mode — heading on page bg; dark mode — full black panel like other sections */
+body:not(.darkmode).page-profile .main-container main .profile-manage-panel {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+body.darkmode.page-profile .main-container main .profile-manage-panel {
+  padding: 1.2rem 1.3rem 1.1rem !important;
+}
+body.page-profile .main-container main .profile-manage-title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+body.page-profile .main-container main .profile-manage-sub {
+  color: rgba(255, 255, 255, 0.72) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.72) !important;
+}
+body:not(.darkmode).page-profile .main-container main .profile-manage-panel .account-card {
+  border-radius: 16px !important;
+  box-shadow: 0 10px 28px rgba(46, 35, 108, 0.12) !important;
+}
+body.darkmode.page-profile .main-container main .profile-manage-panel .account-card,
+body.darkmode.page-profile .main-container main .profile-manage-panel .account-card.account-card-expandable {
+  background: rgba(255, 255, 255, 0.04) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+}
+body.page-profile .main-container main .profile-manage-panel .account-card-icon,
+body.page-profile .main-container main .profile-manage-panel .account-card-icon i {
+  color: #ff6b35 !important;
+  -webkit-text-fill-color: #ff6b35 !important;
+}
+body.page-profile .main-container main .profile-manage-panel .account-card-icon {
+  background: rgba(255, 107, 53, 0.12) !important;
+  border: 1px solid rgba(255, 107, 53, 0.55) !important;
+}
+body:not(.darkmode).page-profile .main-container main .profile-manage-panel .account-expand-icon,
+body:not(.darkmode).page-profile .main-container main .profile-manage-panel .account-expand-icon i {
+  color: #3a3a3c !important;
+  -webkit-text-fill-color: #3a3a3c !important;
+}
+body.darkmode.page-profile .main-container main .profile-manage-panel .account-expand-icon,
+body.darkmode.page-profile .main-container main .profile-manage-panel .account-expand-icon i {
+  color: rgba(255, 255, 255, 0.8) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.8) !important;
+}
+body.page-profile .profile-manage-panel .account-content-card:not(.profile-manage-form-panel),
+body.page-profile .activity-log-card .account-content-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+body.page-profile .profile-manage-panel {
+  overflow: visible !important;
+}
+body.page-profile .profile-manage-panel .account-card-expand-content {
+  overflow: visible !important;
+}
+body.page-profile .profile-stat-icon,
+body.page-profile .profile-stat-icon i {
+  color: #ff6b35 !important;
+  -webkit-text-fill-color: #ff6b35 !important;
+}
+body:not(.darkmode).page-profile .profile-ghost-btn,
+body:not(.darkmode).page-profile .profile-ghost-btn i,
+body:not(.darkmode).page-profile .profile-ghost-btn span,
+body:not(.darkmode).page-profile .profile-apps-panel .account-roll-btn,
+body:not(.darkmode).page-profile .profile-apps-panel .account-roll-btn i,
+body:not(.darkmode).page-profile .profile-apps-panel .account-roll-btn span {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+}
+body.darkmode.page-profile .profile-ghost-btn,
+body.darkmode.page-profile .profile-ghost-btn i,
+body.darkmode.page-profile .profile-ghost-btn span,
+body.darkmode.page-profile .profile-apps-panel .account-roll-btn,
+body.darkmode.page-profile .profile-apps-panel .account-roll-btn i,
+body.darkmode.page-profile .profile-apps-panel .account-roll-btn span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+body.page-profile .profile-apps-panel .account-roll-btn {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body:not(.darkmode).page-profile .profile-app-side .account-eye-btn {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+  background: rgba(28, 28, 30, 0.05) !important;
+}
+body.darkmode.page-profile .profile-app-side .account-eye-btn {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+body:not(.darkmode).page-profile .profile-today-card .chart-date-kicker,
+body:not(.darkmode).page-profile .profile-today-card .chart-date-weekday,
+body:not(.darkmode).page-profile .profile-today-card .chart-date-month,
+body:not(.darkmode).page-profile .profile-today-card .chart-date-year,
+body:not(.darkmode).page-profile .profile-today-card .chart-date-daynum,
+body:not(.darkmode).page-profile .profile-today-card .chart-day {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  animation: none !important;
+  filter: none !important;
+}
+body.darkmode.page-profile .profile-today-card .chart-date-kicker,
+body.darkmode.page-profile .profile-today-card .chart-date-weekday,
+body.darkmode.page-profile .profile-today-card .chart-date-month,
+body.darkmode.page-profile .profile-today-card .chart-date-year,
+body.darkmode.page-profile .profile-today-card .chart-date-daynum,
+body.darkmode.page-profile .profile-today-card .chart-day {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  animation: none !important;
+  filter: none !important;
+}
+body:not(.darkmode).page-profile .profile-today-card .chart-bar-wrap:not(.is-today) .chart-bar {
+  background: rgba(28, 28, 30, 0.22) !important;
+}
+body.darkmode.page-profile .profile-today-card .chart-bar-wrap:not(.is-today) .chart-bar {
+  background: rgba(255, 255, 255, 0.35) !important;
+}
+body.page-profile .profile-today-card .chart-bar-wrap.is-today .chart-bar {
+  background: #ff6b35 !important;
+}
+body.darkmode.page-profile .profile-today-card .chart-bar-wrap.is-today .chart-day {
+  color: #ffd4c2 !important;
+  -webkit-text-fill-color: #ffd4c2 !important;
+}
+body.page-profile .profile-status-pill.status-pending {
+  color: #b45309 !important;
+  -webkit-text-fill-color: #b45309 !important;
+}
+body.page-profile .profile-status-pill.status-approved {
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+}
+body.page-profile .profile-status-pill.status-incomplete {
+  color: #c2410c !important;
+  -webkit-text-fill-color: #c2410c !important;
+}
+body.darkmode.page-profile .profile-status-pill.status-pending {
+  color: #fbbf24 !important;
+  -webkit-text-fill-color: #fbbf24 !important;
+}
+body.darkmode.page-profile .profile-status-pill.status-approved {
+  color: #6ee7b7 !important;
+  -webkit-text-fill-color: #6ee7b7 !important;
+}
+body.darkmode.page-profile .profile-status-pill.status-incomplete {
+  color: #fdba74 !important;
+  -webkit-text-fill-color: #fdba74 !important;
+}

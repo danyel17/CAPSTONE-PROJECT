@@ -1,0 +1,85 @@
+</head>
+<body data-application-mode="<?php echo $editing ? 'edit' : 'new'; ?>">
+  <script>try{if(localStorage.getItem('darkmode')==='active')document.body.classList.add('darkmode');}catch(e){}</script>
+  <div class="main-container">
+    <div class="navbar-overlay" id="navbarOverlay"></div>
+
+    <nav class="navbar">
+      <div class="navbar-content">
+        <div class="navbar-left">
+          <div class="navbar-logo">
+            <img src="assets/imgs/logo.jpeg" alt="Daet Public Market Logo" onerror="this.style.display='none'">
+            <div class="navbar-logo-text">
+              <span class="line1" data-translate="nav.logoLine1">Daet</span>
+              <span class="line2" data-translate="nav.logoLine2">Public Market</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="navbar-toggler" type="button" id="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon">
+            <span></span>
+          </span>
+        </button>
+
+        <div class="navbar-center" id="navbarCenter">
+          <div class="nav-pills-container">
+            <a href="menu.php" class="nav-pill" data-translate="nav.home">Home</a>
+            <a href="application.php" class="nav-pill active" data-translate="nav.application">Application</a>
+            <a href="renewal.php" class="nav-pill" data-translate="nav.renewal">Renewal</a>
+            <a href="profile.php" class="nav-icon-pill" data-translate-title="nav.profile" title="Profile">
+              <i class="fas fa-user-circle"></i> <span data-translate="nav.profile">Profile</span>
+            </a>
+            <a href="notification.php" class="nav-icon-pill" data-translate-title="nav.notifications" title="Notifications">
+              <i class="fas fa-bell"></i> <span data-translate="nav.notifications">Notifications</span>
+              <?php if (!empty($unread_notifications_count)): ?>
+                <span class="nav-icon-badge">
+                  <?php echo $unread_notifications_count > 9 ? '9+' : $unread_notifications_count; ?>
+                </span>
+              <?php endif; ?>
+            </a>
+          </div>
+
+          <div class="navbar-menu-controls">
+            <a href="#" class="calendar-icon" data-bs-toggle="modal" data-bs-target="#calendarModal" title="Calendar" id="calendarIconLink">
+              <img src="assets/imgs/calendar-icon.png" alt="Calendar" class="calendar-icon-img">
+            </a>
+            <div class="language-selector" id="languageSelector">
+              <i class="fas fa-globe"></i>
+              <img src="assets/imgs/uk-flag.jpg" alt="UK Flag" class="uk-flag-icon">
+              <img src="assets/imgs/ph-flag.png" alt="Philippines Flag" class="ph-flag-icon">
+              <select id="languageSelect">
+                <option value="en">EN</option>
+                <option value="ph">PH</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="navbar-right">
+            <a href="logout.php" class="logout-btn" id="logoutBtn" onclick="return confirmLogout()">
+              <i class="fas fa-sign-out-alt"></i> <span data-translate="nav.logout">Logout</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="navbar-right-desktop">
+          <a href="#" class="calendar-icon" data-bs-toggle="modal" data-bs-target="#calendarModal" title="Calendar" id="calendarIconLinkDesktop">
+            <img src="assets/imgs/calendar-icon.png" alt="Calendar" class="calendar-icon-img">
+          </a>
+          <div class="language-selector" id="languageSelectorDesktop">
+            <i class="fas fa-globe"></i>
+            <img src="assets/imgs/uk-flag.jpg" alt="UK Flag" class="uk-flag-icon">
+            <img src="assets/imgs/ph-flag.png" alt="Philippines Flag" class="ph-flag-icon">
+            <select id="languageSelectDesktop">
+              <option value="en">EN</option>
+              <option value="ph">PH</option>
+            </select>
+          </div>
+          <a href="logout.php" class="logout-btn" id="logoutBtnDesktop" onclick="return confirmLogout()">
+            <i class="fas fa-sign-out-alt"></i> <span data-translate="nav.logout">Logout</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+  <main>

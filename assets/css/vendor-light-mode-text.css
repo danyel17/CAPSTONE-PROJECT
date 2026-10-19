@@ -1,0 +1,137 @@
+/**
+ * Vendor pages (application, renewal, profile, notification):
+ * readable soft dark text in light mode on glass panels.
+ * Load after each page’s inline <style> block.
+ */
+
+body:not(.darkmode) .main-container {
+  --v-light-text: #334155;
+  --v-light-text-soft: #475569;
+  --v-light-muted: #64748b;
+}
+
+body:not(.darkmode) .main-container main {
+  color: var(--v-light-text) !important;
+}
+
+body:not(.darkmode) .main-container main *:not(.btn):not(.btn *):not(.btn-add-account):not(.btn-add-account *):not(.notif-edit-btn):not(.notif-edit-btn *):not(.stat-card):not(.stat-card *):not(.logout-btn):not(.logout-btn *):not(.alert):not(.alert *):not(.notif-tag):not(.notif-filter-chip):not(.notif-filter-chip *):not(.notif-roll-btn):not(.notif-roll-btn *):not(.profile-pic-overlay):not(.required):not(.app-title-accent):not(.accounts-title):not(.accounts-title *):not(.accounts-subtitle):not(.notif-page-sub):not(.app-completion):not(.app-completion *):not(.app-confirm-row):not(.app-confirm-row *):not(.submit-all-footer-btn):not(.submit-all-footer-btn *):not(.profile-manage-title):not(.profile-manage-sub) {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+body:not(.darkmode) .main-container main .app-title-accent,
+body:not(.darkmode) .main-container main .accounts-title .app-title-accent {
+  color: #ff6b35 !important;
+  -webkit-text-fill-color: #ff6b35 !important;
+}
+
+body:not(.darkmode) .main-container main .required {
+  color: #dc2626 !important;
+  -webkit-text-fill-color: #dc2626 !important;
+}
+
+body:not(.darkmode) .main-container main label,
+body:not(.darkmode) .main-container main .subtitle {
+  color: var(--v-light-text-soft) !important;
+  -webkit-text-fill-color: var(--v-light-text-soft) !important;
+}
+
+body:not(.darkmode) .main-container main .accounts-subtitle,
+body.page-application:not(.darkmode) .main-container main .accounts-subtitle {
+  color: rgba(255, 255, 255, 0.78) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.78) !important;
+}
+
+body.page-application.darkmode .main-container main .accounts-subtitle {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+}
+
+body:not(.darkmode) .main-container main .notif-page-sub,
+body.page-notification:not(.darkmode) .main-container main .notif-page-sub {
+  color: rgba(255, 255, 255, 0.78) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.78) !important;
+}
+
+body.page-notification.darkmode .main-container main .notif-page-sub,
+body.darkmode.page-notification .main-container main .notif-page-sub {
+  color: rgba(255, 255, 255, 0.85) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+body:not(.darkmode) .main-container main input:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
+body:not(.darkmode) .main-container main select,
+body:not(.darkmode) .main-container main textarea {
+  color: var(--v-light-text-soft) !important;
+  -webkit-text-fill-color: var(--v-light-text-soft) !important;
+}
+
+body:not(.darkmode) .main-container main input::placeholder,
+body:not(.darkmode) .main-container main textarea::placeholder {
+  color: var(--v-light-muted) !important;
+  -webkit-text-fill-color: var(--v-light-muted) !important;
+}
+
+body:not(.darkmode) .main-container main .file-list {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+body:not(.darkmode) .main-container main .file-item {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+body:not(.darkmode) .main-container main .file-upload-label {
+  color: var(--v-light-text) !important;
+}
+
+body:not(.darkmode) .main-container main .file-upload-label i {
+  color: var(--v-light-muted) !important;
+}
+
+body:not(.darkmode) .main-container main .submit-all-footer-btn,
+body:not(.darkmode) .main-container main .submit-all-footer-btn i,
+body:not(.darkmode) .main-container main .submit-all-footer-btn span,
+body:not(.darkmode) .main-container main .submit-all-footer-btn .submit-all-footer-btn__text {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+body:not(.darkmode) .main-container main .applications-table table,
+body:not(.darkmode) .main-container main .applications-table th,
+body:not(.darkmode) .main-container main .applications-table td {
+  color: var(--v-light-text-soft) !important;
+}
+
+/* Top nav text — dark in light mode (vendor-navbar-glass.css has full pill + logout rules) */
+body:not(.darkmode) .navbar .brand__text,
+body:not(.darkmode) .navbar .brand__place,
+body:not(.darkmode) .nav-pills-wrap .nav-pill,
+body:not(.darkmode) .nav-pills-wrap .nav-pill i,
+body:not(.darkmode) .nav-pills-wrap .nav-pill span,
+body:not(.darkmode) .nav-pills-wrap .nav-icon-pill,
+body:not(.darkmode) .nav-pills-wrap .nav-icon-pill i,
+body:not(.darkmode) .nav-pills-wrap .nav-icon-pill span,
+body:not(.darkmode) .navbar .logout-btn,
+body:not(.darkmode) .navbar .logout-btn i,
+body:not(.darkmode) .navbar .logout-btn span {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+}
+
+body:not(.darkmode) .navbar .brand__place {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+}
+
+body:not(.darkmode) .nav-pills-wrap .nav-pill.active,
+body:not(.darkmode) .nav-pills-wrap .nav-icon-pill.active,
+body:not(.darkmode) .nav-pills-wrap .nav-pill.active i,
+body:not(.darkmode) .nav-pills-wrap .nav-icon-pill.active i,
+body:not(.darkmode) .nav-pills-wrap .nav-pill.active span,
+body:not(.darkmode) .nav-pills-wrap .nav-icon-pill.active span {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+}

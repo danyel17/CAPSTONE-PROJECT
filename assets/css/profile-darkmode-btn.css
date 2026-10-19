@@ -1,0 +1,54 @@
+/**
+ * Theme toggle — shared by profile.php, notification.php, etc.
+ * Matches `user darkmode/` demo + profile UI:
+ * - Light: white circle, dark sun icon (tap → dark)
+ * - Dark: charcoal circle, light moon icon (tap → light)
+ */
+.profile-darkmode-btn {
+  position: relative;
+  height: 50px;
+  width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s ease, color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-darkmode-btn:hover {
+  background-color: #f8f9fa;
+}
+.profile-darkmode-btn svg {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  position: absolute;
+}
+.profile-darkmode-btn .theme-icon-moon {
+  display: none;
+  fill: #e2e8f0;
+}
+.profile-darkmode-btn .theme-icon-sun {
+  display: block;
+  fill: #2d3748;
+}
+body.darkmode .profile-darkmode-btn {
+  background-color: #2d3748;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+body.darkmode .profile-darkmode-btn:hover {
+  background-color: #374151;
+}
+body.darkmode .profile-darkmode-btn .theme-icon-moon {
+  display: block;
+  fill: #e2e8f0;
+}
+body.darkmode .profile-darkmode-btn .theme-icon-sun {
+  display: none;
+}

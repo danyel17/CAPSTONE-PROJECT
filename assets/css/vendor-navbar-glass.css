@@ -1,0 +1,234 @@
+/**
+ * Vendor top nav: light frosted pill (light mode) / dark frosted pill (dark mode).
+ * Nav labels: dark text in light mode, white in dark mode.
+ * Load after page inline styles and vendor-light-mode-text.css.
+ */
+
+:root {
+  --v-nav-text-light: #1c1c1e;
+  --v-nav-text-light-soft: #334155;
+}
+
+/* —— Light mode: light liquid glass pill + dark nav text —— */
+body:not(.darkmode) .main-container .nav-pills-container {
+  background: rgba(255, 255, 255, 0.26) !important;
+  backdrop-filter: blur(22px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 12px 40px rgba(46, 35, 108, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+}
+
+body:not(.darkmode) .main-container .navbar .brand__text,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill i,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill span,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill i,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill span,
+body:not(.darkmode) .main-container .navbar .logout-btn,
+body:not(.darkmode) .main-container .navbar .logout-btn i,
+body:not(.darkmode) .main-container .navbar .logout-btn span {
+  color: var(--v-nav-text-light) !important;
+  -webkit-text-fill-color: var(--v-nav-text-light) !important;
+}
+
+body:not(.darkmode) .main-container .navbar .brand__place {
+  color: var(--v-nav-text-light-soft) !important;
+  -webkit-text-fill-color: var(--v-nav-text-light-soft) !important;
+}
+
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:hover,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: var(--v-nav-text-light) !important;
+  -webkit-text-fill-color: var(--v-nav-text-light) !important;
+}
+
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active {
+  background: rgba(255, 255, 255, 0.34) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  color: var(--v-nav-text-light) !important;
+  -webkit-text-fill-color: var(--v-nav-text-light) !important;
+}
+
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+  background: rgba(255, 255, 255, 0.38) !important;
+}
+
+body:not(.darkmode) .main-container .navbar .logout-btn:hover,
+body:not(.darkmode) .main-container .navbar .logout-btn:hover i,
+body:not(.darkmode) .main-container .navbar .logout-btn:hover span {
+  color: var(--v-nav-text-light) !important;
+  -webkit-text-fill-color: var(--v-nav-text-light) !important;
+}
+
+/* —— Dark mode: dark liquid glass pill + white nav text —— */
+body.darkmode .main-container .nav-pills-container {
+  background: rgba(10, 10, 14, 0.58) !important;
+  backdrop-filter: blur(22px) saturate(1.15) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 14px 42px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+}
+
+body.darkmode .main-container .navbar .brand__text,
+body.darkmode .main-container .navbar .brand__place,
+body.darkmode .main-container .nav-pills-wrap .nav-pill,
+body.darkmode .main-container .nav-pills-wrap .nav-pill i,
+body.darkmode .main-container .nav-pills-wrap .nav-pill span,
+body.darkmode .main-container .nav-pills-wrap .nav-icon-pill,
+body.darkmode .main-container .nav-pills-wrap .nav-icon-pill i,
+body.darkmode .main-container .nav-pills-wrap .nav-icon-pill span,
+body.darkmode .main-container .navbar .logout-btn,
+body.darkmode .main-container .navbar .logout-btn i,
+body.darkmode .main-container .navbar .logout-btn span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body.darkmode .main-container .navbar .brand__place {
+  color: rgba(255, 255, 255, 0.82) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.82) !important;
+}
+
+body.darkmode .main-container .nav-pills-wrap .nav-pill:hover,
+body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body.darkmode .main-container .nav-pills-wrap .nav-pill.active,
+body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active {
+  background: rgba(255, 255, 255, 0.14) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body.darkmode .main-container .nav-pills-wrap .nav-pill.active:hover,
+body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Inactive links stay flat; only the current page gets the frosted pill (like Renewal) */
+body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active),
+body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active),
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.main-container .nav-pills-wrap .nav-pill.active,
+.main-container .nav-pills-wrap .nav-icon-pill.active {
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+body.darkmode .main-container .navbar .logout-btn:hover,
+body.darkmode .main-container .navbar .logout-btn:hover i,
+body.darkmode .main-container .navbar .logout-btn:hover span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* One pill highlight only — never separate boxes on icon/label inside the link */
+.main-container .nav-pills-wrap .nav-pill i,
+.main-container .nav-pills-wrap .nav-pill span,
+.main-container .nav-pills-wrap .nav-icon-pill i,
+.main-container .nav-pills-wrap .nav-icon-pill span {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.main-container .nav-pills-wrap .nav-pill,
+.main-container .nav-pills-wrap .nav-icon-pill {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.main-container .nav-pills-wrap .nav-pill::selection,
+.main-container .nav-pills-wrap .nav-icon-pill::selection,
+.main-container .nav-pills-wrap .nav-pill *::selection,
+.main-container .nav-pills-wrap .nav-icon-pill *::selection {
+  background: transparent;
+  color: inherit;
+}
+
+.main-container .nav-pills-wrap .nav-pill:focus,
+.main-container .nav-pills-wrap .nav-icon-pill:focus {
+  outline: none;
+}
+
+.main-container .nav-pills-wrap .nav-pill:focus-visible,
+.main-container .nav-pills-wrap .nav-icon-pill:focus-visible {
+  outline: 2px solid rgba(255, 107, 53, 0.65);
+  outline-offset: 2px;
+}
+
+/* Phone: icon-only bar, centered, with space on both sides */
+@media (max-width: 991px) {
+  .main-container .nav-pills-wrap {
+    left: 50% !important;
+    right: auto !important;
+    width: max-content !important;
+    max-width: calc(100vw - 2.75rem) !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .main-container .nav-pills-container {
+    width: max-content;
+    max-width: 100%;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0.2rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .main-container .nav-pills-wrap .nav-pill-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .main-container .nav-pills-wrap .nav-pill,
+  .main-container .nav-pills-wrap .nav-icon-pill {
+    position: relative;
+    justify-content: center;
+    padding: 0.7rem 0.95rem !important;
+    gap: 0 !important;
+    flex: 0 0 auto;
+  }
+
+  .main-container .nav-pills-wrap .nav-pill i,
+  .main-container .nav-pills-wrap .nav-icon-pill i {
+    font-size: 1.15rem !important;
+  }
+}

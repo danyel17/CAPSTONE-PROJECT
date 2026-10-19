@@ -1,0 +1,27 @@
+/* Mobile sidebar: logout directly under calendar + language (not pinned to bottom) */
+@media (max-width: 991px) {
+  .navbar-center {
+    justify-content: flex-start;
+  }
+
+  .navbar-center .navbar-menu-controls {
+    border-bottom: none;
+    padding-bottom: 0.35rem;
+  }
+
+  .navbar-center .navbar-right {
+    margin-top: 0 !important;
+    margin-left: 0;
+    padding: 0.65rem 0 1.25rem !important;
+    border-top: none !important;
+    width: 100%;
+    display: flex !important;
+    justify-content: stretch;
+    flex-shrink: 0;
+  }
+
+  .navbar-center .navbar-right .logout-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

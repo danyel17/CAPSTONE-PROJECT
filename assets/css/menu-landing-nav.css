@@ -1,0 +1,109 @@
+/* Vendor portal top bar extras (nav colors: vendor-nav-theme-lock.css) */
+body.page-menu .main-container .navbar,
+body.page-application .main-container .navbar,
+body.page-renewal .main-container .navbar,
+body.page-profile .main-container .navbar,
+body.page-notification .main-container .navbar {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+body.page-menu .navbar-right-desktop .logout-btn,
+body.page-application .navbar-right-desktop .logout-btn,
+body.page-renewal .navbar-right-desktop .logout-btn,
+body.page-profile .navbar-right-desktop .logout-btn,
+body.page-notification .navbar-right-desktop .logout-btn {
+  margin-left: 0;
+}
+
+body.page-menu .btn-hero-primary,
+body.page-application .btn-hero-primary,
+body.page-renewal .btn-hero-primary,
+body.page-profile .btn-hero-primary,
+body.page-notification .btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 2.2rem;
+  background: #ff6b35;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.page-menu .btn-hero-primary:hover,
+body.page-application .btn-hero-primary:hover,
+body.page-renewal .btn-hero-primary:hover,
+body.page-profile .btn-hero-primary:hover,
+body.page-notification .btn-hero-primary:hover {
+  background: #ff8555;
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 16px 40px rgba(255, 107, 53, 0.55);
+  color: #ffffff;
+}
+
+body.page-menu .main-container {
+  padding-top: 0;
+}
+
+body.page-menu .media-center-wrapper,
+body.page-menu .stall-map-section-wrapper,
+body.page-menu .features-section-wrapper {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+
+/* Same indigo radial as landing hero (.menu-landing-viewport) */
+body.page-menu .features-section-wrapper {
+  background: radial-gradient(circle at center, #6b63c9 0%, #3f4191 50%, #2e236c 100%);
+}
+
+.menu-landing-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.menu-landing-scroll-mouse {
+  width: 26px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 13px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.menu-landing-scroll-dot {
+  width: 4px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
+  animation: menuScrollDot 1.6s ease-in-out infinite;
+}
+
+@keyframes menuScrollDot {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  60% { transform: translateY(10px); opacity: 0.2; }
+}

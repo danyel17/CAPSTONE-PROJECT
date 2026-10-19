@@ -1,0 +1,266 @@
+/**
+ * Dark mode: liquid-glass nav pill tray (application, renewal, profile, notification).
+ * Loads after vendor-nav-theme-lock.css.
+ */
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container {
+  background: rgba(10, 10, 14, 0.58) !important;
+  backdrop-filter: blur(22px) saturate(1.15) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 14px 42px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+}
+
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active {
+  background: rgba(255, 255, 255, 0.14) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active span,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active span,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover i,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover i,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover span,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover span,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active span,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active span,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover i,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover i,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover span,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover span,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active span,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active span,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover i,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover i,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover span,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover span,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active span,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active span,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover i,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover i,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover span,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Phone only: reverse the glass. Light mode = dark glass + black icons.
+   Dark mode = light glass on the top bar and the bottom pill, black icons. */
+@media (max-width: 991px) {
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-container {
+    background: rgba(10, 10, 14, 0.62) !important;
+    backdrop-filter: blur(22px) saturate(1.15) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(1.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow:
+      0 14px 42px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  }
+
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:hover,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:hover i,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:hover,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:hover i,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active span,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active span,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover i,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover i {
+    color: #1c1c1e !important;
+    -webkit-text-fill-color: #1c1c1e !important;
+  }
+
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover,
+  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  }
+
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active),
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active) i,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active) span,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active),
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) i,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) span,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active):hover i,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover i {
+    color: #1c1c1e !important;
+    -webkit-text-fill-color: #1c1c1e !important;
+  }
+
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__text,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__text,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__text,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__text,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__text,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__place,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__place,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__place,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__place,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__place {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .navbar .brand__text,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .navbar .brand__place,
+  body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .brand__text,
+  body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .brand__place {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container {
+    background: rgba(255, 255, 255, 0.34) !important;
+    backdrop-filter: blur(22px) saturate(1.45) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(1.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+    box-shadow:
+      0 12px 40px rgba(46, 35, 108, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  }
+
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i {
+    color: #1c1c1e !important;
+    -webkit-text-fill-color: #1c1c1e !important;
+  }
+
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active {
+    background: rgba(255, 255, 255, 0.72) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;
+  }
+}
+
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-badge {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: #ef4444 !important;
+}

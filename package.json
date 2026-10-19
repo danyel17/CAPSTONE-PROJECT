@@ -1,0 +1,16 @@
+{
+  "name": "market-clearance-sms",
+  "version": "1.0.0",
+  "description": "SMS sender for Market Clearance System",
+  "main": "send_sms_to_users.js",
+  "scripts": {
+    "send": "node send_sms.js",
+    "send-all": "node send_sms_to_users.js"
+  },
+  "dependencies": {
+    "twilio": "^4.19.0",
+    "mysql2": "^3.6.5"
+  }
+}
+
+

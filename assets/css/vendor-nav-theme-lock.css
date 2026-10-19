@@ -1,0 +1,116 @@
+/**
+ * Vendor top nav: fixed indigo bar, white labels (light + dark mode).
+ * Active pill only uses black text. Loads after vendor-navbar-glass.css.
+ */
+body:has(.main-container .nav-pills-wrap) {
+  --vendor-nav-bar: #6b63c9;
+}
+
+body:has(.main-container .nav-pills-wrap) .main-container .navbar,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .navbar {
+  background: var(--vendor-nav-bar) !important;
+  background-color: var(--vendor-nav-bar) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transition: none !important;
+}
+
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-container,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-container {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: none !important;
+}
+
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__text,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__place,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .brand__text,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .brand__place,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .navbar .brand__text,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .navbar .brand__place,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active),
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active) i,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active) span,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active),
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) i,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) span,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill:not(.active),
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill:not(.active) i,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill:not(.active) span,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active),
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active) i,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active) span,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active),
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active) i,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active) span,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active),
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) i,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) span,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .logout-btn,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .logout-btn i,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .logout-btn span,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .btn-hero-primary.logout-btn,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .btn-hero-primary.logout-btn i,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .btn-hero-primary.logout-btn span,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .logout-btn,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .logout-btn i,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .logout-btn span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active):hover i,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill:not(.active):hover span,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover i,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover span,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active i,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active span,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active span,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill.active,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill.active,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill.active i,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill.active i,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill.active span,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill.active span,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
+body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active:hover,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active:hover,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill.active:hover,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+  color: #1c1c1e !important;
+  -webkit-text-fill-color: #1c1c1e !important;
+}
+
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
+body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill.active,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-pill.active,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .nav-pills-wrap .nav-icon-pill.active {
+  background: rgba(255, 255, 255, 0.38) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+}
+
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .logout-btn:hover,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .logout-btn:hover i,
+body:has(.main-container .nav-pills-wrap) .main-container .navbar .logout-btn:hover span,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .logout-btn:hover,
+body:has(.main-container .nav-pills-wrap).darkmode .main-container .navbar .logout-btn:hover span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}

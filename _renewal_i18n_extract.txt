@@ -1,0 +1,528 @@
+    function changeLanguage(lang) {
+      localStorage.setItem('preferredLanguage', lang);
+      updateLanguageIcon(lang);
+      translatePage(lang);
+      var calModal = document.getElementById('calendarModal');
+      if (calModal && calModal.classList.contains('show')) {
+        renderCalendar();
+      }
+      if (typeof window.applicationOnLangChange === 'function') {
+        window.applicationOnLangChange(lang);
+      }
+    }
+
+    function updateLanguageIcon(lang) {
+      var languageSelector = document.getElementById('languageSelector');
+      var languageSelectorDesktop = document.getElementById('languageSelectorDesktop');
+      if (languageSelector) {
+        languageSelector.classList.remove('ph-selected', 'en-selected');
+        languageSelector.classList.add(lang === 'ph' ? 'ph-selected' : 'en-selected');
+      }
+      if (languageSelectorDesktop) {
+        languageSelectorDesktop.classList.remove('ph-selected', 'en-selected');
+        languageSelectorDesktop.classList.add(lang === 'ph' ? 'ph-selected' : 'en-selected');
+      }
+    }
+
+    window.APPLICATION_I18N = {
+      en: {
+        'nav.logoLine1': 'Daet',
+        'nav.logoLine2': 'Public Market',
+        'nav.home': 'Home',
+        'nav.application': 'Application',
+        'nav.renewal': 'Renewal',
+        'nav.profile': 'Profile',
+        'nav.notifications': 'Notifications',
+        'nav.logout': 'Logout',
+        'page.titleNew': 'New Application',
+        'page.titleEdit': 'Edit Application',
+        'page.subtitleNew': 'Fill out the form below to apply for market clearance.',
+        'page.subtitleEdit': 'Update your existing application details below.',
+        'page.docTitleNew': 'New Application - Daet Public Market',
+        'page.docTitleEdit': 'Edit Application - Daet Public Market',
+        'renewal.titleNew': 'Renewal Application',
+        'renewal.titleNewLead': 'Renewal',
+        'renewal.titleNewAccent': 'application',
+        'renewal.titleEdit': 'Edit Renewal',
+        'renewal.titleEditLead': 'Edit renewal',
+        'renewal.titleEditAccent': 'application',
+        'stall.alreadyDue': 'Your application is already due, renew it now.',
+        'renewal.subtitleNew': 'Click Application you want to renew and fill out the form below to renew your market clearance.',
+        'renewal.subtitleEdit': 'Update your existing renewal application details below.',
+        'page.docTitleRenewalNew': 'Renewal - Daet Public Market',
+        'page.docTitleRenewalEdit': 'Edit Renewal - Daet Public Market',
+        'confirm.logout': 'Are you sure you want to logout?',
+        'stall.label': 'Select Number of Stalls',
+        'stall.hint': 'choose number of stall or slot',
+        'stall.myAll': 'My All Stalls',
+        'stall.myAllHint': 'Select the stall(s) you want to renew.',
+        'stall.noApproved': 'You have no approved stalls to renew yet.',
+        'stall.almostDue': "Almost due date, don't forget to renew!",
+        'stall.placeholder': 'Type number of stalls',
+        'stall.n1': '1 Stall',
+        'stall.n2': '2 Stalls',
+        'stall.n3': '3 Stalls',
+        'stall.n4': '4 Stalls',
+        'stall.n5': '5 Stalls',
+        'stall.custom': 'or more (custom)',
+        'form.fullName': 'Full Name',
+        'form.section': 'Section',
+        'form.block': 'Block',
+        'form.uploadDocs': 'Upload documents',
+        'form.docsAttached': '{{filled}} of {{total}} requirements attached.',
+        'form.requirements': 'Requirements:',
+        'form.addFile': 'Add File',
+        'form.remove': 'Remove',
+        'form.selectSection': 'Select a section',
+        'form.selectBlock': 'Select a Block',
+        'form.updateApplication': 'Update Application',
+        'form.submitAll': 'Submit All Applications',
+        'form.uploadedFiles': 'Uploaded Files:',
+        'form.selectedFiles': 'Selected Files',
+        'form.total': 'Total:',
+        'form.stallHeading': 'Stall {{n}} Application',
+        'opt.freshFish': 'Fresh Fish Section',
+        'opt.meat': 'Meat and Chicken Section',
+        'opt.driedFish': 'Dried and Salted Fish Section',
+        'opt.produce': 'Fruits and Vegetables Section',
+        'opt.dryGoods': 'Dry Goods Section',
+        'opt.sariSari': 'Groceries Sari-Sari Section',
+        'opt.eateries': 'Eateries and Cooked Food Section',
+        'opt.service': 'Service Section',
+        'blk.plaza': 'Daet Elevated Plaza',
+        'blk.tienda': 'Market Tienda Bldg',
+        'blk.a': 'Block A',
+        'blk.b': 'Block B',
+        'blk.c': 'Block C',
+        'blk.botA1': 'BOT Block A-1',
+        'blk.botE': 'BOT Block E',
+        'blk.behindB': 'BOT Behind Block B',
+        'blk.behindC': 'BOT Behind Block C',
+        'modal.calendar': 'Calendar',
+        'modal.calendar.coming': 'Calendar functionality coming soon',
+        'modal.close': 'Close',
+        'profile.darkModeTitle': 'Dark mode',
+        'profile.darkModeAria': 'Toggle dark mode',
+        'alert.maxStalls': 'Maximum 20 stalls allowed per application.',
+        'alert.fileSize': 'File size must be less than 5MB',
+        'form.filesWord': 'files',
+        'req.id_card': 'ID Card',
+        'req.dti': 'DTI Registration',
+        'req.barangay': 'Barangay Clearance',
+        'req.moa': 'Memorandum of Agreement',
+        'req.lease': 'Lease Contract',
+        'req.inspection': 'Stall Inspection',
+        'req.receipt': 'Official Receipt',
+        'req.document': 'Document',
+        'form.updateRenewal': 'Update Renewal',
+        'form.submitAllRenewals': 'Submit All Renewals',
+        'renewal.prevUploads': 'Previously Uploaded Documents:',
+        'renewal.viewFile': 'View',
+        'flash.minOneApp': 'Please fill in at least one application.',
+        'flash.dbConn': 'Database connection failed. Please try again.',
+        'flash.stallRequired': 'Please fill in all required fields for Stall {stall}.',
+        'flash.stallProcess': 'Error processing Stall {stall}: {detail}',
+        'flash.appsProcessError': 'An error occurred while processing your applications. Please try again.',
+        'flash.requiredFields': 'Please fill in all required fields.',
+        'flash.uploadDoc': 'Please upload at least one document. Documents are required to pass the application.',
+        'flash.alreadyReviewed': 'Cannot update application: This application has already been reviewed by an administrator.',
+        'flash.dbError': 'Database error: {detail}',
+        'flash.fileType': 'Invalid file type. Allowed: JPG, PNG, PDF, DOC, DOCX',
+        'flash.fileSize5': 'File size must be less than 5MB',
+        'flash.uploadFail': 'Failed to upload file: {file}',
+        'flash.submitFail': 'Failed to submit application. Please try again.',
+        'flash.genericError': 'An error occurred while processing your application. Please try again.',
+        'flash.multiSubmitOk': 'Successfully submitted {count} application(s)! Application ID(s): {ids}',
+        'flash.updatedOk': 'Application updated successfully! Application ID: {id}',
+        'flash.submittedOk': 'Application submitted successfully! Application ID: {id}'
+      },
+      ph: {
+        'nav.logoLine1': 'Daet',
+        'nav.logoLine2': 'Public Market',
+        'nav.home': 'Tahanan',
+        'nav.application': 'Aplikasyon',
+        'nav.renewal': 'Pag-renew',
+        'nav.profile': 'Profile',
+        'nav.notifications': 'Mga Abiso',
+        'nav.logout': 'Mag-logout',
+        'page.titleNew': 'Bagong Aplikasyon',
+        'page.titleEdit': 'I-edit ang Aplikasyon',
+        'page.subtitleNew': 'Punan ang form sa ibaba para sa market clearance.',
+        'page.subtitleEdit': 'I-update ang mga detalye ng iyong aplikasyon sa ibaba.',
+        'page.docTitleNew': 'Bagong Aplikasyon - Daet Public Market',
+        'page.docTitleEdit': 'I-edit ang Aplikasyon - Daet Public Market',
+        'renewal.titleNew': 'Aplikasyon sa Pag-renew',
+        'renewal.titleNewLead': 'Pag-renew',
+        'renewal.titleNewAccent': 'application',
+        'renewal.titleEdit': 'I-edit ang Renewal',
+        'renewal.titleEditLead': 'I-edit ang renewal',
+        'renewal.titleEditAccent': 'application',
+        'stall.alreadyDue': 'Due na ang iyong aplikasyon, mag-renew na ngayon.',
+        'renewal.subtitleNew': 'I-click ang application na gusto mong i-renew at punan ang form sa ibaba para i-renew ang iyong market clearance.',
+        'renewal.subtitleEdit': 'I-update ang mga detalye ng iyong renewal sa ibaba.',
+        'page.docTitleRenewalNew': 'Renewal - Daet Public Market',
+        'page.docTitleRenewalEdit': 'I-edit ang Renewal - Daet Public Market',
+        'confirm.logout': 'Sigurado ka bang gusto mong mag-logout?',
+        'stall.label': 'Pumili ng bilang ng stall',
+        'stall.hint': 'pumili ng stall o slot',
+        'stall.myAll': 'Lahat ng Aking Stall',
+        'stall.myAllHint': 'Piliin ang stall na nais mong i-renew.',
+        'stall.noApproved': 'Wala ka pang aprubadong stall na maaaring i-renew.',
+        'stall.almostDue': 'Malapit nang mag-due, huwag kalimutang mag-renew!',
+        'stall.placeholder': 'Ilagay ang bilang ng stall',
+        'stall.n1': '1 Stall',
+        'stall.n2': '2 Stall',
+        'stall.n3': '3 Stall',
+        'stall.n4': '4 Stall',
+        'stall.n5': '5 Stall',
+        'stall.custom': 'o higit pa (custom)',
+        'form.fullName': 'Buong pangalan',
+        'form.section': 'Section',
+        'form.block': 'Block',
+        'form.uploadDocs': 'Mag-upload ng dokumento',
+        'form.docsAttached': '{{filled}} sa {{total}} na kinakailangan ang naka-attach.',
+        'form.requirements': 'Mga kinakailangan:',
+        'form.addFile': 'Magdagdag ng file',
+        'form.remove': 'Alisin',
+        'form.selectSection': 'Pumili ng seksyon',
+        'form.selectBlock': 'Pumili ng block',
+        'form.updateApplication': 'I-update ang Aplikasyon',
+        'form.submitAll': 'Isumite ang Lahat ng Aplikasyon',
+        'form.uploadedFiles': 'Mga na-upload na file:',
+        'form.selectedFiles': 'Mga napiling file',
+        'form.total': 'Kabuuan:',
+        'form.stallHeading': 'Aplikasyon sa Stall {{n}}',
+        'opt.freshFish': 'Fresh Fish Section',
+        'opt.meat': 'Meat and Chicken Section',
+        'opt.driedFish': 'Dried and Salted Fish Section',
+        'opt.produce': 'Fruits and Vegetables Section',
+        'opt.dryGoods': 'Dry Goods Section',
+        'opt.sariSari': 'Groceries Sari-Sari Section',
+        'opt.eateries': 'Eateries and Cooked Food Section',
+        'opt.service': 'Service Section',
+        'blk.plaza': 'Daet Elevated Plaza',
+        'blk.tienda': 'Market Tienda Bldg',
+        'blk.a': 'Block A',
+        'blk.b': 'Block B',
+        'blk.c': 'Block C',
+        'blk.botA1': 'BOT Block A-1',
+        'blk.botE': 'BOT Block E',
+        'blk.behindB': 'BOT Behind Block B',
+        'blk.behindC': 'BOT Behind Block C',
+        'modal.calendar': 'Kalendaryo',
+        'modal.calendar.coming': 'Darating ang kalendaryo sa lalong madaling panahon.',
+        'modal.close': 'Isara',
+        'profile.darkModeTitle': 'Madilim na mode',
+        'profile.darkModeAria': 'Lumipat sa madilim / maliwanag na mode',
+        'alert.maxStalls': 'Pinakamataas na 20 stall bawat aplikasyon.',
+        'alert.fileSize': 'Ang laki ng file ay dapat mas mababa sa 5MB.',
+        'form.filesWord': 'na file',
+        'req.id_card': 'ID Card',
+        'req.dti': 'Rehistro sa DTI',
+        'req.barangay': 'Barangay Clearance',
+        'req.moa': 'Memorandum of Agreement',
+        'req.lease': 'Kontrata sa Paupahan',
+        'req.inspection': 'Inspeksyon ng Stall',
+        'req.receipt': 'Opisyal na Resibo',
+        'req.document': 'Dokumento',
+        'form.updateRenewal': 'I-update ang Renewal',
+        'form.submitAllRenewals': 'Isumite ang Lahat ng Renewal',
+        'renewal.prevUploads': 'Mga Naunang Na-upload na Dokumento:',
+        'renewal.viewFile': 'Tingnan',
+        'flash.minOneApp': 'Mangyaring punan ang kahit isang aplikasyon.',
+        'flash.dbConn': 'Nabigo ang koneksyon sa database. Pakisubukan muli.',
+        'flash.stallRequired': 'Mangyaring punan ang lahat ng kinakailangang field para sa Stall {stall}.',
+        'flash.stallProcess': 'Error sa pagproseso ng Stall {stall}: {detail}',
+        'flash.appsProcessError': 'May naganap na error habang pinoproseso ang iyong mga aplikasyon. Pakisubukan muli.',
+        'flash.requiredFields': 'Mangyaring punan ang lahat ng kinakailangang field.',
+        'flash.uploadDoc': 'Mangyaring mag-upload ng kahit isang dokumento. Kinakailangan ang mga dokumento para maipasa ang aplikasyon.',
+        'flash.alreadyReviewed': 'Hindi ma-update ang aplikasyon: Nasuri na ito ng administrator.',
+        'flash.dbError': 'Error sa database: {detail}',
+        'flash.fileType': 'Hindi wastong uri ng file. Pinapayagan: JPG, PNG, PDF, DOC, DOCX',
+        'flash.fileSize5': 'Ang laki ng file ay dapat mas mababa sa 5MB.',
+        'flash.uploadFail': 'Nabigong i-upload ang file: {file}',
+        'flash.submitFail': 'Nabigong isumite ang aplikasyon. Pakisubukan muli.',
+        'flash.genericError': 'May naganap na error habang pinoproseso ang iyong aplikasyon. Pakisubukan muli.',
+        'flash.multiSubmitOk': 'Matagumpay na naisumite ang {count} na aplikasyon! Application ID(s): {ids}',
+        'flash.updatedOk': 'Matagumpay na na-update ang aplikasyon! Application ID: {id}',
+        'flash.submittedOk': 'Matagumpay na naisumite ang aplikasyon! Application ID: {id}'
+      }
+    };
+
+    function applyFlashI18n(lang) {
+      var translations = window.APPLICATION_I18N;
+      if (!translations) return;
+      var texts = translations[lang] || translations.en;
+      var fallback = translations.en || {};
+      document.querySelectorAll('[data-flash-key]').forEach(function (el) {
+        var key = el.getAttribute('data-flash-key');
+        if (!key) return;
+        var tpl = texts[key] || fallback[key];
+        if (!tpl) return;
+        var args = {};
+        try {
+          args = JSON.parse(el.getAttribute('data-flash-args') || '{}');
+        } catch (e) {
+          args = {};
+        }
+        var out = tpl.replace(/\{(\w+)\}/g, function (_, name) {
+          return args[name] != null ? String(args[name]) : '';
+        });
+        var span = el.querySelector('.application-flash-text');
+        if (span) span.textContent = out;
+      });
+    }
+
+    function translatePage(lang) {
+      var translations = window.APPLICATION_I18N;
+      var texts = translations[lang] || translations.en;
+      var fallback = translations.en || {};
+      document.querySelectorAll('[data-translate]').forEach(function (element) {
+        var key = element.getAttribute('data-translate');
+        if (texts[key]) element.textContent = texts[key];
+        else if (fallback[key]) element.textContent = fallback[key];
+      });
+      document.querySelectorAll('[data-translate-stall]').forEach(function (element) {
+        var key = element.getAttribute('data-translate-stall');
+        var n = element.getAttribute('data-stall-n') || '';
+        var tpl = (texts[key] || fallback[key]);
+        if (tpl) element.textContent = tpl.replace(/\{\{n\}\}/g, n);
+      });
+      document.querySelectorAll('[data-translate-title]').forEach(function (element) {
+        var key = element.getAttribute('data-translate-title');
+        if (texts[key]) element.title = texts[key];
+      });
+      document.querySelectorAll('[data-translate-aria]').forEach(function (element) {
+        var key = element.getAttribute('data-translate-aria');
+        if (texts[key]) element.setAttribute('aria-label', texts[key]);
+      });
+      document.querySelectorAll('[data-translate-placeholder]').forEach(function (el) {
+        var key = el.getAttribute('data-translate-placeholder');
+        if (texts[key]) el.setAttribute('placeholder', texts[key]);
+      });
+      var mode = document.body ? document.body.getAttribute('data-application-mode') : '';
+      var pt = document.getElementById('applicationPageTitle');
+      var ps = document.getElementById('applicationPageSubtitle');
+      if (pt && texts['page.titleNew'] && texts['page.titleEdit']) {
+        pt.textContent = mode === 'edit' ? texts['page.titleEdit'] : texts['page.titleNew'];
+      }
+      if (ps && texts['page.subtitleNew'] && texts['page.subtitleEdit']) {
+        ps.textContent = mode === 'edit' ? texts['page.subtitleEdit'] : texts['page.subtitleNew'];
+      }
+      var rTitle = document.getElementById('renewalPageTitle');
+      var rSub = document.getElementById('renewalPageSubtitle');
+      if (rTitle) {
+        if (mode === 'edit') {
+          if (texts['renewal.titleEditLead'] && texts['renewal.titleEditAccent']) {
+            rTitle.innerHTML = '<span>' + texts['renewal.titleEditLead'] + '</span> <span class="app-title-accent">' + texts['renewal.titleEditAccent'] + '</span>';
+          } else if (texts['renewal.titleEdit']) {
+            rTitle.textContent = texts['renewal.titleEdit'];
+          }
+        } else if (texts['renewal.titleNewLead'] && texts['renewal.titleNewAccent']) {
+          rTitle.innerHTML = '<span>' + texts['renewal.titleNewLead'] + '</span> <span class="app-title-accent">' + texts['renewal.titleNewAccent'] + '</span>';
+        } else if (texts['renewal.titleNew']) {
+          rTitle.textContent = texts['renewal.titleNew'];
+        }
+      }
+      if (rSub && texts['renewal.subtitleNew'] && texts['renewal.subtitleEdit']) {
+        rSub.textContent = mode === 'edit' ? texts['renewal.subtitleEdit'] : texts['renewal.subtitleNew'];
+      }
+      var calendarComing = document.querySelector('[data-translate="modal.calendar.coming"]');
+      if (calendarComing && texts['modal.calendar.coming']) calendarComing.textContent = texts['modal.calendar.coming'];
+      document.querySelectorAll('#calendarIconLink, #calendarIconLinkDesktop').forEach(function (el) {
+        if (texts['modal.calendar']) el.title = texts['modal.calendar'];
+      });
+      if (document.getElementById('renewalPageTitle') && texts['page.docTitleRenewalNew'] && texts['page.docTitleRenewalEdit']) {
+        document.title = mode === 'edit' ? texts['page.docTitleRenewalEdit'] : texts['page.docTitleRenewalNew'];
+      } else if (texts['page.docTitleNew'] && texts['page.docTitleEdit']) {
+        document.title = mode === 'edit' ? texts['page.docTitleEdit'] : texts['page.docTitleNew'];
+      }
+      if (document.documentElement) {
+        document.documentElement.lang = lang === 'ph' ? 'tl' : 'en';
+      }
+      applyFlashI18n(lang);
+    }
+
+    function confirmLogout() {
+      var lang = localStorage.getItem('preferredLanguage') || 'en';
+      var G = window.APPLICATION_I18N;
+      var pack = G && (G[lang] || G.en);
+      var msg = (pack && pack['confirm.logout']) || (G && G.en && G.en['confirm.logout']) || 'Are you sure you want to logout?';
+      return confirm(msg);
+    }
+
+    var monthNamesEn = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    var monthNamesPh = ['Enero', 'Pebrero', 'Marso', 'Abril', 'Mayo', 'Hunyo',
+      'Hulyo', 'Agosto', 'Setyembre', 'Oktubre', 'Nobyembre', 'Disyembre'];
+    var dayNamesEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var dayNamesPh = ['Li', 'Lu', 'Ma', 'Mi', 'Hu', 'Bi', 'Sa'];
+
+    function renderCalendar() {
+      var today = new Date();
+      var currentYear = today.getFullYear();
+      var currentMonth = today.getMonth();
+      var currentDate = today.getDate();
+      var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      var lang = localStorage.getItem('preferredLanguage') || 'en';
+      var monthNames = lang === 'ph' ? monthNamesPh : monthNamesEn;
+      var dayNames = lang === 'ph' ? dayNamesPh : dayNamesEn;
+      var calendarHTML = '<div style="text-align: center; margin-bottom: 1.5rem;">' +
+        '<h4 style="color: #667eea; font-weight: 600; margin: 0;">' +
+        monthNames[currentMonth] + ' ' + currentYear +
+        '</h4></div>' +
+        '<table style="width: 100%; border-collapse: collapse;"><thead><tr>';
+      var d;
+      for (d = 0; d < dayNames.length; d++) {
+        calendarHTML += '<th style="padding: 0.5rem; color: #667eea; font-weight: 600; font-size: 0.85rem; text-align: center;">' +
+          dayNames[d] + '</th>';
+      }
+      calendarHTML += '</tr></thead><tbody>';
+      var date = 1;
+      var i, j;
+      for (i = 0; i < 6; i++) {
+        calendarHTML += '<tr>';
+        for (j = 0; j < 7; j++) {
+          if (i === 0 && j < firstDay) {
+            calendarHTML += '<td style="padding: 0.5rem;"></td>';
+          } else if (date > daysInMonth) {
+            calendarHTML += '<td style="padding: 0.5rem;"></td>';
+          } else {
+            var isToday = date === currentDate;
+            var cellStyle = isToday
+              ? 'background: #ff6b35; color: #ffffff; border-radius: 50%; font-weight: 700;'
+              : 'color: #475569;';
+            calendarHTML += '<td style="padding: 0.5rem; text-align: center;">' +
+              '<div style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; margin: 0 auto; ' +
+              cellStyle + '">' + date + '</div></td>';
+            date++;
+          }
+        }
+        calendarHTML += '</tr>';
+        if (date > daysInMonth) break;
+      }
+      calendarHTML += '</tbody></table>';
+      var calendarContainer = document.getElementById('calendarContainer');
+      if (calendarContainer) calendarContainer.innerHTML = calendarHTML;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var savedLang = localStorage.getItem('preferredLanguage') || 'en';
+      var langSelect = document.getElementById('languageSelect');
+      var langSelectDesktop = document.getElementById('languageSelectDesktop');
+      if (langSelect) langSelect.value = savedLang;
+      if (langSelectDesktop) langSelectDesktop.value = savedLang;
+      if (langSelect && langSelectDesktop) {
+        langSelect.addEventListener('change', function () {
+          langSelectDesktop.value = this.value;
+          changeLanguage(this.value);
+        });
+        langSelectDesktop.addEventListener('change', function () {
+          langSelect.value = this.value;
+          changeLanguage(this.value);
+        });
+      } else if (langSelect) {
+        langSelect.addEventListener('change', function () { changeLanguage(this.value); });
+      } else if (langSelectDesktop) {
+        langSelectDesktop.addEventListener('change', function () { changeLanguage(this.value); });
+      }
+      updateLanguageIcon(savedLang);
+      translatePage(savedLang);
+
+      var navbarToggler = document.getElementById('navbarToggler');
+      var navbarCenter = document.getElementById('navbarCenter');
+      var navbarRight = document.querySelector('.navbar-right');
+      var navbarOverlay = document.getElementById('navbarOverlay');
+
+      function closeSidebar() {
+        if (window.innerWidth <= 991) {
+          if (navbarToggler) navbarToggler.setAttribute('aria-expanded', 'false');
+          if (navbarCenter) navbarCenter.classList.remove('show');
+          if (navbarOverlay) navbarOverlay.classList.remove('show');
+          document.body.style.overflow = '';
+        }
+      }
+
+      if (navbarToggler && navbarCenter) {
+        navbarToggler.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var isExpanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', !isExpanded);
+          navbarCenter.classList.toggle('show');
+          if (window.innerWidth <= 991) {
+            if (navbarOverlay) navbarOverlay.classList.toggle('show');
+            document.body.style.overflow = isExpanded ? '' : 'hidden';
+          }
+        });
+        if (navbarOverlay) {
+          navbarOverlay.addEventListener('click', function () { closeSidebar(); });
+        }
+        document.addEventListener('click', function (event) {
+          if (window.innerWidth <= 991) {
+            var isClickInside = navbarToggler.contains(event.target) ||
+              navbarCenter.contains(event.target);
+            if (!isClickInside && navbarCenter.classList.contains('show')) {
+              closeSidebar();
+            }
+          }
+        });
+        navbarCenter.querySelectorAll('.nav-pill, .nav-icon-pill').forEach(function (link) {
+          link.addEventListener('click', function () {
+            if (window.innerWidth <= 991) closeSidebar();
+          });
+        });
+        if (navbarRight) {
+          var logoutBtn = navbarRight.querySelector('#logoutBtn');
+          if (logoutBtn) {
+            logoutBtn.addEventListener('click', function () {
+              if (window.innerWidth <= 991) closeSidebar();
+            });
+          }
+        }
+        window.addEventListener('resize', function () {
+          if (window.innerWidth > 991) {
+            navbarCenter.classList.remove('show');
+            navbarToggler.setAttribute('aria-expanded', 'false');
+            if (navbarOverlay) navbarOverlay.classList.remove('show');
+            document.body.style.overflow = '';
+          }
+        });
+        document.querySelectorAll('#calendarIconLink, #calendarIconLinkDesktop').forEach(function (calLink) {
+          calLink.addEventListener('click', function () {
+            if (window.innerWidth <= 991) closeSidebar();
+          });
+        });
+      }
+
+      var calendarModal = document.getElementById('calendarModal');
+      if (calendarModal) {
+        calendarModal.addEventListener('show.bs.modal', function () { renderCalendar(); });
+        calendarModal.addEventListener('hidden.bs.modal', function () {
+          document.body.style.overflow = '';
+          document.body.classList.remove('modal-open');
+          document.body.style.paddingRight = '';
+        });
+      }
+    });
+
+    (function () {
+      var darkmode = localStorage.getItem('darkmode');
+      var enableDarkmode = function () {
+        document.body.classList.add('darkmode');
+        localStorage.setItem('darkmode', 'active');
+      };
+      var disableDarkmode = function () {
+        document.body.classList.remove('darkmode');
+        try {
+          localStorage.removeItem('darkmode');
+        } catch (e) {}
+      };
+      if (darkmode === 'active') enableDarkmode();
+      document.querySelectorAll('.profile-darkmode-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          darkmode = localStorage.getItem('darkmode');
+          darkmode !== 'active' ? enableDarkmode() : disableDarkmode();
+        });
+      });
+    })();

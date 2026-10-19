@@ -1,0 +1,19 @@
+/**
+ * Vendor portal pages — same indigo backdrop as menu.php landing hero.
+ */
+body.page-application,
+body.page-renewal,
+body.page-profile,
+body.page-notification {
+  background: radial-gradient(circle at center, #6b63c9 0%, #3f4191 50%, #2e236c 100%) !important;
+  background-color: #3f4191 !important;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+body.page-application .main-container,
+body.page-renewal .main-container,
+body.page-profile .main-container,
+body.page-notification .main-container {
+  background: transparent;
+}
