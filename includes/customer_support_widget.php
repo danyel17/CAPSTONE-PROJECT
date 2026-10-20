@@ -1153,7 +1153,7 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
         }
 </style>
 
-    <div id="csFloat" class="cs-float-btn" role="button" tabindex="0" aria-label="Open customer support" aria-haspopup="dialog" aria-controls="csSupportModal">
+    <div id="csFloat" class="cs-float-btn" role="button" tabindex="0" aria-label="Open customer support" data-cs-i18n-aria="openSupport" aria-haspopup="dialog" aria-controls="csSupportModal">
         <img src="<?php echo $cs_img_esc; ?>" alt="" draggable="false" decoding="sync">
     </div>
 
@@ -1162,13 +1162,13 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
         <div id="csSupportModal" class="cs-modal-shell" role="dialog" aria-modal="true" aria-labelledby="csModalTitle">
             <div class="cs-modal-header" id="csModalHeaderBar">
                 <div class="cs-header-default-inner">
-                    <h2 id="csModalTitle">Customer Support</h2>
-                    <button type="button" class="cs-modal-close" id="csModalClose" aria-label="Close support">&times;</button>
+                    <h2 id="csModalTitle" data-cs-i18n="modalTitle">Customer Support</h2>
+                    <button type="button" class="cs-modal-close" id="csModalClose" aria-label="Close support" data-cs-i18n-aria="closeSupport">&times;</button>
                 </div>
                 <div class="cs-guide-header-bar" aria-hidden="true">
-                    <button type="button" class="cs-guide-back" id="csGuideBack" aria-label="Back to support"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-                    <span class="cs-guide-bar-title" id="csGuideBarTitle">Support</span>
-                    <button type="button" class="cs-modal-close" id="csGuideCloseBtn" aria-label="Close support">&times;</button>
+                    <button type="button" class="cs-guide-back" id="csGuideBack" aria-label="Back to support" data-cs-i18n-aria="backSupport"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                    <span class="cs-guide-bar-title" id="csGuideBarTitle" data-cs-i18n="tabSupport">Support</span>
+                    <button type="button" class="cs-modal-close" id="csGuideCloseBtn" aria-label="Close support" data-cs-i18n-aria="closeSupport">&times;</button>
                 </div>
             </div>
             <div class="cs-modal-body">
@@ -1218,7 +1218,7 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                         We hear your voice. Have complaints or feedback? Let us know so we can improve our services.
                     </p>
                     <form class="cs-concern-form" id="csConcernForm" action="#" method="post" novalidate>
-                        <label for="csConcernMessage" class="cs-sr-only">Your concern or feedback</label>
+                        <label for="csConcernMessage" class="cs-sr-only" data-cs-i18n="concernLabel">Your concern or feedback</label>
                         <textarea id="csConcernMessage" name="message" class="cs-concern-textarea" rows="4" maxlength="5000" required placeholder="Type your concern or feedback here…" data-cs-i18n-placeholder="concernPh" autocomplete="off"></textarea>
                         <button type="submit" class="cs-concern-submit" id="csConcernSubmit">
                             <i class="fas fa-paper-plane" aria-hidden="true"></i>
@@ -1246,201 +1246,201 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                     <div class="cs-guide-scroll">
                         <h3 id="csRegisterGuideTitle" class="cs-guide-page-title" data-cs-i18n="gRegTitle">How to Register in Market Clearance?</h3>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 1: Open the registration page</p>
-                            <p class="cs-guide-step-text">From the Daet Public Market site, go to the <strong>Registration</strong> page (or tap <strong>Go to registration form</strong> below when you are ready). If you already have an account, use <strong>Log in</strong> instead.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReg1t">Step 1: Open the registration page</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReg1">From the Daet Public Market site, go to the <strong>Registration</strong> page (or tap <strong>Go to registration form</strong> below when you are ready). If you already have an account, use <strong>Log in</strong> instead.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 2: Enter your personal details</p>
-                            <p class="cs-guide-step-text">Fill in your <strong>full name</strong>, a valid <strong>email address</strong>, and <strong>mobile number</strong>. These are used for your account and important updates from the market office.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReg2t">Step 2: Enter your personal details</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReg2">Fill in your <strong>full name</strong>, a valid <strong>email address</strong>, and <strong>mobile number</strong>. These are used for your account and important updates from the market office.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 3: Create a secure password</p>
-                            <p class="cs-guide-step-text">Choose a password with <strong>at least 8 characters</strong>, including <strong>one uppercase letter</strong>, <strong>one lowercase letter</strong>, and <strong>one number</strong>. Type it again in the confirm field to match.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReg3t">Step 3: Create a secure password</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReg3">Choose a password with <strong>at least 8 characters</strong>, including <strong>one uppercase letter</strong>, <strong>one lowercase letter</strong>, and <strong>one number</strong>. Type it again in the confirm field to match.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 4: Accept the terms and submit</p>
-                            <p class="cs-guide-step-text">Read the <strong>Terms &amp; Conditions</strong>, check the box to accept them, then submit the form.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReg4t">Step 4: Accept the terms and submit</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReg4">Read the <strong>Terms &amp; Conditions</strong>, check the box to accept them, then submit the form.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 5: Sign in and continue</p>
-                            <p class="cs-guide-step-text">If registration succeeds, sign in with your email and password. You can then apply for a market slot, upload documents, and manage your clearance from your dashboard.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReg5t">Step 5: Sign in and continue</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReg5">If registration succeeds, sign in with your email and password. You can then apply for a market slot, upload documents, and manage your clearance from your dashboard.</p>
                         </div>
                     </div>
                     <div class="cs-guide-footer-cta">
-                        <a href="registrationform.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-user-plus" aria-hidden="true"></i> Go to registration form</a>
+                        <a href="registrationform.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-user-plus" aria-hidden="true"></i> <span data-cs-i18n="ctaReg">Go to registration form</span></a>
                     </div>
                 </div>
                 <div id="csEmailHelpGuide" class="cs-register-guide" aria-hidden="true" role="region" aria-labelledby="csEmailHelpGuideTitle">
                     <div class="cs-guide-scroll">
                         <h3 id="csEmailHelpGuideTitle" class="cs-guide-page-title" data-cs-i18n="gMailTitle">Don&apos;t have a Gmail account?</h3>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 1: Open Google sign-in</p>
-                            <p class="cs-guide-step-text">From your device, go to the <a class="cs-guide-external-link" href="<?php echo $cs_google_account_url_esc; ?>" target="_blank" rel="noopener noreferrer">Google Account sign in page<i class="fas fa-external-link-alt" aria-hidden="true"></i></a>.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gMail1t">Step 1: Open Google sign-in</p>
+                            <p class="cs-guide-step-text"><span data-cs-i18n="gMail1a">From your device, go to the</span> <a class="cs-guide-external-link" href="<?php echo $cs_google_account_url_esc; ?>" target="_blank" rel="noopener noreferrer"><span data-cs-i18n="gMail1b">Google Account sign in page</span><i class="fas fa-external-link-alt" aria-hidden="true"></i></a>.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 2: Start creating an account</p>
-                            <p class="cs-guide-step-text">Click <strong>Create account</strong>.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gMail2t">Step 2: Start creating an account</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gMail2">Click <strong>Create account</strong>.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 3: Choose who the account is for</p>
-                            <p class="cs-guide-step-text">In the drop-down, select if the account is for your:</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gMail3t">Step 3: Choose who the account is for</p>
+                            <p class="cs-guide-step-text" data-cs-i18n="gMail3">In the drop-down, select if the account is for your:</p>
                             <ul class="cs-guide-sublist">
-                                <li>Personal use</li>
-                                <li>Child</li>
-                                <li>Work or business</li>
+                                <li data-cs-i18n="gMail3a">Personal use</li>
+                                <li data-cs-i18n="gMail3b">Child</li>
+                                <li data-cs-i18n="gMail3c">Work or business</li>
                             </ul>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 4: Finish on Google</p>
-                            <p class="cs-guide-step-text">To set up your account, follow the steps below.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gMail4t">Step 4: Finish on Google</p>
+                            <p class="cs-guide-step-text" data-cs-i18n="gMail4">To set up your account, follow the steps below.</p>
                         </div>
                         <div class="cs-gmail-visual-guide" aria-labelledby="csGmailVisualGuideTitle">
-                            <h4 id="csGmailVisualGuideTitle" class="cs-gmail-visual-guide-title">How to create Gmail Account</h4>
+                            <h4 id="csGmailVisualGuideTitle" class="cs-gmail-visual-guide-title" data-cs-i18n="gMailVisual">How to create Gmail Account</h4>
                             <div class="cs-gmail-steps-grid">
                                 <div class="cs-gmail-step-cell">
-                                    <img src="<?php echo htmlspecialchars($cs_gmail_step_base . 'firststep.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Gmail signup: first and last name" width="360" height="640" loading="lazy" decoding="async">
-                                    <p class="cs-gmail-step-caption">a. fill up you first name and last name</p>
+                                    <img src="<?php echo htmlspecialchars($cs_gmail_step_base . 'firststep.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Gmail signup: first and last name" data-cs-i18n-alt="altMailA" width="360" height="640" loading="lazy" decoding="async">
+                                    <p class="cs-gmail-step-caption" data-cs-i18n="gMailA">a. fill up you first name and last name</p>
                                 </div>
                                 <div class="cs-gmail-step-cell">
-                                    <img src="<?php echo htmlspecialchars($cs_gmail_step_base . 'secondstep.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Gmail signup: date of birth" width="360" height="640" loading="lazy" decoding="async">
-                                    <p class="cs-gmail-step-caption">b. enter your date of birth</p>
+                                    <img src="<?php echo htmlspecialchars($cs_gmail_step_base . 'secondstep.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Gmail signup: date of birth" data-cs-i18n-alt="altMailB" width="360" height="640" loading="lazy" decoding="async">
+                                    <p class="cs-gmail-step-caption" data-cs-i18n="gMailB">b. enter your date of birth</p>
                                 </div>
                                 <div class="cs-gmail-step-cell">
-                                    <img src="<?php echo htmlspecialchars($cs_gmail_step_base . 'thirdstep.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Gmail signup: username" width="360" height="640" loading="lazy" decoding="async">
-                                    <p class="cs-gmail-step-caption">c. type the username you want</p>
+                                    <img src="<?php echo htmlspecialchars($cs_gmail_step_base . 'thirdstep.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Gmail signup: username" data-cs-i18n-alt="altMailC" width="360" height="640" loading="lazy" decoding="async">
+                                    <p class="cs-gmail-step-caption" data-cs-i18n="gMailC">c. type the username you want</p>
                                 </div>
                                 <div class="cs-gmail-step-cell">
-                                    <img src="<?php echo htmlspecialchars($cs_gmail_step_base . 'fourthstep.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Gmail signup: password" width="360" height="640" loading="lazy" decoding="async">
-                                    <p class="cs-gmail-step-caption">d. enter your desire password</p>
+                                    <img src="<?php echo htmlspecialchars($cs_gmail_step_base . 'fourthstep.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Gmail signup: password" data-cs-i18n-alt="altMailD" width="360" height="640" loading="lazy" decoding="async">
+                                    <p class="cs-gmail-step-caption" data-cs-i18n="gMailD">d. enter your desire password</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="cs-guide-footer-cta">
-                        <a href="<?php echo $cs_google_account_url_esc; ?>" class="cs-guide-google-cta" target="_blank" rel="noopener noreferrer" data-cs-close-modal="1">Create an account</a>
+                        <a href="<?php echo $cs_google_account_url_esc; ?>" class="cs-guide-google-cta" target="_blank" rel="noopener noreferrer" data-cs-close-modal="1"><span data-cs-i18n="ctaGmail">Create an account</span></a>
                     </div>
                 </div>
                 <div id="csApplyGuide" class="cs-register-guide" aria-hidden="true" role="region" aria-labelledby="csApplyGuideTitle">
                     <div class="cs-guide-scroll">
                         <h3 id="csApplyGuideTitle" class="cs-guide-page-title" data-cs-i18n="gApplyTitle">How to apply for a market slot?</h3>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 1: Sign in</p>
-                            <p class="cs-guide-step-text">You must be logged in. If you do not have an account yet, register first, then return here and open <strong>Application</strong> from the menu.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gApply1t">Step 1: Sign in</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gApply1">You must be logged in. If you do not have an account yet, register first, then return here and open <strong>Application</strong> from the menu.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 2: Open the application page</p>
-                            <p class="cs-guide-step-text">From the site navigation, go to <strong>Application</strong> (New Application). You will see the clearance application workflow.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gApply2t">Step 2: Open the application page</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gApply2">From the site navigation, go to <strong>Application</strong> (New Application). You will see the clearance application workflow.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 3: Choose how many stalls</p>
-                            <p class="cs-guide-step-text">Select the <strong>number of stalls</strong> or slots you need (or enter a custom count if that option is shown). The form will create one section per stall.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gApply3t">Step 3: Choose how many stalls</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gApply3">Select the <strong>number of stalls</strong> or slots you need (or enter a custom count if that option is shown). The form will create one section per stall.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 4: Fill in each stall</p>
-                            <p class="cs-guide-step-text">For every stall, enter the <strong>full name</strong>, choose the <strong>section</strong> and <strong>block</strong>, and <strong>upload the required documents</strong> (for example ID, DTI, barangay clearance, and any other files listed on the form). All marked fields must be completed.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gApply4t">Step 4: Fill in each stall</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gApply4">For every stall, enter the <strong>full name</strong>, choose the <strong>section</strong> and <strong>block</strong>, and <strong>upload the required documents</strong> (for example ID, DTI, barangay clearance, and any other files listed on the form). All marked fields must be completed.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 5: Submit</p>
-                            <p class="cs-guide-step-text">Review your entries, then submit. Wait for notifications or check your application status from your profile or dashboard as instructed by the market office.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gApply5t">Step 5: Submit</p>
+                            <p class="cs-guide-step-text" data-cs-i18n="gApply5">Review your entries, then submit. Wait for notifications or check your application status from your profile or dashboard as instructed by the market office.</p>
                         </div>
                     </div>
                     <div class="cs-guide-footer-cta">
-                        <a href="application.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-file-alt" aria-hidden="true"></i> Go to application</a>
+                        <a href="application.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-file-alt" aria-hidden="true"></i> <span data-cs-i18n="ctaApply">Go to application</span></a>
                     </div>
                 </div>
                 <div id="csLoginGuide" class="cs-register-guide" aria-hidden="true" role="region" aria-labelledby="csLoginGuideTitle">
                     <div class="cs-guide-scroll">
                         <h3 id="csLoginGuideTitle" class="cs-guide-page-title" data-cs-i18n="gLoginTitle">How to log in to your account?</h3>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 1: Open the login page</p>
-                            <p class="cs-guide-step-text">Go to the <strong>Log in</strong> page on the Daet Public Market site (for example from the home or registration page).</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gLogin1t">Step 1: Open the login page</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gLogin1">Go to the <strong>Log in</strong> page on the Daet Public Market site (for example from the home or registration page).</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 2: Enter your credentials</p>
-                            <p class="cs-guide-step-text">Type the <strong>email address</strong> and <strong>password</strong> you used when you registered. Check for typos and correct capitalization.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gLogin2t">Step 2: Enter your credentials</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gLogin2">Type the <strong>email address</strong> and <strong>password</strong> you used when you registered. Check for typos and correct capitalization.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 3: Sign in</p>
-                            <p class="cs-guide-step-text">Click the sign-in or log-in button. If you forgot your password, use the <strong>forgot password</strong> or reset link on the login page, if available.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gLogin3t">Step 3: Sign in</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gLogin3">Click the sign-in or log-in button. If you forgot your password, use the <strong>forgot password</strong> or reset link on the login page, if available.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 4: After you are logged in</p>
-                            <p class="cs-guide-step-text">Use the navigation to open <strong>Home</strong>, <strong>Application</strong>, <strong>Renewal</strong>, <strong>Profile</strong>, or <strong>Notifications</strong> depending on what you need.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gLogin4t">Step 4: After you are logged in</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gLogin4">Use the navigation to open <strong>Home</strong>, <strong>Application</strong>, <strong>Renewal</strong>, <strong>Profile</strong>, or <strong>Notifications</strong> depending on what you need.</p>
                         </div>
                     </div>
                     <div class="cs-guide-footer-cta">
-                        <a href="userlogin.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Go to login</a>
+                        <a href="userlogin.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> <span data-cs-i18n="ctaLogin">Go to login</span></a>
                     </div>
                 </div>
                 <div id="csReceiptGuide" class="cs-register-guide" aria-hidden="true" role="region" aria-labelledby="csReceiptGuideTitle">
                     <div class="cs-guide-scroll">
                         <h3 id="csReceiptGuideTitle" class="cs-guide-page-title" data-cs-i18n="gReceiptTitle">How to Send a Receipt in Market Clearance?</h3>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 1: Sign in to your account</p>
-                            <p class="cs-guide-step-text">Uploading a receipt requires an active session. Open the <strong>Log in</strong> page, enter the <strong>email</strong> and <strong>password</strong> you used when you registered, and sign in. If you are already logged in, you can skip to the next step.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReceipt1t">Step 1: Sign in to your account</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReceipt1">Uploading a receipt requires an active session. Open the <strong>Log in</strong> page, enter the <strong>email</strong> and <strong>password</strong> you used when you registered, and sign in. If you are already logged in, you can skip to the next step.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 2: Open your Profile</p>
-                            <p class="cs-guide-step-text">From the top or side navigation on the Daet Public Market site, tap or click <strong>Profile</strong>. Your profile shows your applications, account tools, and the <strong>Send receipt</strong> section.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReceipt2t">Step 2: Open your Profile</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReceipt2">From the top or side navigation on the Daet Public Market site, tap or click <strong>Profile</strong>. Your profile shows your applications, account tools, and the <strong>Send receipt</strong> section.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 3: Expand &ldquo;Send receipt&rdquo;</p>
-                            <p class="cs-guide-step-text">Scroll until you see the <strong>Send receipt</strong> card (it works like <strong>Edit Profile</strong> or <strong>Change Password</strong>: one row you tap to open). Tap the row or the chevron so the panel opens and the upload form appears.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReceipt3t">Step 3: Expand &ldquo;Send receipt&rdquo;</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReceipt3">Scroll until you see the <strong>Send receipt</strong> card (it works like <strong>Edit Profile</strong> or <strong>Change Password</strong>: one row you tap to open). Tap the row or the chevron so the panel opens and the upload form appears.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 4: Attach your receipt image</p>
-                            <p class="cs-guide-step-text">Tap <strong>Choose image</strong> (or the file area). Your device will ask you to pick a photo or file. Select a <strong>clear, readable</strong> picture of your official payment receipt.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReceipt4t">Step 4: Attach your receipt image</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReceipt4">Tap <strong>Choose image</strong> (or the file area). Your device will ask you to pick a photo or file. Select a <strong>clear, readable</strong> picture of your official payment receipt.</p>
                             <ul class="cs-guide-sublist">
-                                <li><strong>Allowed types:</strong> JPEG, JPG, PNG, or GIF</li>
-                                <li><strong>Maximum size:</strong> 5 MB</li>
-                                <li><strong>Tip:</strong> Avoid blurry or cropped images so the office can verify amount, date, and reference details.</li>
+                                <li data-cs-i18n-html="gReceipt4a"><strong>Allowed types:</strong> JPEG, JPG, PNG, or GIF</li>
+                                <li data-cs-i18n-html="gReceipt4b"><strong>Maximum size:</strong> 5 MB</li>
+                                <li data-cs-i18n-html="gReceipt4c"><strong>Tip:</strong> Avoid blurry or cropped images so the office can verify amount, date, and reference details.</li>
                             </ul>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 5: Add notes (optional)</p>
-                            <p class="cs-guide-step-text">In <strong>Notes (optional)</strong>, you may type a short message for the market office if you wish. This field can be left blank.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReceipt5t">Step 5: Add notes (optional)</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReceipt5">In <strong>Notes (optional)</strong>, you may type a short message for the market office if you wish. This field can be left blank.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 6: Submit the receipt</p>
-                            <p class="cs-guide-step-text">Review that the correct file name appears next to <strong>Choose image</strong>, then tap <strong>Submit receipt</strong>. Wait until the page shows a <strong>success</strong> message; do not close the browser while it is uploading.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReceipt6t">Step 6: Submit the receipt</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gReceipt6">Review that the correct file name appears next to <strong>Choose image</strong>, then tap <strong>Submit receipt</strong>. Wait until the page shows a <strong>success</strong> message; do not close the browser while it is uploading.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 7: After you submit</p>
-                            <p class="cs-guide-step-text">The market office will review your upload. You can track activity from your profile:</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gReceipt7t">Step 7: After you submit</p>
+                            <p class="cs-guide-step-text" data-cs-i18n="gReceipt7">The market office will review your upload. You can track activity from your profile:</p>
                             <ul class="cs-guide-sublist">
-                                <li><strong>Activity log</strong> on Profile lists your receipt submission</li>
-                                <li><strong>Notifications</strong> may alert you when the status changes</li>
-                                <li><strong>Email:</strong> If your account has a valid address, you may get a confirmation that shows <strong>when you sent</strong> the receipt and your <strong>due date</strong>. The review period is one month from when you sent the receipt. You get an email each day from 7 days before the due date down to the due date. Check your spam folder if it does not arrive.</li>
-                                <li>If something fail, it may because your receipt is invalid. Go to send receipt section again and send another receipt that is valid, or contact us using <strong>Facebook</strong>.</li>
+                                <li data-cs-i18n-html="gReceipt7a"><strong>Activity log</strong> on Profile lists your receipt submission</li>
+                                <li data-cs-i18n-html="gReceipt7b"><strong>Notifications</strong> may alert you when the status changes</li>
+                                <li data-cs-i18n-html="gReceipt7c"><strong>Email:</strong> If your account has a valid address, you may get a confirmation that shows <strong>when you sent</strong> the receipt and your <strong>due date</strong>. The review period is one month from when you sent the receipt. You get an email each day from 7 days before the due date down to the due date. Check your spam folder if it does not arrive.</li>
+                                <li data-cs-i18n-html="gReceipt7d">If something fail, it may because your receipt is invalid. Go to send receipt section again and send another receipt that is valid, or contact us using <strong>Facebook</strong>.</li>
                             </ul>
                         </div>
                     </div>
                     <div class="cs-guide-footer-cta">
-                        <a href="profile.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-receipt" aria-hidden="true"></i> Go to profile</a>
+                        <a href="profile.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-receipt" aria-hidden="true"></i> <span data-cs-i18n="ctaReceipt">Go to profile</span></a>
                     </div>
                 </div>
                 <div id="csRenewalGuide" class="cs-register-guide" aria-hidden="true" role="region" aria-labelledby="csRenewalGuideTitle">
                     <div class="cs-guide-scroll">
                         <h3 id="csRenewalGuideTitle" class="cs-guide-page-title" data-cs-i18n="gRenewTitle">How to renew your clearance?</h3>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 1: Sign in</p>
-                            <p class="cs-guide-step-text">Renewal is for existing vendors. Log in with the account tied to your stall or clearance.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gRenew1t">Step 1: Sign in</p>
+                            <p class="cs-guide-step-text" data-cs-i18n="gRenew1">Renewal is for existing vendors. Log in with the account tied to your stall or clearance.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 2: Open Renewal</p>
-                            <p class="cs-guide-step-text">From the menu, go to <strong>Renewal</strong>. The page loads your renewal form and any section or block information carried from your previous application when the system provides it.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gRenew2t">Step 2: Open Renewal</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gRenew2">From the menu, go to <strong>Renewal</strong>. The page loads your renewal form and any section or block information carried from your previous application when the system provides it.</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 3: Update details and documents</p>
-                            <p class="cs-guide-step-text">Review and update your information as needed. Upload or replace <strong>renewal requirements</strong> shown on the page (for example clearances, receipts, or other documents listed by the market office).</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gRenew3t">Step 3: Update details and documents</p>
+                            <p class="cs-guide-step-text" data-cs-i18n-html="gRenew3">Review and update your information as needed. Upload or replace <strong>renewal requirements</strong> shown on the page (for example clearances, receipts, or other documents listed by the market office).</p>
                         </div>
                         <div class="cs-guide-step">
-                            <p class="cs-guide-step-title">Step 4: Submit and follow up</p>
-                            <p class="cs-guide-step-text">Submit the renewal form. Watch for approval messages or notifications, and contact the market office if you need help with status or missing requirements.</p>
+                            <p class="cs-guide-step-title" data-cs-i18n="gRenew4t">Step 4: Submit and follow up</p>
+                            <p class="cs-guide-step-text" data-cs-i18n="gRenew4">Submit the renewal form. Watch for approval messages or notifications, and contact the market office if you need help with status or missing requirements.</p>
                         </div>
                     </div>
                     <div class="cs-guide-footer-cta">
-                        <a href="renewal.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-sync-alt" aria-hidden="true"></i> Go to renewal</a>
+                        <a href="renewal.php" class="cs-guide-open-form" data-cs-close-modal="1"><i class="fas fa-sync-alt" aria-hidden="true"></i> <span data-cs-i18n="ctaRenew">Go to renewal</span></a>
                     </div>
                 </div>
             </div>
@@ -1473,15 +1473,15 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                     <circle cx="37" cy="46" r="12" fill="#ffffff" stroke="#e4d7f5" stroke-width="2"/>
                     <path d="M37 40v7l4 3" fill="none" stroke="#b08ad4" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                <button type="button" class="dpm-cal-close" id="dpmCalClose" aria-label="Close">&times;</button>
+                <button type="button" class="dpm-cal-close" id="dpmCalClose" aria-label="Close" data-cs-i18n-aria="calClose">&times;</button>
             </div>
             <div class="dpm-cal-monthline">
-                <button type="button" class="dpm-cal-shift" id="dpmCalPrev" aria-label="Previous month">&lsaquo;</button>
+                <button type="button" class="dpm-cal-shift" id="dpmCalPrev" aria-label="Previous month" data-cs-i18n-aria="calPrev">&lsaquo;</button>
                 <div class="dpm-cal-month" id="dpmCalHeading">January, 2026</div>
-                <button type="button" class="dpm-cal-shift" id="dpmCalNext" aria-label="Next month">&rsaquo;</button>
+                <button type="button" class="dpm-cal-shift" id="dpmCalNext" aria-label="Next month" data-cs-i18n-aria="calNext">&rsaquo;</button>
             </div>
             <div class="dpm-cal-week" aria-hidden="true">
-                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                <span data-cs-i18n="wkSun">Sun</span><span data-cs-i18n="wkMon">Mon</span><span data-cs-i18n="wkTue">Tue</span><span data-cs-i18n="wkWed">Wed</span><span data-cs-i18n="wkThu">Thu</span><span data-cs-i18n="wkFri">Fri</span><span data-cs-i18n="wkSat">Sat</span>
             </div>
             <div class="dpm-cal-grid" id="dpmCalGrid"></div>
         </div>
@@ -1531,8 +1531,137 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
             gReceiptTitle: 'Paano Magpadala ng Resibo sa Market Clearance?',
             gRenewTitle: 'Paano i-renew ang iyong clearance?',
             calTitle: 'Kalendaryo',
-            calSoon: 'Malapit na ang kalendaryo'
+            calSoon: 'Malapit na ang kalendaryo',
+            modalTitle: 'Suporta sa Customer',
+            openSupport: 'Buksan ang suporta sa customer',
+            closeSupport: 'Isara ang suporta',
+            backSupport: 'Bumalik sa suporta',
+            calClose: 'Isara',
+            calPrev: 'Nakaraang buwan',
+            calNext: 'Susunod na buwan',
+            wkSun: 'Lin', wkMon: 'Lun', wkTue: 'Mar', wkWed: 'Miy', wkThu: 'Huw', wkFri: 'Biy', wkSat: 'Sab',
+            concernLabel: 'Iyong alalahanin o suhestiyon',
+            ctaReg: 'Pumunta sa registration form',
+            ctaGmail: 'Gumawa ng account',
+            ctaApply: 'Pumunta sa application',
+            ctaLogin: 'Pumunta sa login',
+            ctaReceipt: 'Pumunta sa profile',
+            ctaRenew: 'Pumunta sa renewal',
+            barReg: 'Paano magrehistro',
+            barMail: 'Paano gumawa ng Gmail account',
+            barApply: 'Mag-apply ng market slot',
+            barLogin: 'Mag-log in sa account',
+            barReceipt: 'Magpadala ng resibo',
+            barRenew: 'I-renew ang clearance',
+            gReg1t: 'Hakbang 1: Buksan ang pahina ng rehistrasyon',
+            gReg1: 'Mula sa site ng Daet Public Market, pumunta sa pahina ng <strong>Rehistrasyon</strong> (o pindutin ang <strong>Pumunta sa registration form</strong> sa ibaba kapag handa ka na). Kung may account ka na, gamitin ang <strong>Mag-log in</strong>.',
+            gReg2t: 'Hakbang 2: Ilagay ang iyong personal na detalye',
+            gReg2: 'Ilagay ang iyong <strong>buong pangalan</strong>, wastong <strong>email address</strong>, at <strong>mobile number</strong>. Gagamitin ito para sa account mo at sa mahahalagang update mula sa market office.',
+            gReg3t: 'Hakbang 3: Gumawa ng ligtas na password',
+            gReg3: 'Pumili ng password na may <strong>hindi bababa sa 8 character</strong>, kasama ang <strong>isang malaking letra</strong>, <strong>isang maliit na letra</strong>, at <strong>isang numero</strong>. I-type ito ulit sa confirm field para magtugma.',
+            gReg4t: 'Hakbang 4: Tanggapin ang terms at mag-submit',
+            gReg4: 'Basahin ang <strong>Terms &amp; Conditions</strong>, i-check ang kahon para tanggapin, tapos i-submit ang form.',
+            gReg5t: 'Hakbang 5: Mag-sign in at magpatuloy',
+            gReg5: 'Kung matagumpay ang rehistrasyon, mag-sign in gamit ang email at password. Puwede ka nang mag-apply ng market slot, mag-upload ng dokumento, at pamahalaan ang clearance mula sa dashboard.',
+            gMail1t: 'Hakbang 1: Buksan ang Google sign-in',
+            gMail1a: 'Mula sa iyong device, pumunta sa',
+            gMail1b: 'pahina ng pag-sign in ng Google Account',
+            gMail2t: 'Hakbang 2: Simulan ang paggawa ng account',
+            gMail2: 'I-click ang <strong>Create account</strong>.',
+            gMail3t: 'Hakbang 3: Piliin kung para kanino ang account',
+            gMail3: 'Sa drop-down, piliin kung ang account ay para sa iyong:',
+            gMail3a: 'Personal na gamit',
+            gMail3b: 'Anak',
+            gMail3c: 'Trabaho o negosyo',
+            gMail4t: 'Hakbang 4: Tapusin sa Google',
+            gMail4: 'Para i-set up ang account, sundin ang mga hakbang sa ibaba.',
+            gMailVisual: 'Paano gumawa ng Gmail Account',
+            gMailA: 'a. ilagay ang iyong pangalan at apelyido',
+            gMailB: 'b. ilagay ang iyong petsa ng kapanganakan',
+            gMailC: 'c. i-type ang username na gusto mo',
+            gMailD: 'd. ilagay ang password na gusto mo',
+            altMailA: 'Gmail signup: pangalan at apelyido',
+            altMailB: 'Gmail signup: petsa ng kapanganakan',
+            altMailC: 'Gmail signup: username',
+            altMailD: 'Gmail signup: password',
+            gApply1t: 'Hakbang 1: Mag-sign in',
+            gApply1: 'Kailangan naka-log in ka. Kung wala ka pang account, magrehistro muna, tapos bumalik dito at buksan ang <strong>Application</strong> sa menu.',
+            gApply2t: 'Hakbang 2: Buksan ang pahina ng application',
+            gApply2: 'Mula sa navigation ng site, pumunta sa <strong>Application</strong> (New Application). Makikita mo ang clearance application workflow.',
+            gApply3t: 'Hakbang 3: Piliin kung ilang stall',
+            gApply3: 'Piliin ang <strong>bilang ng stall</strong> o slot na kailangan mo (o maglagay ng custom count kung may opsyon). Gagawa ang form ng isang section bawat stall.',
+            gApply4t: 'Hakbang 4: Punan ang bawat stall',
+            gApply4: 'Sa bawat stall, ilagay ang <strong>buong pangalan</strong>, piliin ang <strong>section</strong> at <strong>block</strong>, at <strong>i-upload ang kinakailangang dokumento</strong> (halimbawa ID, DTI, barangay clearance, at iba pang file na nakalista sa form). Dapat kumpleto ang lahat ng minarkahang field.',
+            gApply5t: 'Hakbang 5: I-submit',
+            gApply5: 'Suriin ang mga entry, tapos mag-submit. Maghintay ng notification o tingnan ang status ng application sa profile o dashboard ayon sa tagubilin ng market office.',
+            gLogin1t: 'Hakbang 1: Buksan ang login page',
+            gLogin1: 'Pumunta sa pahina ng <strong>Log in</strong> sa site ng Daet Public Market (halimbawa mula sa home o registration page).',
+            gLogin2t: 'Hakbang 2: Ilagay ang iyong credentials',
+            gLogin2: 'I-type ang <strong>email address</strong> at <strong>password</strong> na ginamit mo noong nagrehistro. Tingnan kung may typo at tamang capitalization.',
+            gLogin3t: 'Hakbang 3: Mag-sign in',
+            gLogin3: 'I-click ang sign-in o log-in button. Kung nakalimutan ang password, gamitin ang <strong>forgot password</strong> o reset link sa login page, kung available.',
+            gLogin4t: 'Hakbang 4: Pagkatapos mag-log in',
+            gLogin4: 'Gamitin ang navigation para buksan ang <strong>Home</strong>, <strong>Application</strong>, <strong>Renewal</strong>, <strong>Profile</strong>, o <strong>Notifications</strong> depende sa kailangan mo.',
+            gReceipt1t: 'Hakbang 1: Mag-sign in sa account',
+            gReceipt1: 'Kailangan ng aktibong session para mag-upload ng resibo. Buksan ang pahina ng <strong>Log in</strong>, ilagay ang <strong>email</strong> at <strong>password</strong> na ginamit noong nagrehistro, at mag-sign in. Kung naka-log in ka na, puwede mong laktawan ang hakbang na ito.',
+            gReceipt2t: 'Hakbang 2: Buksan ang Profile',
+            gReceipt2: 'Mula sa itaas o side navigation ng site ng Daet Public Market, i-tap o i-click ang <strong>Profile</strong>. Ipinapakita ng profile ang iyong applications, account tools, at ang seksyon ng <strong>Send receipt</strong>.',
+            gReceipt3t: 'Hakbang 3: Buksan ang “Send receipt”',
+            gReceipt3: 'Mag-scroll hanggang makita ang card na <strong>Send receipt</strong> (katulad ng <strong>Edit Profile</strong> o <strong>Change Password</strong>: isang row na tina-tap para bumukas). I-tap ang row o ang chevron para lumabas ang upload form.',
+            gReceipt4t: 'Hakbang 4: Ilakip ang larawan ng resibo',
+            gReceipt4: 'I-tap ang <strong>Choose image</strong> (o ang file area). Hihingi ang device ng larawan o file. Pumili ng <strong>malinaw at nababasang</strong> larawan ng opisyal na resibo ng bayad.',
+            gReceipt4a: '<strong>Pinapayagang uri:</strong> JPEG, JPG, PNG, o GIF',
+            gReceipt4b: '<strong>Pinakamalaking laki:</strong> 5 MB',
+            gReceipt4c: '<strong>Tip:</strong> Iwasan ang malabo o putol na larawan para ma-verify ng opisina ang halaga, petsa, at reference details.',
+            gReceipt5t: 'Hakbang 5: Maglagay ng notes (opsyonal)',
+            gReceipt5: 'Sa <strong>Notes (optional)</strong>, puwede kang mag-type ng maikling mensahe para sa market office kung gusto mo. Puwedeng iwang blangko ang field na ito.',
+            gReceipt6t: 'Hakbang 6: I-submit ang resibo',
+            gReceipt6: 'Tiyaking tama ang pangalan ng file sa tabi ng <strong>Choose image</strong>, tapos i-tap ang <strong>Submit receipt</strong>. Hintaying magpakita ang page ng mensaheng <strong>success</strong>; huwag isara ang browser habang nag-u-upload.',
+            gReceipt7t: 'Hakbang 7: Pagkatapos mag-submit',
+            gReceipt7: 'Susuriin ng market office ang iyong upload. Masusubaybayan mo ito sa profile:',
+            gReceipt7a: 'Inililista ng <strong>Activity log</strong> sa Profile ang pagpapadala ng resibo',
+            gReceipt7b: 'Maaaring mag-abiso ang <strong>Notifications</strong> kapag nagbago ang status',
+            gReceipt7c: '<strong>Email:</strong> Kung may wastong address ang account, maaari kang makatanggap ng kumpirmasyon na nagpapakita kung <strong>kailan mo ipinadala</strong> ang resibo at ang iyong <strong>due date</strong>. Isang buwan ang review period mula nang ipadala ang resibo. May email araw-araw mula 7 araw bago ang due date hanggang sa due date. Tingnan ang spam folder kung hindi ito dumating.',
+            gReceipt7d: 'Kung may pumalya, maaaring invalid ang resibo. Bumalik sa send receipt section at magpadala ng ibang valid na resibo, o kontakin kami sa <strong>Facebook</strong>.',
+            gRenew1t: 'Hakbang 1: Mag-sign in',
+            gRenew1: 'Ang renewal ay para sa kasalukuyang vendor. Mag-log in gamit ang account na nakaugnay sa stall o clearance mo.',
+            gRenew2t: 'Hakbang 2: Buksan ang Renewal',
+            gRenew2: 'Mula sa menu, pumunta sa <strong>Renewal</strong>. Ilo-load ng page ang renewal form at ang section o block mula sa dating application kung ibinibigay ito ng system.',
+            gRenew3t: 'Hakbang 3: I-update ang detalye at dokumento',
+            gRenew3: 'Suriin at i-update ang impormasyon kung kailangan. Mag-upload o palitan ang <strong>renewal requirements</strong> na ipinapakita sa page (halimbawa clearance, resibo, o iba pang dokumentong hinihingi ng market office).',
+            gRenew4t: 'Hakbang 4: I-submit at mag-follow up',
+            gRenew4: 'I-submit ang renewal form. Bantayan ang mensahe ng approval o notification, at kontakin ang market office kung kailangan ng tulong sa status o kulang na requirements.',
+            errEmpty: 'Pakilagay ang iyong mensahe.',
+            errSend: 'Hindi naipadala. Pakisubukan muli.',
+            errGeneric: 'May nangyaring mali.',
+            errSave: 'Hindi na-save ang mensahe. Pakisubukan muli mamaya.',
+            errLong: 'Masyadong mahaba ang mensahe (hanggang 5000 character).',
+            errEmail: 'Pakilagay ang wastong email address.',
+            okThanks: 'Salamat. Natanggap namin ang iyong mensahe at susuriin ito agad.'
         };
+        var CS_PH_SERVER = {
+            'Please enter your message.': CS_PH.errEmpty,
+            'Could not send. Please try again.': CS_PH.errSend,
+            'Something went wrong.': CS_PH.errGeneric,
+            'Could not save your message. Please try again later.': CS_PH.errSave,
+            'Message is too long (max 5000 characters).': CS_PH.errLong,
+            'Please enter a valid email address.': CS_PH.errEmail,
+            'Thank you. We received your message and will review it soon.': CS_PH.okThanks
+        };
+        function csPhrase(key, en) {
+            var lang = 'en';
+            try { lang = localStorage.getItem('preferredLanguage') || 'en'; } catch (e) {}
+            return (lang === 'ph' && CS_PH[key]) ? CS_PH[key] : en;
+        }
+        function csServerMessage(msg, fallbackKey, fallbackEn) {
+            var lang = 'en';
+            try { lang = localStorage.getItem('preferredLanguage') || 'en'; } catch (e) {}
+            if (lang === 'ph') {
+                if (msg && CS_PH_SERVER[msg]) return CS_PH_SERVER[msg];
+                if (CS_PH[fallbackKey]) return CS_PH[fallbackKey];
+            }
+            return msg || fallbackEn;
+        }
 
         function applyCsLanguage(lang) {
             var ph = lang === 'ph';
@@ -1541,18 +1670,34 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                 if (!node.getAttribute('data-cs-en')) node.setAttribute('data-cs-en', node.textContent);
                 node.textContent = (ph && CS_PH[key]) ? CS_PH[key] : node.getAttribute('data-cs-en');
             });
+            document.querySelectorAll('[data-cs-i18n-html]').forEach(function (node) {
+                var key = node.getAttribute('data-cs-i18n-html');
+                if (!node.getAttribute('data-cs-en-html')) node.setAttribute('data-cs-en-html', node.innerHTML);
+                node.innerHTML = (ph && CS_PH[key]) ? CS_PH[key] : node.getAttribute('data-cs-en-html');
+            });
             document.querySelectorAll('[data-cs-i18n-placeholder]').forEach(function (node) {
                 var key = node.getAttribute('data-cs-i18n-placeholder');
                 if (!node.getAttribute('data-cs-en-ph')) node.setAttribute('data-cs-en-ph', node.getAttribute('placeholder') || '');
                 node.setAttribute('placeholder', (ph && CS_PH[key]) ? CS_PH[key] : node.getAttribute('data-cs-en-ph'));
             });
-            var sel = document.getElementById('languageSelectDesktop');
-            var wrap = document.getElementById('languageSelectorDesktop');
-            if (sel) sel.value = ph ? 'ph' : 'en';
-            if (wrap) {
+            document.querySelectorAll('[data-cs-i18n-aria]').forEach(function (node) {
+                var key = node.getAttribute('data-cs-i18n-aria');
+                if (!node.getAttribute('data-cs-en-aria')) node.setAttribute('data-cs-en-aria', node.getAttribute('aria-label') || '');
+                node.setAttribute('aria-label', (ph && CS_PH[key]) ? CS_PH[key] : node.getAttribute('data-cs-en-aria'));
+            });
+            document.querySelectorAll('[data-cs-i18n-alt]').forEach(function (node) {
+                var key = node.getAttribute('data-cs-i18n-alt');
+                if (!node.getAttribute('data-cs-en-alt')) node.setAttribute('data-cs-en-alt', node.getAttribute('alt') || '');
+                node.setAttribute('alt', (ph && CS_PH[key]) ? CS_PH[key] : node.getAttribute('data-cs-en-alt'));
+            });
+            if (typeof window.dpmRefreshCsCalendar === 'function') window.dpmRefreshCsCalendar();
+            document.querySelectorAll('#languageSelect, #languageSelectDesktop').forEach(function (sel) {
+                sel.value = ph ? 'ph' : 'en';
+            });
+            document.querySelectorAll('#languageSelector, #languageSelectorDesktop').forEach(function (wrap) {
                 wrap.classList.remove('ph-selected', 'en-selected');
                 wrap.classList.add(ph ? 'ph-selected' : 'en-selected');
-            }
+            });
             try { localStorage.setItem('preferredLanguage', ph ? 'ph' : 'en'); } catch (e) {}
         }
         window.applyCsLanguage = applyCsLanguage;
@@ -1570,9 +1715,15 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
             var dayEl = document.getElementById('dpmCalDay');
             var heading = document.getElementById('dpmCalHeading');
             if (!overlay || !grid || !dayEl || !heading) return;
-            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            var monthsEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            var monthsPh = ['Enero','Pebrero','Marso','Abril','Mayo','Hunyo','Hulyo','Agosto','Setyembre','Oktubre','Nobyembre','Disyembre'];
             var view = new Date();
             var selected = new Date();
+            function monthNames() {
+                var lang = 'en';
+                try { lang = localStorage.getItem('preferredLanguage') || 'en'; } catch (e) {}
+                return lang === 'ph' ? monthsPh : monthsEn;
+            }
             function sameDay(a, b) {
                 return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
             }
@@ -1580,7 +1731,7 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                 var year = view.getFullYear();
                 var month = view.getMonth();
                 dayEl.textContent = String(selected.getDate());
-                heading.textContent = months[view.getMonth()] + ', ' + view.getFullYear();
+                heading.textContent = monthNames()[view.getMonth()] + ', ' + view.getFullYear();
                 var first = new Date(year, month, 1);
                 var start = new Date(year, month, 1 - first.getDay());
                 grid.innerHTML = '';
@@ -1633,6 +1784,7 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                 openCal();
             }, true);
             renderCal();
+            window.dpmRefreshCsCalendar = renderCal;
         })();
         var langSel = document.getElementById('languageSelectDesktop');
         if (langSel) {
@@ -1649,6 +1801,23 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
         window.addEventListener('menu-lang-change', function (ev) {
             var next = (ev.detail && ev.detail.lang) || 'en';
             applyCsLanguage(next);
+        });
+        if (typeof window.changeLanguage === 'function' && !window.changeLanguage.__csWrapped) {
+            var prevChangeLanguage = window.changeLanguage;
+            var wrappedChangeLanguage = function (lang) {
+                var result = prevChangeLanguage.apply(this, arguments);
+                applyCsLanguage(lang);
+                return result;
+            };
+            wrappedChangeLanguage.__csWrapped = true;
+            window.changeLanguage = wrappedChangeLanguage;
+        }
+        document.querySelectorAll('#languageSelect, #languageSelectDesktop').forEach(function (sel) {
+            if (sel.getAttribute('data-cs-lang-bound') === '1') return;
+            sel.setAttribute('data-cs-lang-bound', '1');
+            sel.addEventListener('change', function () {
+                applyCsLanguage(this.value);
+            });
         });
 
         var el = document.getElementById('csFloat');
@@ -1695,10 +1864,14 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
             if (headerBar) headerBar.classList.remove('is-guide-mode');
             if (guideBar) guideBar.setAttribute('aria-hidden', 'true');
             if (modalFooter) modalFooter.classList.remove('is-hidden-for-guide');
-            if (guideTitle) guideTitle.textContent = 'Support';
+            if (guideTitle) {
+                guideTitle.setAttribute('data-cs-i18n', 'tabSupport');
+                guideTitle.setAttribute('data-cs-en', 'Support');
+                guideTitle.textContent = csPhrase('tabSupport', 'Support');
+            }
         }
 
-        function openAnyGuide(activeGuide, barTitle) {
+        function openAnyGuide(activeGuide, barKey, barEn) {
             closeRegisterGuide();
             if (activeGuide) {
                 activeGuide.classList.add('is-open');
@@ -1709,32 +1882,36 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
             if (headerBar) headerBar.classList.add('is-guide-mode');
             if (guideBar) guideBar.setAttribute('aria-hidden', 'false');
             if (modalFooter) modalFooter.classList.add('is-hidden-for-guide');
-            if (guideTitle) guideTitle.textContent = barTitle;
+            if (guideTitle) {
+                guideTitle.setAttribute('data-cs-i18n', barKey);
+                guideTitle.setAttribute('data-cs-en', barEn);
+                guideTitle.textContent = csPhrase(barKey, barEn);
+            }
             if (guideBackBtn) guideBackBtn.focus();
         }
 
         function openRegisterGuide() {
-            openAnyGuide(registerGuide, 'How to register');
+            openAnyGuide(registerGuide, 'barReg', 'How to register');
         }
 
         function openEmailHelpGuide() {
-            openAnyGuide(emailHelpGuide, 'How to create Gmail Account');
+            openAnyGuide(emailHelpGuide, 'barMail', 'How to create Gmail Account');
         }
 
         function openApplyGuide() {
-            openAnyGuide(applyGuide, 'Apply for a market slot');
+            openAnyGuide(applyGuide, 'barApply', 'Apply for a market slot');
         }
 
         function openLoginGuide() {
-            openAnyGuide(loginGuide, 'Log in to your account');
+            openAnyGuide(loginGuide, 'barLogin', 'Log in to your account');
         }
 
         function openReceiptGuide() {
-            openAnyGuide(receiptGuide, 'Send receipt');
+            openAnyGuide(receiptGuide, 'barReceipt', 'Send receipt');
         }
 
         function openRenewalGuide() {
-            openAnyGuide(renewalGuide, 'Renew your clearance');
+            openAnyGuide(renewalGuide, 'barRenew', 'Renew your clearance');
         }
 
         var pointerDown = false;
@@ -1929,7 +2106,7 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                 var msg = ta && ta.value ? ta.value.trim() : '';
                 if (!msg) {
                     if (concernFeedback) {
-                        concernFeedback.textContent = 'Please enter your message.';
+                        concernFeedback.textContent = csServerMessage('', 'errEmpty', 'Please enter your message.');
                         concernFeedback.className = 'cs-concern-feedback is-error';
                     }
                     return;
@@ -1951,18 +2128,18 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                         if (concernSubmit) concernSubmit.disabled = false;
                         if (!concernFeedback) return;
                         if (data && data.success) {
-                            concernFeedback.textContent = (data.message) || 'Thank you. We received your message.';
+                            concernFeedback.textContent = csServerMessage(data.message, 'okThanks', 'Thank you. We received your message.');
                             concernFeedback.className = 'cs-concern-feedback is-success';
                             if (ta) ta.value = '';
                         } else {
-                            concernFeedback.textContent = (data && data.message) || 'Could not send. Please try again.';
+                            concernFeedback.textContent = csServerMessage(data && data.message, 'errSend', 'Could not send. Please try again.');
                             concernFeedback.className = 'cs-concern-feedback is-error';
                         }
                     })
                     .catch(function () {
                         if (concernSubmit) concernSubmit.disabled = false;
                         if (concernFeedback) {
-                            concernFeedback.textContent = 'Could not send. Please try again.';
+                            concernFeedback.textContent = csServerMessage('', 'errSend', 'Could not send. Please try again.');
                             concernFeedback.className = 'cs-concern-feedback is-error';
                         }
                     });
