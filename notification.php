@@ -4093,7 +4093,7 @@ function notif_card_message(array $item): string {
       to { transform: translateY(0); opacity: 1; }
     }
   </style>
-  <link rel="stylesheet" href="assets/css/vendor-light-mode-text.css">
+  <link rel="stylesheet" href="assets/css/vendor-light-mode-text.css?v=earlier-white-1">
   <link rel="stylesheet" href="assets/css/vendor-mobile-sidebar-logout.css">
   <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-icon-phone-1">
   <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=1">
@@ -4185,7 +4185,7 @@ function notif_card_message(array $item): string {
             $last_date_group = $date_group;
         ?>
         <div class="notif-date-group" data-date-group="<?php echo htmlspecialchars($date_group, ENT_QUOTES, 'UTF-8'); ?>">
-          <span class="notif-date-group-label" data-translate="section.<?php echo htmlspecialchars($date_group, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars(notif_date_group_label($date_group), ENT_QUOTES, 'UTF-8'); ?></span>
+          <span class="notif-date-group-label" style="color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;" data-translate="section.<?php echo htmlspecialchars($date_group, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars(notif_date_group_label($date_group), ENT_QUOTES, 'UTF-8'); ?></span>
         <?php endif; ?>
         <article class="notif-card<?php echo $is_unread_card ? ' is-unread' : ''; ?>" data-category="<?php echo htmlspecialchars($feed_cat, ENT_QUOTES, 'UTF-8'); ?>" data-feed-index="<?php echo (int)$feed_index; ?>" data-date-group="<?php echo htmlspecialchars($date_group, ENT_QUOTES, 'UTF-8'); ?>" data-unread="<?php echo $is_unread_card ? '1' : '0'; ?>">
           <div class="notif-card-top">
