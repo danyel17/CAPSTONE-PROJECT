@@ -141,3 +141,112 @@ body.darkmode.page-notification .main-container main .notif-roll-btn:hover {
   background: rgba(255, 255, 255, 0.1) !important;
   border-color: rgba(255, 255, 255, 0.16) !important;
 }
+
+/* Date labels such as EARLIER stay white on the purple page in both themes. */
+body.page-notification .main-container main .notif-date-group-label {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Desktop keeps the pill row. The toggle is the mobile drop bar. */
+body.page-notification .main-container main .notif-filter-toggle {
+  display: none;
+}
+
+body.page-notification .main-container main .notif-filter-menu {
+  display: contents;
+}
+
+@media (max-width: 991px) {
+  body.page-notification .main-container main .notif-toolbar {
+    margin-bottom: 0.35rem;
+  }
+
+  body.page-notification .main-container main .notif-filter-rail {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    border-radius: 22px !important;
+    z-index: 5;
+  }
+
+  body.page-notification .main-container main .notif-filter-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    margin: 0;
+    padding: 0.52rem 1.05rem;
+    border: 0;
+    border-radius: 50px;
+    background: transparent;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  body.page-notification .main-container main .notif-filter-toggle-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  body.page-notification .main-container main .notif-filter-toggle .notif-filter-count {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+  }
+
+  body.page-notification .main-container main .notif-filter-caret {
+    font-size: 0.75rem;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: transform 0.2s ease;
+  }
+
+  body.page-notification .main-container main .notif-filter-rail.is-open .notif-filter-caret {
+    transform: rotate(180deg);
+  }
+
+  body.page-notification .main-container main .notif-filter-menu {
+    display: none;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.15rem 0.1rem 0.2rem;
+  }
+
+  body.page-notification .main-container main .notif-filter-rail.is-open .notif-filter-menu {
+    display: flex;
+  }
+
+  body.page-notification .main-container main .notif-filter-menu .notif-filter-chip {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  body.page-notification .main-container main .notif-date-group {
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  body.page-notification .main-container main .notif-date-group-label {
+    display: block;
+    width: 100%;
+    margin: 1.15rem 0 0.15rem;
+    text-align: center;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  body.page-notification .main-container main .notif-date-group .notif-card {
+    width: 100%;
+  }
+}

@@ -14,7 +14,7 @@ body:not(.darkmode) .main-container main {
   color: var(--v-light-text) !important;
 }
 
-body:not(.darkmode) .main-container main *:not(.btn):not(.btn *):not(.btn-add-account):not(.btn-add-account *):not(.notif-edit-btn):not(.notif-edit-btn *):not(.stat-card):not(.stat-card *):not(.logout-btn):not(.logout-btn *):not(.alert):not(.alert *):not(.notif-tag):not(.notif-filter-chip):not(.notif-filter-chip *):not(.notif-roll-btn):not(.notif-roll-btn *):not(.profile-pic-overlay):not(.required):not(.app-title-accent):not(.accounts-title):not(.accounts-title *):not(.accounts-subtitle):not(.notif-page-sub):not(.app-completion):not(.app-completion *):not(.app-confirm-row):not(.app-confirm-row *):not(.submit-all-footer-btn):not(.submit-all-footer-btn *):not(.profile-manage-title):not(.profile-manage-sub) {
+body:not(.darkmode) .main-container main *:not(.btn):not(.btn *):not(.btn-add-account):not(.btn-add-account *):not(.notif-edit-btn):not(.notif-edit-btn *):not(.stat-card):not(.stat-card *):not(.logout-btn):not(.logout-btn *):not(.alert):not(.alert *):not(.notif-tag):not(.notif-filter-chip):not(.notif-filter-chip *):not(.notif-filter-toggle):not(.notif-filter-toggle *):not(.notif-date-group-label):not(.notif-roll-btn):not(.notif-roll-btn *):not(.profile-pic-overlay):not(.required):not(.app-title-accent):not(.accounts-title):not(.accounts-title *):not(.accounts-subtitle):not(.notif-page-sub):not(.app-completion):not(.app-completion *):not(.app-confirm-row):not(.app-confirm-row *):not(.submit-all-footer-btn):not(.submit-all-footer-btn *):not(.profile-manage-title):not(.profile-manage-sub) {
   color: inherit !important;
   -webkit-text-fill-color: inherit !important;
 }

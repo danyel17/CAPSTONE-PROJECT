@@ -253,9 +253,11 @@ body.page-notification .main-container main .notif-edit-btn span {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
-body:not(.darkmode).page-notification .main-container main .notif-date-group-label {
-  color: rgba(255, 255, 255, 0.7) !important;
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.7) !important;
+body.page-notification .main-container main .notif-date-group-label,
+body:not(.darkmode).page-notification .main-container main .notif-date-group-label,
+body.darkmode.page-notification .main-container main .notif-date-group-label {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 /* Renewal stall cards + due badges */

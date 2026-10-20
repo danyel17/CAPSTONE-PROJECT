@@ -4099,9 +4099,9 @@ function notif_card_message(array $item): string {
   <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=1">
   <link rel="stylesheet" href="assets/css/vendor-portal-shell.css?v=1">
   <link rel="stylesheet" href="assets/css/menu-landing-nav.css?v=menu-nav-lock-4">
-  <link rel="stylesheet" href="assets/css/vendor-page-glass.css?v=notif-elevate-1">
+  <link rel="stylesheet" href="assets/css/vendor-page-glass.css?v=notif-elevate-2">
   <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-5">
-  <link rel="stylesheet" href="assets/css/notification-filter-pills.css?v=2">
+  <link rel="stylesheet" href="assets/css/notification-filter-pills.css?v=3">
 </head>
 <body class="page-notification">
   <script>try{if(localStorage.getItem('darkmode')==='active')document.body.classList.add('darkmode');}catch(e){}</script>
@@ -4126,7 +4126,15 @@ function notif_card_message(array $item): string {
 
     <div class="notif-feed-panel">
       <div class="notif-toolbar">
-        <div class="notif-filter-rail" id="notifFilterRow" role="tablist" aria-label="Filter notifications">
+        <div class="notif-filter-rail" id="notifFilterRow">
+          <button type="button" class="notif-filter-toggle" id="notifFilterToggle" aria-expanded="false" aria-controls="notifFilterMenu">
+            <span class="notif-filter-toggle-text">
+              <span class="notif-filter-toggle-name" data-translate="filter.all">All</span>
+              <span class="notif-filter-count" id="notifFilterToggleCount"><?php echo (int)$notif_count_all; ?></span>
+            </span>
+            <i class="fas fa-chevron-down notif-filter-caret" aria-hidden="true"></i>
+          </button>
+          <div class="notif-filter-menu" id="notifFilterMenu" role="tablist" aria-label="Filter notifications">
           <button type="button" class="notif-filter-chip is-active" data-filter="all" role="tab" aria-selected="true">
             <span data-translate="filter.all">All</span>
             <span class="notif-filter-count"><?php echo (int)$notif_count_all; ?></span>
@@ -4143,6 +4151,7 @@ function notif_card_message(array $item): string {
             <span data-translate="filter.receipts">Receipts</span>
             <span class="notif-filter-count"><?php echo (int)$notif_count_receipt; ?></span>
           </button>
+          </div>
         </div>
       </div>
 
@@ -5052,9 +5061,45 @@ function notif_card_message(array $item): string {
       applyNotifListState();
     }
 
-    function setupNotifFilters() {
+    function syncNotifFilterToggle() {
       var row = document.getElementById('notifFilterRow');
       if (!row) return;
+      var active = row.querySelector('.notif-filter-chip.is-active');
+      var nameEl = row.querySelector('.notif-filter-toggle-name');
+      var countEl = document.getElementById('notifFilterToggleCount');
+      if (!active || !nameEl) return;
+      var label = active.querySelector('[data-translate]');
+      var count = active.querySelector('.notif-filter-count');
+      if (label) {
+        nameEl.textContent = label.textContent;
+        nameEl.setAttribute('data-translate', label.getAttribute('data-translate') || 'filter.all');
+      }
+      if (countEl && count) countEl.textContent = count.textContent;
+    }
+
+    function setNotifFilterOpen(open) {
+      var row = document.getElementById('notifFilterRow');
+      var toggle = document.getElementById('notifFilterToggle');
+      if (!row || !toggle) return;
+      row.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function setupNotifFilters() {
+      var row = document.getElementById('notifFilterRow');
+      var toggle = document.getElementById('notifFilterToggle');
+      if (!row) return;
+
+      if (toggle) {
+        toggle.addEventListener('click', function (event) {
+          event.stopPropagation();
+          setNotifFilterOpen(!row.classList.contains('is-open'));
+        });
+      }
+
+      document.addEventListener('click', function (event) {
+        if (!row.contains(event.target)) setNotifFilterOpen(false);
+      });
 
       row.querySelectorAll('.notif-filter-chip').forEach(function (chip) {
         chip.addEventListener('click', function () {
@@ -5064,6 +5109,8 @@ function notif_card_message(array $item): string {
             c.classList.toggle('is-active', c === chip);
             c.setAttribute('aria-selected', c === chip ? 'true' : 'false');
           });
+          syncNotifFilterToggle();
+          setNotifFilterOpen(false);
           applyNotifListState();
         });
       });
