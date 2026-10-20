@@ -17,9 +17,10 @@ function dpmDisableLegacyStatusAutoFix(mysqli $conn): void
     }
 }
 
-function dpmSqlSkipPendingResubmit(string $alias = 'v'): string
+function dpmSqlSkipPendingResubmit(string $alias = ''): string
 {
-    return "AND NOT ({$alias}.status = 'pending' AND COALESCE({$alias}.review_status, 'pending') = 'pending' AND COALESCE({$alias}.is_reviewed, 0) = 0 AND {$alias}.reviewed_by IS NULL AND {$alias}.reviewed_date IS NULL)";
+    $p = $alias !== '' ? $alias . '.' : '';
+    return "AND NOT ({$p}status = 'pending' AND COALESCE({$p}review_status, 'pending') = 'pending' AND COALESCE({$p}is_reviewed, 0) = 0 AND {$p}reviewed_by IS NULL AND {$p}reviewed_date IS NULL)";
 }
 
 function dpmEnsureApprovalActionsSchema(mysqli $conn): void
