@@ -1896,7 +1896,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                     </ul>
                 </div>
                 <div class="login-card">
-                    <h3>Welcome Back</h3>
+                    <h3>Welcome!</h3>
                     <p class="sub">Sign in to your account</p>
                     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>#user-portal" autocomplete="on">
                         <input type="hidden" name="vendor_portal_login" value="1">
