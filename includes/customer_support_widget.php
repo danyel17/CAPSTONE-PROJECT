@@ -1498,7 +1498,7 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
     </script>
     <script src="<?php echo htmlspecialchars($__dpm_web . 'assets/js/dpm-site-i18n.js', ENT_QUOTES, 'UTF-8'); ?>?v=2"></script>
     <?php if (in_array($__dpm_page, ['registrationform', 'promotional-permit'], true)): ?>
-    <script src="<?php echo htmlspecialchars($__dpm_web . 'assets/js/dpm-i18n-reg-promo.js', ENT_QUOTES, 'UTF-8'); ?>?v=4"></script>
+    <script src="<?php echo htmlspecialchars($__dpm_web . 'assets/js/dpm-i18n-reg-promo.js', ENT_QUOTES, 'UTF-8'); ?>?v=5"></script>
     <?php endif; ?>
 
     <script>

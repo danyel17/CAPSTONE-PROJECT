@@ -713,7 +713,7 @@ $ticker = [
             <div class="wrap">
                 <div class="center">
                     <span class="kicker"><i class="fas fa-circle"></i> Market services</span>
-                    <h2 class="section-title">What you can do at the <em>Daet Market</em></h2>
+                    <h2 class="section-title">Grow your Business at <em>Daet Public Market</em></h2>
                     <p class="section-lead">From promotional permits to stall registration and market-wide safety, these are the services our office handles for vendors and clients every day.</p>
                 </div>
                 <div class="cards">

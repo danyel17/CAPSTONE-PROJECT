@@ -219,7 +219,7 @@
     });
 
     touchText(document.querySelector('#services .kicker'), lang, 'Mga serbisyo ng palengke');
-    touchHtml(document.querySelector('#services .section-title'), lang, 'Ano ang maaari mong gawin sa <em>Daet Market</em>');
+    touchHtml(document.querySelector('#services .section-title'), lang, 'Palakihin ang iyong Negosyo sa <em>Daet Public Market</em>');
     touchText(document.querySelector('#services .section-lead'), lang,
       'Mula sa promotional permit hanggang rehistrasyon ng stall at kaligtasan sa buong palengke — ito ang hinahawakan ng opisina araw-araw para sa vendor at kliyente.');
 
