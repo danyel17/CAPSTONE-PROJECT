@@ -1,6 +1,6 @@
 // Builds soda/models/palengke-building.glb from code.
 // A long two-story orange market. The facade keeps DAET PUBLIC MARKET.
-// The rooftop board reads MARKET CLEARANCE SYSTEM. No front gate bars.
+// The rooftop board reads MARKET MANAGEMENT SYSTEM. No front gate bars.
 
 const fs = require('fs');
 const path = require('path');
@@ -68,10 +68,10 @@ box(M_cream, -5, 5, 0.16, 0.28, 1.4, 1.48);
 // roof slab (slight overhang)
 box(M_roof, -5.2, 5.2, 1.5, 1.68, -1.6, 1.6);
 
-// rooftop board, same shape as before: MARKET CLEARANCE SYSTEM
-box(M_signTrim, -3.35, -3.1, 1.68, 1.95, 0.08, 0.24);
-box(M_signTrim, 3.1, 3.35, 1.68, 1.95, 0.08, 0.24);
-const sx0 = -3.7, sx1 = 3.7, sy0 = 1.9, sy1 = 2.62, sz0 = 0.06, sz1 = 0.22;
+// rooftop board: MARKET MANAGEMENT SYSTEM (facade already says DAET PUBLIC MARKET)
+box(M_signTrim, -4.05, -3.8, 1.68, 1.95, 0.08, 0.24);
+box(M_signTrim, 3.8, 4.05, 1.68, 1.95, 0.08, 0.24);
+const sx0 = -4.35, sx1 = 4.35, sy0 = 1.9, sy1 = 2.62, sz0 = 0.06, sz1 = 0.22;
 quad(M_sign, [sx0, sy0, sz1], [sx1, sy0, sz1], [sx1, sy1, sz1], [sx0, sy1, sz1], facadeUV);
 quad(M_sign, [sx1, sy0, sz0], [sx0, sy0, sz0], [sx0, sy1, sz0], [sx1, sy1, sz0], facadeUV);
 quad(M_signTrim, [sx0, sy0, sz0], [sx0, sy0, sz1], [sx0, sy1, sz1], [sx0, sy1, sz0]);
@@ -166,6 +166,13 @@ const jsonHead = Buffer.alloc(8); jsonHead.writeUInt32LE(jsonChunk.length, 0); j
 const binHead = Buffer.alloc(8); binHead.writeUInt32LE(bin.length, 0); binHead.writeUInt32LE(0x004E4942, 4);
 const glb = Buffer.concat([header, jsonHead, jsonChunk, binHead, bin]);
 
-const out = path.join(dir, 'palengke-building.glb');
-fs.writeFileSync(out, glb);
-console.log('WROTE', out, glb.length, 'bytes; prims', meshPrims.length);
+const outMms = path.join(dir, 'palengke-building-mms.glb');
+const outMain = path.join(dir, 'palengke-building.glb');
+fs.writeFileSync(outMms, glb);
+console.log('WROTE', outMms, glb.length, 'bytes; prims', meshPrims.length);
+try {
+    fs.copyFileSync(outMms, outMain);
+    console.log('WROTE', outMain);
+} catch (err) {
+    console.log('SKIP main glb (in use):', err.code || err.message);
+}

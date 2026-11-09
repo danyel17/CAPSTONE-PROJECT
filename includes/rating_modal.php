@@ -192,7 +192,7 @@ $rating_scale = [
 <div class="rate-thanks-overlay" id="rateThanksOverlay" aria-hidden="true">
   <div class="rate-thanks-card" role="dialog" aria-modal="true" aria-labelledby="rateThanksTitle">
     <img src="assets/imgs/logo.jpeg" alt="Daet Public Market" class="rate-thanks-logo" onerror="this.style.display='none'">
-    <h3 class="rate-thanks-title" id="rateThanksTitle" data-rt="thanksUsing">Thank you for using MCS!</h3>
+    <h3 class="rate-thanks-title" id="rateThanksTitle" data-rt="thanksUsing">Thank you for using Daet Public Market!</h3>
     <button type="button" class="rate-thanks-ok" id="rateThanksOk" data-rt="okBtn">OK</button>
   </div>
 </div>
@@ -421,7 +421,7 @@ $rating_scale = [
       directions: 'Kindly rate the quality of the service provided by selecting the appropriate option.',
       fComments: 'Comments / Suggestions / Complaints',
       thanks: 'Thank you for your response! \uD83D\uDE0A', submitRating: 'Submit Rating',
-      thanksUsing: 'Thank you for using MCS!', okBtn: 'OK'
+      thanksUsing: 'Thank you for using Daet Public Market!', okBtn: 'OK'
     },
     ph: {
       successSub: 'Pindutin ang bituin upang i-rate ang inyong karanasan sa amin.',
@@ -436,7 +436,7 @@ $rating_scale = [
       directions: 'Mangyaring i-rate ang kalidad ng serbisyong ibinigay sa pamamagitan ng pagpili ng naaangkop na opsyon.',
       fComments: 'Mga Puna / Mungkahi / Reklamo',
       thanks: 'Salamat sa inyong tugon! \uD83D\uDE0A', submitRating: 'Isumite ang Rating',
-      thanksUsing: 'Salamat sa paggamit ng MCS!', okBtn: 'OK'
+      thanksUsing: 'Salamat sa paggamit ng Daet Public Market!', okBtn: 'OK'
     }
   };
   function rateLang() {

@@ -67,7 +67,7 @@ if (!function_exists('dpm_mail_send_html')) {
             }
             $mail->Hostname = $fromDomain;
             $mail->MessageID = '<' . bin2hex(random_bytes(12)) . '@' . $fromDomain . '>';
-            $mail->XMailer = 'Daet Public Market Clearance System';
+            $mail->XMailer = 'Daet Public Market';
             $mail->Priority = 3; // normal — avoid "urgent" spam signals
             $mail->SMTPOptions = [
                 'ssl' => [
@@ -76,7 +76,7 @@ if (!function_exists('dpm_mail_send_html')) {
                     'allow_self_signed' => true,
                 ],
             ];
-            // From must match the authenticated Gmail mailbox (same as other MCS notifies).
+            // From must match the authenticated Gmail mailbox (same as other DPM notifies).
             $mail->setFrom($from_email, $from_name);
             $mail->Sender = $from_email;
             $mail->addAddress($toEmail, $toName !== '' ? $toName : $toEmail);
@@ -86,7 +86,7 @@ if (!function_exists('dpm_mail_send_html')) {
             // Mark as auto-generated transactional mail (not marketing / spam).
             $mail->addCustomHeader('Auto-Submitted', 'auto-generated');
             $mail->addCustomHeader('X-Auto-Response-Suppress', 'OOF, AutoReply');
-            $mail->addCustomHeader('X-MCS-Notification', 'transactional');
+            $mail->addCustomHeader('X-DPM-Notification', 'transactional');
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body = $html;
@@ -338,7 +338,7 @@ if (!function_exists('dpm_notify_decision_email')) {
                 $intro = 'Good news! Your <strong>application</strong> has been <strong>approved</strong> by the market office.';
             }
         } elseif ($decision === 'invalid') {
-            // Same indigo header family as other MCS notifies so Gmail treats it like inbox mail, not promo/spam.
+            // Same indigo header family as other DPM notifies so Gmail treats it like inbox mail, not promo/spam.
             $accent = 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)';
             $headline = 'Receipt marked invalid';
             $subject = 'Receipt marked invalid — Daet Public Market';
@@ -369,7 +369,7 @@ if (!function_exists('dpm_notify_decision_email')) {
         if ($notes !== '') {
             $rows .= '<p style="margin:0;"><strong>Notes:</strong> ' . htmlspecialchars($notes, ENT_QUOTES, 'UTF-8') . '</p>';
         }
-        // Soft detail boxes (same family as other MCS notifies — avoid loud promo colors that Gmail spam-filters).
+        // Soft detail boxes (same family as other DPM notifies — avoid loud promo colors that Gmail spam-filters).
         $boxBg = $decision === 'approved' ? '#f0fdf4' : '#f0f4ff';
         $boxBorder = $decision === 'approved' ? '#bbf7d0' : '#c7d2fe';
         $detailBox = $rows !== ''
@@ -503,12 +503,12 @@ if (!function_exists('dpm_notify_registration_email')) {
             . '<div style="background:#fff;padding:28px;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 12px 12px;">'
             . '<p>Hello ' . $safeName . ',</p>'
             . '<p>Your Daet Public Market account was created successfully.</p>'
-            . '<p>You can log in with <strong>' . $safeEmail . '</strong> to apply for a stall, renew a permit, and manage your market clearance.</p>'
+            . '<p>You can log in with <strong>' . $safeEmail . '</strong> to apply for a stall, renew a permit, and manage your vendor account.</p>'
             . '<p style="color:#666;font-size:13px;margin-top:24px;">— Daet Public Market Office<br><span style="font-size:12px;">This is an automated message. Please do not reply with your password.</span></p>'
             . '</div></div></body></html>';
         $plain = "Hello " . ($toName !== '' ? $toName : 'there') . ",\n\n"
             . "Your Daet Public Market account was created successfully.\n"
-            . "You can log in with " . $toEmail . " to apply for a stall, renew a permit, and manage your market clearance.\n\n"
+            . "You can log in with " . $toEmail . " to apply for a stall, renew a permit, and manage your vendor account.\n\n"
             . "— Daet Public Market Office";
 
         $ok = dpm_mail_send_html($toEmail, $toName, $subject, $html, $plain);

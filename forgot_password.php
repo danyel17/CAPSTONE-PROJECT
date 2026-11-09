@@ -422,7 +422,7 @@ $conn->close();
             <div class="auth-left-content">
                 <div class="al-brand">
                     <div class="al-brand-icon"><i class="fas fa-store"></i></div>
-                    <div><strong>MCS</strong><small>Market Clearance System</small></div>
+                    <div><strong>DPM</strong><small>Daet Public Market</small></div>
                 </div>
                 <div class="al-main">
                     <div class="al-shield"><i class="fas fa-shield-halved"></i></div>
@@ -443,7 +443,7 @@ $conn->close();
                         </div>
                     </div>
                 </div>
-                <div class="al-footer">&copy; <?php echo date('Y'); ?> Daet Public Market &mdash; Market Clearance System</div>
+                <div class="al-footer">&copy; <?php echo date('Y'); ?> Daet Public Market Office</div>
             </div>
         </aside>
 

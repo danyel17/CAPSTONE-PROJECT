@@ -28,7 +28,7 @@ ON DUPLICATE KEY UPDATE
 
 -- Ensure an admin profile exists for this admin (admin_id resolved dynamically)
 INSERT INTO admin_profiles (admin_id, site_name)
-SELECT u.user_id, 'Daet Public Market Clearance System'
+SELECT u.user_id, 'Daet Public Market'
 FROM users u
 WHERE u.email = 'daetpublicmarket@gmail.com'
 ON DUPLICATE KEY UPDATE

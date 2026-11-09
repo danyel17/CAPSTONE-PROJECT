@@ -1,7 +1,7 @@
 {
   "name": "market-clearance-sms",
   "version": "1.0.0",
-  "description": "SMS sender for Market Clearance System",
+  "description": "SMS sender for Daet Public Market",
   "main": "send_sms_to_users.js",
   "scripts": {
     "send": "node send_sms.js",

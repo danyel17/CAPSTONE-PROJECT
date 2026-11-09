@@ -1244,7 +1244,7 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                 </div>
                 <div id="csRegisterGuide" class="cs-register-guide" aria-hidden="true" role="region" aria-labelledby="csRegisterGuideTitle">
                     <div class="cs-guide-scroll">
-                        <h3 id="csRegisterGuideTitle" class="cs-guide-page-title" data-cs-i18n="gRegTitle">How to Register in Market Clearance?</h3>
+                        <h3 id="csRegisterGuideTitle" class="cs-guide-page-title" data-cs-i18n="gRegTitle">How to Register at Daet Public Market?</h3>
                         <div class="cs-guide-step">
                             <p class="cs-guide-step-title" data-cs-i18n="gReg1t">Step 1: Open the registration page</p>
                             <p class="cs-guide-step-text" data-cs-i18n-html="gReg1">From the Daet Public Market site, go to the <strong>Registration</strong> page (or tap <strong>Go to registration form</strong> below when you are ready). If you already have an account, use <strong>Log in</strong> instead.</p>
@@ -1374,7 +1374,7 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
                 </div>
                 <div id="csReceiptGuide" class="cs-register-guide" aria-hidden="true" role="region" aria-labelledby="csReceiptGuideTitle">
                     <div class="cs-guide-scroll">
-                        <h3 id="csReceiptGuideTitle" class="cs-guide-page-title" data-cs-i18n="gReceiptTitle">How to Send a Receipt in Market Clearance?</h3>
+                        <h3 id="csReceiptGuideTitle" class="cs-guide-page-title" data-cs-i18n="gReceiptTitle">How to Send a Receipt at Daet Public Market?</h3>
                         <div class="cs-guide-step">
                             <p class="cs-guide-step-title" data-cs-i18n="gReceipt1t">Step 1: Sign in to your account</p>
                             <p class="cs-guide-step-text" data-cs-i18n-html="gReceipt1">Uploading a receipt requires an active session. Open the <strong>Log in</strong> page, enter the <strong>email</strong> and <strong>password</strong> you used when you registered, and sign in. If you are already logged in, you can skip to the next step.</p>
@@ -1496,9 +1496,9 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
     window.DPM_SITE_I18N = window.DPM_SITE_I18N || {};
     window.DPM_SITE_I18N.ph = Object.assign(window.DPM_SITE_I18N.ph || {}, { 'idx.notice': 'Paunawa' });
     </script>
-    <script src="<?php echo htmlspecialchars($__dpm_web . 'assets/js/dpm-site-i18n.js', ENT_QUOTES, 'UTF-8'); ?>?v=2"></script>
+    <script src="<?php echo htmlspecialchars($__dpm_web . 'assets/js/dpm-site-i18n.js', ENT_QUOTES, 'UTF-8'); ?>?v=4"></script>
     <?php if (in_array($__dpm_page, ['registrationform', 'promotional-permit'], true)): ?>
-    <script src="<?php echo htmlspecialchars($__dpm_web . 'assets/js/dpm-i18n-reg-promo.js', ENT_QUOTES, 'UTF-8'); ?>?v=5"></script>
+    <script src="<?php echo htmlspecialchars($__dpm_web . 'assets/js/dpm-i18n-reg-promo.js', ENT_QUOTES, 'UTF-8'); ?>?v=8"></script>
     <?php endif; ?>
 
     <script>
@@ -1524,11 +1524,11 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
             qRenew: 'Paano i-renew ang clearance',
             qGmail: 'Wala kang Gmail account?',
             qAnnounce: 'Tingnan ang anunsyo sa homepage',
-            gRegTitle: 'Paano Magrehistro sa Market Clearance?',
+            gRegTitle: 'Paano Magrehistro sa Daet Public Market?',
             gMailTitle: 'Wala kang Gmail account?',
             gApplyTitle: 'Paano mag-apply ng market slot?',
             gLoginTitle: 'Paano mag-log in sa iyong account?',
-            gReceiptTitle: 'Paano Magpadala ng Resibo sa Market Clearance?',
+            gReceiptTitle: 'Paano Magpadala ng Resibo sa Daet Public Market?',
             gRenewTitle: 'Paano i-renew ang iyong clearance?',
             calTitle: 'Kalendaryo',
             calSoon: 'Malapit na ang kalendaryo',

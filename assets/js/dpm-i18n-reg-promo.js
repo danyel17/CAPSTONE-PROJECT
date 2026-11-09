@@ -58,8 +58,8 @@
     touchText(document.querySelector('.overlay-left h2'), lang, 'Simulan ang iyong paglalakbay ngayon');
     touchText(document.querySelector('.overlay-left p'), lang, 'Kung wala ka pang account, sumali at simulan ang iyong paglalakbay.');
     touchHtml(document.querySelector('#showRegisterBtn'), lang, 'Magrehistro <i class="fas fa-arrow-right"></i>');
-    touchText(document.querySelector('.overlay-right h2'), lang, 'Maligayang pagdating sa MCS');
-    touchText(document.querySelector('.overlay-right p'), lang, 'Kung may account ka na, mag-login dito at ipagpatuloy ang iyong market clearance journey.');
+    touchText(document.querySelector('.overlay-right h2'), lang, 'Maligayang pagdating sa Daet Public Market');
+    touchText(document.querySelector('.overlay-right p'), lang, 'Kung may account ka na, mag-login dito at ipagpatuloy ang iyong vendor services.');
     touchHtml(document.querySelector('#showLoginBtn'), lang, 'Mag-login <i class="fas fa-arrow-right"></i>');
 
     touchText(document.querySelector('.sign-in-container h1'), lang, 'Mag-login dito');
@@ -136,7 +136,7 @@
 
     touchText(document.querySelector('#termsModal h2'), lang, 'Mga Tuntunin at Kundisyon');
     touchText(document.querySelector('.terms-modal-body h3:nth-of-type(1)'), lang, '1. Pagtanggap sa mga Tuntunin');
-    touchText(document.querySelector('.terms-modal-body p:nth-of-type(1)'), lang, 'Sa pag-access at paggamit ng Daet Public Market Office - Market Clearance System (MCS), sumasang-ayon kang sumunod sa mga tuntunin ng kasunduang ito.');
+    touchText(document.querySelector('.terms-modal-body p:nth-of-type(1)'), lang, 'Sa pag-access at paggamit ng online portal ng Daet Public Market Office, sumasang-ayon kang sumunod sa mga tuntunin ng kasunduang ito.');
     touchText(document.querySelector('.terms-modal-body h3:nth-of-type(2)'), lang, '2. Pagrehistro ng Account');
     touchText(document.querySelector('.terms-modal-body p:nth-of-type(2)'), lang, 'Sumasang-ayon kang magbigay ng tamang impormasyon, panatilihin ang seguridad ng password, at tanggapin ang responsibilidad sa aktibidad sa iyong account.');
     touchText(document.querySelector('.terms-modal-body h3:nth-of-type(3)'), lang, '3. Responsibilidad ng Vendor');

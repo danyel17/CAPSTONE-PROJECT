@@ -107,13 +107,13 @@ $ssf = New-Object System.Drawing.StringFormat
 $ssf.Alignment = [System.Drawing.StringAlignment]::Center
 $ssf.LineAlignment = [System.Drawing.StringAlignment]::Center
 $ssf.FormatFlags = [System.Drawing.StringFormatFlags]::NoWrap
-$stext = 'MARKET CLEARANCE SYSTEM'
+$stext = 'MARKET MANAGEMENT SYSTEM'
 $schars = $stext.ToCharArray()
 $snn = $schars.Length
-$smargin = 70
+$smargin = 48
 $savail = $sw3 - 2*$smargin
 $slot = $savail / $snn
-$sfont = Pick-Font 118
+$sfont = Pick-Font 86
 for ($i=0; $i -lt $snn; $i++) {
     $ch = [string]$schars[$i]
     if ($ch -eq ' ') { continue }

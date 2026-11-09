@@ -205,7 +205,7 @@ function getDefaultRequirements($application_type) {
         return [
             ['name' => 'Client Government Issued ID', 'description' => ''],
             ['name' => 'DTI Business Registration', 'description' => ''],
-            ['name' => 'Market Clearance', 'description' => ''],
+            ['name' => 'Daet Public Market', 'description' => ''],
             ['name' => "Mayor's Permit", 'description' => ''],
             ['name' => 'Renewed Lease of Contract (If expired)', 'description' => '1 Original, 1 Photocopy'],
             ['name' => 'Official Receipt of Payment', 'description' => '']

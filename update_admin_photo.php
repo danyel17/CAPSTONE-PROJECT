@@ -54,7 +54,7 @@ try {
     $check->close();
 
     if (!$exists) {
-        $ins = $conn->prepare("INSERT INTO admin_profiles (admin_id, site_name, profile_photo) VALUES (?, 'Market Clearance Portal', NULL)");
+        $ins = $conn->prepare("INSERT INTO admin_profiles (admin_id, site_name, profile_photo) VALUES (?, 'Daet Public Market', NULL)");
         $ins->bind_param('i', $admin_id);
         if (!$ins->execute()) {
             throw new Exception('Failed to create admin profile.');

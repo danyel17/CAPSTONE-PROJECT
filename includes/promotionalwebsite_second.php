@@ -1089,7 +1089,7 @@ $dpm_vendor_bg = dpm_promo_img_src(
                                 <span class="news-card__tag tag--notice">Notice</span>
                                 <span class="news-card__date">April 5, 2026</span>
                             </div>
-                            <h3>Market Clearance Schedule — Q2 2026</h3>
+                            <h3>Vendor Services Schedule — Q2 2026</h3>
                             <p class="desc">Review posted schedules for stall inspections, renewals, and compliance deadlines for the second quarter.</p>
                             <a class="read-more" href="<?php echo htmlspecialchars($pr); ?>index.php">Read more <i class="fas fa-arrow-right"></i></a>
                         </div>
@@ -1146,7 +1146,7 @@ $dpm_vendor_bg = dpm_promo_img_src(
                         <div class="service-card__body">
                             <div class="service-card__icon"><i class="fas fa-file-signature"></i></div>
                             <h3>Vendor registration</h3>
-                            <p>Register as an official vendor and access the online clearance system.</p>
+                            <p>Register as an official vendor and access the Daet Public Market portal.</p>
                         </div>
                     </article>
                     <article class="service-card">

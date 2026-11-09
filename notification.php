@@ -720,7 +720,7 @@ function getDefaultRequirements($application_type) {
         return [
             ['name' => 'Client Government Issued ID', 'description' => ''],
             ['name' => 'DTI Business Registration', 'description' => ''],
-            ['name' => 'Market Clearance', 'description' => ''],
+            ['name' => 'Daet Public Market', 'description' => ''],
             ['name' => "Mayor's Permit", 'description' => ''],
             ['name' => 'Renewed Lease of Contract (If expired)', 'description' => '1 Original, 1 Photocopy'],
             ['name' => 'Official Receipt of Payment', 'description' => '']
@@ -4548,8 +4548,8 @@ function notif_card_message(array $item): string {
           'nav.logout': 'Logout',
           'hero.welcome': 'Welcome',
           'hero.subtitle': 'to your daily market',
-          'hero.title': 'Market Clearance in Its Purest Form.',
-          'hero.description': 'Efficient, reliable, seamless. Our market clearance system is designed to stand out, just like your business.',
+          'hero.title': 'Daet Public Market — built for vendors like you.',
+          'hero.description': 'Efficient, reliable, seamless. Our Daet Public Market portal is designed to stand out, just like your business.',
           'hero.apply': 'Apply Now',
           'modal.calendar': 'Calendar',
           'modal.calendar.coming': 'Calendar functionality coming soon',
@@ -4558,7 +4558,7 @@ function notif_card_message(array $item): string {
           'video.price': 'Price',
           'video.announcement': 'Announcement',
           'features.easyApplications': 'Easy Applications',
-          'features.easyApplicationsDesc': 'Submit your market clearance applications quickly and efficiently through our streamlined process.',
+          'features.easyApplicationsDesc': 'Submit your vendor applications quickly and efficiently through our streamlined process.',
           'features.quickRenewals': 'Quick Renewals',
           'features.quickRenewalsDesc': 'Renew your existing clearances with just a few clicks and documents on it.',
           'features.trackProgress': 'Track Progress',
@@ -4614,8 +4614,8 @@ function notif_card_message(array $item): string {
           'nav.logout': 'Mag-logout',
           'hero.welcome': 'Maligayang pagdating',
           'hero.subtitle': 'sa iyong pang-araw-araw na palengke',
-          'hero.title': 'Market Clearance sa Pinakadalisay na Anyo.',
-          'hero.description': 'Mahusay, maaasahan, walang kahirap-hirap. Ang aming sistema ng market clearance ay idinisenyo upang maging natatangi, tulad ng inyong negosyo.',
+          'hero.title': 'Daet Public Market — para sa mga vendor tulad mo.',
+          'hero.description': 'Mahusay, maaasahan, walang kahirap-hirap. Ang aming Daet Public Market portal ay idinisenyo upang maging natatangi, tulad ng inyong negosyo.',
           'hero.apply': 'Mag-apply Ngayon',
           'modal.calendar': 'Kalendaryo',
           'modal.calendar.coming': 'Ang functionality ng kalendaryo ay darating sa lalong madaling panahon',
@@ -4624,7 +4624,7 @@ function notif_card_message(array $item): string {
           'video.price': 'Presyo',
           'video.announcement': 'Anunsyo',
           'features.easyApplications': 'Madaling Aplikasyon',
-          'features.easyApplicationsDesc': 'Ipasa ang inyong market clearance applications nang mabilis at mahusay sa pamamagitan ng aming streamlined na proseso.',
+          'features.easyApplicationsDesc': 'Ipasa ang inyong vendor application nang mabilis at mahusay sa pamamagitan ng aming streamlined na proseso.',
           'features.quickRenewals': 'Mabilis na Pag-renew',
           'features.quickRenewalsDesc': 'I-renew ang inyong mga clearance nang may ilang clicks lamang at mga dokumento.',
           'features.trackProgress': 'Subaybayan ang Pag-unlad',
@@ -4713,9 +4713,9 @@ function notif_card_message(array $item): string {
         var highlights = heroTitle.querySelectorAll('.highlight');
         if (highlights.length >= 2) {
           if (lang === 'ph') {
-            heroTitle.innerHTML = '<span class="highlight">Market Clearance</span> sa Pinakadalisay na<br><span class="highlight">Anyong</span> Ito.';
+            heroTitle.innerHTML = '<span class="highlight">Daet Public</span> Market<br><span class="highlight">Portal</span> para sa iyo.';
           } else {
-            heroTitle.innerHTML = '<span class="highlight">Market Clearance</span> in Its<br><span class="highlight">Purest</span> Form.';
+            heroTitle.innerHTML = '<span class="highlight">Daet Public</span> Market<br><span class="highlight">Portal</span> for you.';
           }
         }
       }

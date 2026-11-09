@@ -1,5 +1,5 @@
 /**
- * Node.js SMS Sender for Market Clearance System
+ * Node.js SMS Sender for Daet Public Market
  * Sends SMS to all users with phone numbers from the database
  */
 
@@ -114,7 +114,7 @@ async function sendSMSToUser(client, user, message) {
  */
 async function sendSMSToAllUsers() {
     try {
-        console.log('🚀 Starting SMS Sender for Market Clearance System\n');
+        console.log('🚀 Starting SMS Sender for Daet Public Market\n');
         console.log('='.repeat(60));
         
         // Initialize Twilio client

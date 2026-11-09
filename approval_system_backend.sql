@@ -1,6 +1,6 @@
 -- Robust Approval System Backend SQL
 -- This file contains the complete backend structure for the approval system
--- Designed for the Daet Public Market Clearance System
+-- Designed for the Daet Public Market
 -- This is the main SQL schema file for the approval system
 
 -- =============================================

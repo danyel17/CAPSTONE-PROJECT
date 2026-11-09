@@ -23,7 +23,7 @@ $menu_hero_first_name = $first_name ?? 'User';
           <span class="accent">Market</span>
         </h1>
         <p class="description" id="heroDescription">
-          Efficient, reliable, seamless. Our market clearance system is designed to stand out, just like your business. Apply, renew, and manage everything in one place.
+          Efficient, reliable, seamless. Our Daet Public Market portal is designed to stand out, just like your business. Apply, renew, and manage everything in one place.
         </p>
         <div class="hero-buttons">
           <a href="application.php" class="btn-hero-primary" id="applyNowBtn">
@@ -42,7 +42,7 @@ $menu_hero_first_name = $first_name ?? 'User';
       </div>
 
       <div class="hero-center">
-        <model-viewer id="product-model" src="soda/models/palengke-building.glb?v=walk-1" alt="Daet Public Market — Palengke building" camera-controls
+        <model-viewer id="product-model" src="soda/models/palengke-building-mms.glb?v=mms-3" alt="Daet Public Market — Palengke building" camera-controls
           disable-zoom shadow-intensity="0.55" environment-image="neutral" exposure="1.35"
           interaction-prompt="none" camera-orbit="25deg 78deg 175%" field-of-view="32deg"
           class="main-product-3d">

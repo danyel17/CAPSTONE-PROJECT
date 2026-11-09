@@ -905,8 +905,8 @@ $pv = function ($key) {
 
                     <!-- Shown when register form is active (panel on RIGHT) -->
                     <div class="overlay-panel overlay-right">
-                        <h2>Welcome to MCS</h2>
-                        <p>If you already have an account, login here and continue your market clearance journey.</p>
+                        <h2>Welcome to Daet Public Market</h2>
+                        <p>If you already have an account, login here and continue managing your vendor services.</p>
                         <button type="button" class="btn-ghost" id="showLoginBtn">Login <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
@@ -923,7 +923,7 @@ $pv = function ($key) {
             </div>
             <div class="terms-modal-body">
                 <h3>1. Acceptance of Terms</h3>
-                <p>By accessing and using the Daet Public Market Office - Market Clearance System(MCS), you accept and agree to be bound by the terms and provision of this agreement.</p>
+                <p>By accessing and using the Daet Public Market Office online portal, you accept and agree to be bound by the terms and provision of this agreement.</p>
                 <h3>2. Account Registration</h3>
                 <p>You agree to provide accurate information, maintain password security, and accept responsibility for activity under your account.</p>
                 <h3>3. Vendor Responsibilities</h3>

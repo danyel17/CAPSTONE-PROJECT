@@ -16,7 +16,7 @@ $user_type = $_SESSION['user_type'] ?? 'vendor';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> About Us</title>
+  <title>About Us — Daet Public Market</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link rel="icon" type="image/jpeg" href="assets/imgs/logo.jpeg">
@@ -486,7 +486,7 @@ $user_type = $_SESSION['user_type'] ?? 'vendor';
 
     <div class="content-section">
       <h2><i class="fas fa-info-circle" style="color: #667eea; margin-right: 10px;"></i>Our Objectives</h2>
-      <p>The Market Clearance System is a comprehensive digital platform designed to modernize and streamline the process of obtaining market clearances. We serve vendors, businesses, and market operators by providing an efficient, transparent, and user-friendly system for managing applications and renewals.</p>
+      <p>The Daet Public Market online portal is a comprehensive digital platform designed to modernize and streamline vendor services. We serve vendors, businesses, and market operators by providing an efficient, transparent, and user-friendly system for managing applications and renewals.</p>
       <p>Our platform eliminates the hassle of traditional paper-based processes, reduces processing time, and provides real-time tracking of application status. We are committed to making the clearance process accessible to everyone, from small vendors to large-scale businesses.</p>
     </div>
 
@@ -570,8 +570,8 @@ $user_type = $_SESSION['user_type'] ?? 'vendor';
       <!-- About Section -->
       <div class="footer-section">
         <div class="footer-logo">
-          <img src="assets/imgs/logo.jpeg" alt="Market Clearance Logo" onerror="this.src='assets/imgs/logo-placeholder.png'">
-          <h3>Market Clearance</h3>
+          <img src="assets/imgs/logo.jpeg" alt="Daet Public Market logo" onerror="this.src='assets/imgs/logo-placeholder.png'">
+          <h3>Daet Public Market</h3>
         </div>
         <p>Economic Sector</p>
         <p>Public Utilities</p>
@@ -602,7 +602,7 @@ $user_type = $_SESSION['user_type'] ?? 'vendor';
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; Market Clearance System. Daet Public Market Office | <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Terms of Service</a></p>
+      <p>&copy; Daet Public Market. Daet Public Market Office | <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Terms of Service</a></p>
     </div>
   </footer>
 

@@ -22,7 +22,7 @@ function homepage_news_default_cards(): array
             'tag_type' => 'notice',
             'tag_label' => 'Notice',
             'card_date' => 'April 5, 2026',
-            'title' => 'Market Clearance Schedule',
+            'title' => 'Vendor Services Schedule',
             'summary' => 'Under construction',
             'full_details' => 'Market clearance schedule details will be posted here soon. Please check back for updates.',
         ],

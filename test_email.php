@@ -103,7 +103,7 @@ function testEmailSending($to_email, $config) {
         <p>If you received this email, your Gmail SMTP configuration is working correctly.</p>
         <p>Your password reset emails will now be sent to users' Gmail inboxes.</p>
         <hr>
-        <p><small>This is a test email from Market Clearance System</small></p>
+        <p><small>This is a test email from Daet Public Market</small></p>
     </body>
     </html>
     ";

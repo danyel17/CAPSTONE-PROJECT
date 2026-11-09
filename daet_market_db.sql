@@ -31,7 +31,7 @@ CREATE TABLE `admin_profiles` (
   `profile_id` int(11) NOT NULL,
   `admin_id` int(11) NOT NULL,
   `profile_photo` varchar(500) DEFAULT NULL,
-  `site_name` varchar(255) DEFAULT 'Market Clearance Portal',
+  `site_name` varchar(255) DEFAULT 'Daet Public Market',
   `site_logo` varchar(500) DEFAULT NULL,
   `intro_video` varchar(500) DEFAULT NULL,
   `intro_picture` varchar(500) DEFAULT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `admin_profiles` (
 --
 
 INSERT INTO `admin_profiles` (`profile_id`, `admin_id`, `profile_photo`, `site_name`, `site_logo`, `intro_video`, `intro_picture`, `updated_at`, `dark_mode`) VALUES
-(1, 1, 'admin_1_1761843890.jpg', 'Daet Public Market Clearance', NULL, NULL, NULL, '2025-12-14 20:42:44', 0);
+(1, 1, 'admin_1_1761843890.jpg', 'Daet Public Market', NULL, NULL, NULL, '2025-12-14 20:42:44', 0);
 
 -- --------------------------------------------------------
 

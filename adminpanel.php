@@ -1558,7 +1558,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     if ($result->num_rows === 0) {
                         // Create admin profile if it doesn't exist
-                        $stmt = $conn->prepare("INSERT INTO admin_profiles (admin_id, site_name) VALUES (?, 'Daet Public Market Clearance System')");
+                        $stmt = $conn->prepare("INSERT INTO admin_profiles (admin_id, site_name) VALUES (?, 'Daet Public Market')");
                         $stmt->bind_param("i", $admin_id);
                         if (!$stmt->execute()) {
                             $conn->rollback();

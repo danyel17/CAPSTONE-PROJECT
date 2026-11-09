@@ -233,7 +233,7 @@
     touchText(document.querySelector('.page-header p'), lang, 'Alamin ang aming misyon na gawing simple at mabilis ang market clearance para sa mga vendor at negosyo.');
     document.querySelectorAll('.content-section > p').forEach(function (el, i) {
       var ph = [
-        'Ang Market Clearance System ay digital platform na idinisenyo upang modernisahin ang proseso ng market clearance. Pinaglilingkuran namin ang mga vendor at operator sa pamamagitan ng mabilis, transparent, at madaling gamitin na sistema.',
+        'Ang online portal ng Daet Public Market ay digital platform na idinisenyo upang modernisahin ang serbisyo sa palengke. Pinaglilingkuran namin ang mga vendor at operator sa pamamagitan ng mabilis, transparent, at madaling gamitin na sistema.',
         'Inaalis ng platform ang abala ng papel, binabawasan ang oras ng proseso, at nagbibigay ng real-time na pagsubaybay. Ginagawa naming accessible ang clearance mula sa maliliit na vendor hanggang malalaking negosyo.'
       ];
       if (ph[i]) touchText(el, lang, ph[i]);
