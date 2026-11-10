@@ -947,7 +947,7 @@ $pv = function ($key) {
 
     <div id="successPopup" class="success-popup">
         <div class="success-popup-content">
-            <img src="assets/imgs/registerthumbsup.jpg" alt="Registration successful" class="success-popup-img">
+            <img src="assets/imgs/registerthumbsup.jpg?v=2" alt="Registration successful" class="success-popup-img">
             <h2>Successfully Created an Account</h2>
             <p>Redirecting to home page...</p>
             <div class="loading-icon"></div>
