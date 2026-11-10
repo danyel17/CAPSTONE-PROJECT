@@ -3434,9 +3434,8 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           <span class="stall-map-badge"><i class="fas fa-store"></i> Daet Public Market</span>
         </div>
         <h2 class="stall-map-heading"><span data-translate="map.explorePre">Explore Our</span> <em data-translate="map.exploreEm">Stall Map</em></h2>
-        <p class="stall-map-desc">
-          View the market site layout — blocks, streets, and landmarks match the official ground sketch.
-          Individual stall numbers will be added to each block soon.
+        <p class="stall-map-desc" data-translate="map.desc">
+          View the market site layout — blocks, streets, and landmarks match the official ground sketch. Individual stall numbers will be added to each block soon.
         </p>
 
         <div class="stall-map-hero">
@@ -3444,7 +3443,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           <div class="stall-map-hero-overlay"></div>
           <div class="stall-map-hero-caption">
             <small>Daet Public Market</small>
-            <strong data-translate="map.heroGround">Ground Floor — Site Map</strong>
+            <strong data-translate="map.heroGround">Market Stall Map</strong>
           </div>
         </div>
 
@@ -3489,7 +3488,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           <div class="stall-map-full-backdrop" data-map-close></div>
           <div class="stall-map-full-dialog" role="dialog" aria-modal="true" aria-labelledby="stallMapFullTitle">
             <div class="stall-map-full-head">
-              <h3 id="stallMapFullTitle" data-translate="map.heroGround">Ground Floor — Site Map</h3>
+              <h3 id="stallMapFullTitle" data-translate="map.heroGround">Market Stall Map</h3>
               <button type="button" class="stall-map-full-close" data-map-close aria-label="Close">&times;</button>
             </div>
             <div class="stall-map-panel is-open" id="stallMapFullBody"></div>
@@ -3621,6 +3620,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           'slot.word': 'Slot',
           'map.explorePre': 'Explore Our',
           'map.exploreEm': 'Stall Map',
+          'map.desc': 'View the market site layout — blocks, streets, and landmarks match the official ground sketch. Individual stall numbers will be added to each block soon.',
           'map.plazaPre': 'Daet Elevated',
           'map.plazaEm': 'Plaza Map',
           'map.toggleShow': 'Click here to see stall map',
@@ -3640,7 +3640,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           'map.sec.eateries': 'Eateries and Cooked Food Section',
           'map.toggleShowElev': 'Click here to see elevated stall map',
           'map.toggleHideElev': 'Hide elevated stall map',
-          'map.heroGround': 'Ground Floor — Site Map',
+          'map.heroGround': 'Market Stall Map',
           'map.heroPlaza': 'Ground Floor — Stall Slot',
           'footer.brand': 'Daet Public Market',
           'footer.blurb': 'If you have any questions or concerns, feel free to message us on our Facebook page.',
@@ -3688,6 +3688,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           'slot.word': 'Slot',
           'map.explorePre': 'Tuklasin ang Aming',
           'map.exploreEm': 'Mapa ng Stall',
+          'map.desc': 'Tingnan ang layout ng palengke — tugma ang mga block, kalye, at landmark sa opisyal na sketch. Idadagdag pa ang mga numero ng stall sa bawat block.',
           'map.plazaPre': 'Daet Elevated',
           'map.plazaEm': 'Mapa ng Plaza',
           'map.toggleShow': 'I-click dito para makita ang mapa ng stall',
@@ -3707,7 +3708,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           'map.sec.eateries': 'Seksyon ng Kainan at Lutong Pagkain',
           'map.toggleShowElev': 'I-click dito para makita ang elevated na mapa ng stall',
           'map.toggleHideElev': 'Itago ang elevated na mapa ng stall',
-          'map.heroGround': 'Ground Floor — Mapa ng Site',
+          'map.heroGround': 'Mapa ng Stall ng Palengke',
           'map.heroPlaza': 'Ground Floor — Stall Slot',
           'footer.brand': 'Daet Public Market',
           'footer.blurb': 'Kung may tanong o alalahanin, mag-message sa aming Facebook page.',
