@@ -66,7 +66,7 @@ $menu_hero_first_name = $first_name ?? 'User';
               <div class="card-info"><span>easy application</span></div>
             </div>
             <div class="card" data-flavor="blue">
-              <img src="assets/imgs/displayfour.jpg" alt="Quick renewal">
+              <img src="assets/imgs/displayfour.jpg?v=2" alt="Quick renewal">
               <div class="card-info"><span>quick renewal</span></div>
             </div>
           </div>
