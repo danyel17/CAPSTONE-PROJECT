@@ -1163,7 +1163,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       padding: 4rem 2rem 4.5rem;
     }
     .stall-map-section {
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
     }
     .stall-map-badge {
@@ -1275,115 +1275,176 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
     .stall-map-toggle.is-open .stall-map-toggle-chevron {
       transform: rotate(180deg);
     }
-    .stall-section-legend-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.85rem;
-      margin: 0 auto 1.35rem;
-      max-width: 760px;
-      padding: 0 1rem;
+    .stall-map-reveal {
+      display: none;
+      margin-top: 0.35rem;
+      animation: stallMapReveal 0.45s ease;
     }
-    .stall-section-info {
-      position: relative;
-      flex: 0 0 auto;
-      width: 52px;
-      height: 52px;
-      border: none;
-      border-radius: 50%;
-      background: #4f46e5;
-      color: #fff;
-      font-size: 1.35rem;
-      cursor: pointer;
-      box-shadow: 0 8px 22px rgba(79, 70, 229, 0.42);
-      transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
-    }
-    .stall-section-info i {
-      position: relative;
-      z-index: 1;
+    .stall-map-reveal.is-open {
       display: block;
-      animation: stallInfoBob 1.8s ease-in-out infinite;
     }
-    .stall-section-info-ring {
+    @keyframes stallMapReveal {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .stall-map-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+    .stall-map-preview {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-height: 360px;
+      height: 100%;
+      padding: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #eef2ff;
+      box-shadow: 0 16px 48px rgba(15, 23, 42, 0.12);
+    }
+    .stall-map-preview:hover {
+      box-shadow: 0 20px 52px rgba(79, 70, 229, 0.28);
+    }
+    .stall-map-preview-canvas {
       position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 2px solid #6366f1;
-      animation: stallInfoPulse 1.7s ease-out infinite;
+      inset: 0;
+      overflow: hidden;
       pointer-events: none;
     }
-    .stall-section-info:hover,
-    .stall-section-info:focus-visible {
-      background: #4338ca;
-      transform: scale(1.08);
-      box-shadow: 0 12px 28px rgba(67, 56, 202, 0.5);
-      outline: none;
+    .stall-map-schematic-host {
+      display: block;
     }
-    .stall-section-info:hover i,
-    .stall-section-info:focus-visible i {
-      animation: none;
-      transform: rotate(-8deg) scale(1.05);
+    .stall-map-preview-canvas .stall-map-schematic-host {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      transform: scale(1.42);
+      transform-origin: 18% 16%;
     }
-    .stall-section-info-hint {
-      margin: 0;
-      color: #4338ca;
-      font-size: 0.95rem;
-      font-weight: 650;
-      line-height: 1.35;
+    .stall-map-preview-canvas .dpm-site-map-note,
+    .stall-map-preview-canvas .dpm-stall-slots-modal,
+    .stall-map-preview-canvas .dpm-slot-detail,
+    .stall-map-preview-canvas .dpm-photo-view {
+      display: none !important;
+    }
+    .stall-map-preview-hit {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 1.25rem 1.35rem;
+      border: none;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.72) 0%, rgba(15, 23, 42, 0.1) 48%, transparent 100%);
+      cursor: pointer;
       text-align: left;
     }
-    @keyframes stallInfoPulse {
-      0% { transform: scale(0.92); opacity: 0.75; }
-      100% { transform: scale(1.45); opacity: 0; }
+    .stall-map-preview-hit:focus-visible {
+      outline: 3px solid #6366f1;
+      outline-offset: -3px;
     }
-    @keyframes stallInfoBob {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-3px) scale(1.1); }
+    .stall-map-preview-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      align-self: flex-start;
+      background: #ffffff;
+      color: #4338ca;
+      font-weight: 750;
+      font-size: 0.92rem;
+      padding: 0.62rem 1.05rem;
+      border-radius: 999px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
     }
-    .stall-section-legend {
+    .stall-section-legend-inline {
+      background: #fff;
+      border: 1px solid #e0e7ff;
+      border-radius: 20px;
+      padding: 1.1rem 1.15rem 1.15rem;
+      box-shadow: 0 16px 48px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+      height: 100%;
+    }
+    .stall-section-legend-inline h3 {
+      margin: 0 0 0.8rem;
+      color: #312e81;
+      font-size: 1.12rem;
+      font-weight: 750;
+    }
+    .stall-section-legend-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.42rem;
+      flex: 1;
+    }
+    .stall-section-legend-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.42rem 0.5rem;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+    .stall-map-full {
       position: fixed;
       inset: 0;
       z-index: 14000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.25rem;
-    }
-    .stall-section-legend[hidden] {
       display: none;
+      align-items: stretch;
+      justify-content: center;
+      padding: 0.65rem;
     }
-    .stall-section-legend-backdrop {
+    .stall-map-full.is-open {
+      display: flex;
+    }
+    .stall-map-full-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(30, 27, 75, 0.55);
-      animation: stallLegendFade 0.22s ease;
+      background: rgba(30, 27, 75, 0.58);
     }
-    .stall-section-legend-card {
+    .stall-map-full-dialog {
       position: relative;
-      width: min(440px, 100%);
-      max-height: min(82vh, 640px);
-      overflow: auto;
+      z-index: 1;
+      width: min(1080px, calc(100vw - 1.3rem));
+      height: calc(100vh - 1.3rem);
+      max-height: calc(100vh - 1.3rem);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       background: #fff;
-      border: 1px solid #e0e7ff;
       border-radius: 18px;
-      padding: 1.15rem 1.25rem 1.3rem;
+      padding: 0.7rem 0.85rem 0.75rem;
       box-shadow: 0 24px 60px rgba(49, 46, 129, 0.32);
-      animation: stallLegendPop 0.32s cubic-bezier(0.34, 1.4, 0.64, 1);
     }
-    .stall-section-legend-head {
+    .stall-map-full-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 0.75rem;
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.4rem;
+      flex: 0 0 auto;
+      background: #fff;
+      padding-bottom: 0.3rem;
     }
-    .stall-section-legend-head h3 {
+    .stall-map-full-head h3 {
       margin: 0;
       color: #312e81;
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 750;
     }
-    .stall-section-legend-close {
+    .stall-map-full-close {
       width: 34px;
       height: 34px;
       border: none;
@@ -1394,27 +1455,86 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       line-height: 1;
       cursor: pointer;
     }
-    .stall-section-legend-close:hover,
-    .stall-section-legend-close:focus-visible {
+    .stall-map-full-close:hover,
+    .stall-map-full-close:focus-visible {
       background: #4f46e5;
       color: #fff;
       outline: none;
     }
-    .stall-section-legend-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    .stall-map-rotate {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      background: rgba(30, 27, 75, 0.78);
+      backdrop-filter: blur(6px);
+    }
+    .stall-map-rotate.is-visible {
+      display: flex;
+    }
+    .stall-map-rotate-card {
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
-    }
-    .stall-section-legend-list li {
-      display: flex;
       align-items: center;
-      gap: 0.7rem;
-      padding: 0.45rem 0.55rem;
+      gap: 1.1rem;
+      text-align: center;
+      color: #fff;
+      max-width: 16rem;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+    }
+    .stall-map-rotate-phone {
+      width: 46px;
+      height: 78px;
+      border: 3px solid #fff;
       border-radius: 10px;
-      background: #f8fafc;
+      position: relative;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+      animation: stallPhoneRotate 2s ease-in-out infinite;
+    }
+    .stall-map-rotate-phone::before {
+      content: '';
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      width: 14px;
+      height: 4px;
+      margin-left: -7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.85);
+    }
+    .stall-map-rotate-phone::after {
+      content: '';
+      position: absolute;
+      inset: 16px 6px 8px;
+      border-radius: 4px;
+      background: rgba(99, 102, 241, 0.55);
+    }
+    .stall-map-rotate-text {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .stall-map-rotate-hint {
+      margin: 0;
+      font-size: 0.82rem;
+      opacity: 0.82;
+    }
+    @keyframes stallPhoneRotate {
+      0%, 18% { transform: rotate(0deg); }
+      42%, 68% { transform: rotate(90deg); }
+      100% { transform: rotate(0deg); }
+    }
+    @media (min-width: 992px) {
+      .stall-map-rotate {
+        display: none !important;
+      }
     }
     .stall-section-swatch {
       flex: 0 0 auto;
@@ -1444,25 +1564,35 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
     .stall-section-swatch--drygoods { background: #bbb2a2; }
     .stall-section-swatch--driedfish { background: #7c5c3e; }
     .stall-section-swatch--eateries { background: #f5c518; }
-    @keyframes stallLegendFade {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .stall-map-full .stall-map-panel {
+      display: flex;
+      justify-content: center;
+      margin-top: 0;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
     }
-    @keyframes stallLegendPop {
-      from { opacity: 0; transform: scale(0.86) translateY(10px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+    .stall-map-full .stall-map-schematic-host {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 100%;
+      transform-origin: top center;
     }
-    .stall-map-panel {
-      display: none;
-      margin-top: 0.5rem;
-      animation: stallMapReveal 0.45s ease;
+    .stall-map-full .dpm-site-map {
+      width: 100%;
+      max-width: 100%;
     }
-    .stall-map-panel.is-open {
-      display: block;
+    .stall-map-full .dpm-market-wrap {
+      overflow: hidden !important;
     }
-    @keyframes stallMapReveal {
-      from { opacity: 0; transform: translateY(-12px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .stall-map-full .dpm-site-svg {
+      min-width: 0 !important;
+      width: 100%;
+      height: auto;
+    }
+    .stall-map-full .dpm-site-map-note {
+      display: none !important;
     }
 
     /* Ground floor plan (pixel-style, inside stall map panel) */
@@ -1958,6 +2088,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
         width: calc(100% + 2rem);
         padding: 3rem 1rem 3.5rem;
       }
+      .stall-map-split {
+        grid-template-columns: 1fr;
+      }
     }
     @media (max-width: 576px) {
       .stall-map-section-wrapper {
@@ -1966,19 +2099,18 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
         width: calc(100% + 1.5rem);
         padding: 2.5rem 0.75rem 3rem;
       }
+      .stall-map-split {
+        grid-template-columns: 1fr;
+      }
+      .stall-map-preview,
+      .stall-section-legend-inline {
+        min-height: 280px;
+      }
       .stall-map-toggle {
         width: 100%;
         justify-content: center;
         font-size: 0.88rem;
         padding: 0.8rem 1.2rem;
-      }
-      .stall-section-legend-row {
-        flex-direction: column;
-        text-align: center;
-      }
-      .stall-section-info-hint {
-        text-align: center;
-        font-size: 0.88rem;
       }
     }
 
@@ -3324,36 +3456,51 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           </button>
         </div>
 
-        <div class="stall-section-legend" id="stallSectionLegend" hidden>
-          <div class="stall-section-legend-backdrop" data-legend-close></div>
-          <div class="stall-section-legend-card" role="dialog" aria-modal="true" aria-labelledby="stallSectionLegendTitle">
-            <div class="stall-section-legend-head">
-              <h3 id="stallSectionLegendTitle" data-translate="map.legendTitle">Section colors</h3>
-              <button type="button" class="stall-section-legend-close" data-legend-close aria-label="Close">&times;</button>
+        <div class="stall-map-reveal" id="stallMapPanel" hidden>
+          <div class="stall-map-split">
+            <div class="stall-map-preview">
+              <div class="stall-map-preview-canvas" id="stallMapPreviewCanvas">
+                <div class="stall-map-schematic-host" id="stallMapSchematicHost">
+                  <?php include __DIR__ . '/includes/market_site_map_schematic.php'; ?>
+                </div>
+              </div>
+              <button type="button" class="stall-map-preview-hit" id="stallMapExpand" aria-haspopup="dialog" aria-controls="stallMapFull">
+                <span class="stall-map-preview-cta"><i class="fas fa-expand" aria-hidden="true"></i> <span data-translate="map.viewFull">Click to view full</span></span>
+              </button>
             </div>
-            <ul class="stall-section-legend-list">
-              <li><span class="stall-section-swatch stall-section-swatch--special" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.special">Special Area Section</span></li>
-              <li><span class="stall-section-swatch stall-section-swatch--meat" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.meat">Meat and Chicken Section</span></li>
-              <li><span class="stall-section-swatch stall-section-swatch--fish" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.fish">Fresh Fish Section</span></li>
-              <li><span class="stall-section-swatch stall-section-swatch--produce" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.produce">Fruits and Vegetables Section</span></li>
-              <li><span class="stall-section-swatch stall-section-swatch--grocery" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.grocery">Groceries Sari-Sari Section</span></li>
-              <li><span class="stall-section-swatch stall-section-swatch--service" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.service">Service Section</span></li>
-              <li><span class="stall-section-swatch stall-section-swatch--drygoods" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.drygoods">Dry Goods Section</span></li>
-              <li><span class="stall-section-swatch stall-section-swatch--driedfish" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.dried">Dried and Salted Fish Section</span></li>
-              <li><span class="stall-section-swatch stall-section-swatch--eateries" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.eateries">Eateries and Cooked Food Section</span></li>
-            </ul>
+            <aside class="stall-section-legend-inline" aria-labelledby="stallSectionLegendTitle">
+              <h3 id="stallSectionLegendTitle" data-translate="map.legendTitle">Section colors</h3>
+              <ul class="stall-section-legend-list">
+                <li><span class="stall-section-swatch stall-section-swatch--special" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.special">Special Area Section</span></li>
+                <li><span class="stall-section-swatch stall-section-swatch--meat" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.meat">Meat and Chicken Section</span></li>
+                <li><span class="stall-section-swatch stall-section-swatch--fish" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.fish">Fresh Fish Section</span></li>
+                <li><span class="stall-section-swatch stall-section-swatch--produce" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.produce">Fruits and Vegetables Section</span></li>
+                <li><span class="stall-section-swatch stall-section-swatch--grocery" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.grocery">Groceries Sari-Sari Section</span></li>
+                <li><span class="stall-section-swatch stall-section-swatch--service" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.service">Service Section</span></li>
+                <li><span class="stall-section-swatch stall-section-swatch--drygoods" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.drygoods">Dry Goods Section</span></li>
+                <li><span class="stall-section-swatch stall-section-swatch--driedfish" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.dried">Dried and Salted Fish Section</span></li>
+                <li><span class="stall-section-swatch stall-section-swatch--eateries" aria-hidden="true"></span><span class="stall-section-eq">=</span><span class="stall-section-name" data-translate="map.sec.eateries">Eateries and Cooked Food Section</span></li>
+              </ul>
+            </aside>
           </div>
         </div>
 
-        <div class="stall-map-panel" id="stallMapPanel" hidden>
-          <div class="stall-section-legend-row">
-            <button type="button" class="stall-section-info" id="stallSectionInfo" aria-haspopup="dialog" aria-controls="stallSectionLegend" aria-label="Section color guide">
-              <span class="stall-section-info-ring" aria-hidden="true"></span>
-              <i class="fas fa-circle-info" aria-hidden="true"></i>
-            </button>
-            <p class="stall-section-info-hint" data-translate="map.legendHint">&lt;-- click this information icon to view the color of designated section</p>
+        <div class="stall-map-full" id="stallMapFull" hidden>
+          <div class="stall-map-full-backdrop" data-map-close></div>
+          <div class="stall-map-full-dialog" role="dialog" aria-modal="true" aria-labelledby="stallMapFullTitle">
+            <div class="stall-map-full-head">
+              <h3 id="stallMapFullTitle" data-translate="map.heroGround">Ground Floor — Site Map</h3>
+              <button type="button" class="stall-map-full-close" data-map-close aria-label="Close">&times;</button>
+            </div>
+            <div class="stall-map-panel is-open" id="stallMapFullBody"></div>
           </div>
-          <?php include __DIR__ . '/includes/market_site_map_schematic.php'; ?>
+          <div class="stall-map-rotate" id="stallMapRotate" hidden>
+            <button type="button" class="stall-map-rotate-card" id="stallMapRotateDismiss">
+              <span class="stall-map-rotate-phone" aria-hidden="true"></span>
+              <span class="stall-map-rotate-text" data-translate="map.rotatePhone">Rotate your phone for better viewing</span>
+              <span class="stall-map-rotate-hint" data-translate="map.rotateTap">Tap to continue</span>
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -3478,7 +3625,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           'map.plazaEm': 'Plaza Map',
           'map.toggleShow': 'Click here to see stall map',
           'map.toggleHide': 'Hide stall map',
-          'map.legendHint': '<-- click this information icon to view the color of designated section',
+          'map.viewFull': 'Click to view full',
+          'map.rotatePhone': 'Rotate your phone for better viewing',
+          'map.rotateTap': 'Tap to continue',
           'map.legendTitle': 'Section colors',
           'map.sec.special': 'Special Area Section',
           'map.sec.meat': 'Meat and Chicken Section',
@@ -3543,7 +3692,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           'map.plazaEm': 'Mapa ng Plaza',
           'map.toggleShow': 'I-click dito para makita ang mapa ng stall',
           'map.toggleHide': 'Itago ang mapa ng stall',
-          'map.legendHint': '<-- i-click ang icon na ito para makita ang kulay ng bawat seksyon',
+          'map.viewFull': 'I-click para makita ang buong mapa',
+          'map.rotatePhone': 'I-rotate ang iyong phone para mas magandang tingnan',
+          'map.rotateTap': 'I-tap para magpatuloy',
           'map.legendTitle': 'Mga kulay ng seksyon',
           'map.sec.special': 'Seksyon ng Special Area',
           'map.sec.meat': 'Seksyon ng Karne at Manok',
@@ -4024,62 +4175,129 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       }
     })();
 
-    // ── Stall map toggle (reusable) ───────────────────────────────────────────
-    function mapToggleText(key, fallback) {
-      return (window.__menuTexts && window.__menuTexts[key]) || fallback;
-    }
-    function makeMapToggle(toggleId, panelId, labelId, iconId, openKey, closeKey, openFb, closeFb) {
-      const toggle = document.getElementById(toggleId);
-      const panel  = document.getElementById(panelId);
-      const label  = document.getElementById(labelId);
-      const icon   = document.getElementById(iconId);
+    (function () {
+      function mapToggleText(key, fallback) {
+        return (window.__menuTexts && window.__menuTexts[key]) || fallback;
+      }
+      var toggle = document.getElementById('stallMapToggle');
+      var panel = document.getElementById('stallMapPanel');
+      var label = document.getElementById('stallMapToggleLabel');
+      var icon = document.getElementById('stallMapToggleIcon');
+      var expand = document.getElementById('stallMapExpand');
+      var full = document.getElementById('stallMapFull');
+      var host = document.getElementById('stallMapSchematicHost');
+      var previewCanvas = document.getElementById('stallMapPreviewCanvas');
+      var fullBody = document.getElementById('stallMapFullBody');
+      var rotateHint = document.getElementById('stallMapRotate');
+      var rotateDismiss = document.getElementById('stallMapRotateDismiss');
       if (!toggle || !panel) return;
+
+      function isPhonePortrait() {
+        return window.matchMedia('(max-width: 991px) and (orientation: portrait)').matches;
+      }
+      function hideRotateHint() {
+        if (!rotateHint) return;
+        rotateHint.hidden = true;
+        rotateHint.classList.remove('is-visible');
+      }
+      function showRotateHint() {
+        if (!rotateHint || !isPhonePortrait()) {
+          hideRotateHint();
+          return;
+        }
+        rotateHint.hidden = false;
+        rotateHint.classList.add('is-visible');
+      }
+
+      function clearMapFit() {
+        if (!host) return;
+        host.style.transform = '';
+        host.style.width = '';
+      }
+
+      function fitFullMap() {
+        if (!host || !fullBody) return;
+        host.style.transform = 'none';
+        host.style.width = '100%';
+        var availW = fullBody.clientWidth;
+        var availH = fullBody.clientHeight;
+        var naturalW = host.scrollWidth;
+        var naturalH = host.scrollHeight;
+        if (!availW || !availH || !naturalW || !naturalH) return;
+        var scale = Math.min(availW / naturalW, availH / naturalH, 1) * 0.97;
+        host.style.transformOrigin = 'top center';
+        host.style.transform = 'scale(' + scale + ')';
+      }
+
+      function closeFull() {
+        if (!full || full.hidden) return;
+        window.removeEventListener('resize', onFullResize);
+        full.hidden = true;
+        full.classList.remove('is-open');
+        document.body.style.overflow = '';
+        hideRotateHint();
+        clearMapFit();
+        if (host && previewCanvas) previewCanvas.appendChild(host);
+        if (expand) expand.focus();
+      }
+
+      function onFullResize() {
+        if (isPhonePortrait()) {
+          showRotateHint();
+        } else {
+          hideRotateHint();
+        }
+        fitFullMap();
+      }
+
+      function openFull() {
+        if (!full || !host || !fullBody) return;
+        fullBody.appendChild(host);
+        full.hidden = false;
+        full.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        showRotateHint();
+        requestAnimationFrame(function () {
+          fitFullMap();
+          requestAnimationFrame(fitFullMap);
+        });
+        window.addEventListener('resize', onFullResize);
+        var closeBtn = full.querySelector('.stall-map-full-close');
+        if (closeBtn && !isPhonePortrait()) closeBtn.focus();
+      }
+
       toggle.addEventListener('click', function () {
-        const isOpen = panel.classList.toggle('is-open');
+        var isOpen = panel.classList.toggle('is-open');
         panel.hidden = !isOpen;
         toggle.classList.toggle('is-open', isOpen);
         toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         if (label) {
-          label.setAttribute('data-translate', isOpen ? closeKey : openKey);
-          label.textContent = isOpen ? mapToggleText(closeKey, closeFb) : mapToggleText(openKey, openFb);
+          label.setAttribute('data-translate', isOpen ? 'map.toggleHide' : 'map.toggleShow');
+          label.textContent = isOpen
+            ? mapToggleText('map.toggleHide', 'Hide stall map')
+            : mapToggleText('map.toggleShow', 'Click here to see stall map');
         }
-        if (icon)  icon.className    = isOpen ? 'fas fa-eye-slash' : 'fas fa-eye';
+        if (icon) icon.className = isOpen ? 'fas fa-eye-slash' : 'fas fa-eye';
+        if (!isOpen) closeFull();
         if (isOpen) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
-    }
-    makeMapToggle('stallMapToggle', 'stallMapPanel', 'stallMapToggleLabel', 'stallMapToggleIcon',
-                  'map.toggleShow', 'map.toggleHide', 'Click here to see stall map', 'Hide stall map');
 
-    (function () {
-      var btn = document.getElementById('stallSectionInfo');
-      var modal = document.getElementById('stallSectionLegend');
-      if (!btn || !modal) return;
-      function openLegend() {
-        modal.hidden = false;
-        document.body.style.overflow = 'hidden';
-        var closeBtn = modal.querySelector('.stall-section-legend-close');
-        if (closeBtn) closeBtn.focus();
-      }
-      function closeLegend() {
-        if (modal.hidden) return;
-        modal.hidden = true;
-        document.body.style.overflow = '';
-        btn.focus();
-      }
-      btn.addEventListener('click', openLegend);
-      modal.addEventListener('click', function (e) {
-        if (e.target.closest('[data-legend-close]')) closeLegend();
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeLegend();
-      });
-      var mapToggle = document.getElementById('stallMapToggle');
-      if (mapToggle) {
-        mapToggle.addEventListener('click', function () {
-          var panel = document.getElementById('stallMapPanel');
-          if (panel && !panel.classList.contains('is-open')) closeLegend();
+      if (expand) expand.addEventListener('click', openFull);
+      if (rotateDismiss) {
+        rotateDismiss.addEventListener('click', function (e) {
+          e.stopPropagation();
+          hideRotateHint();
+          fitFullMap();
         });
       }
+      if (full) {
+        full.addEventListener('click', function (e) {
+          if (e.target.closest('[data-map-close]')) closeFull();
+        });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeFull();
+      });
     })();
   </script>
   <script src="assets/js/menu-landing-hero.js"></script>
