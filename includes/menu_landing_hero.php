@@ -62,7 +62,7 @@ $menu_hero_first_name = $first_name ?? 'User';
         <div class="product-carousel">
           <div class="carousel-cards">
             <div class="card active" data-flavor="classic">
-              <img src="assets/imgs/displaythree.jpg" alt="Easy application">
+              <img src="assets/imgs/displaythree.jpg?v=2" alt="Easy application">
               <div class="card-info"><span>easy application</span></div>
             </div>
             <div class="card" data-flavor="blue">
