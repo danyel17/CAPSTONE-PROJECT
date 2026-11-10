@@ -96,7 +96,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Galada&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Press+Start+2P&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/menu-landing-hero.css?v=mobile-hero-9">
+  <link rel="stylesheet" href="assets/css/menu-landing-hero.css?v=mobile-hero-10">
   <link rel="icon" type="image/jpeg" href="assets/imgs/logo.jpeg">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>

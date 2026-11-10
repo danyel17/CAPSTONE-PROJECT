@@ -501,6 +501,7 @@
     z-index: 2;
 }
 
+.menu-landing-viewport .card[data-flavor="classic"] img,
 .menu-landing-viewport .card[data-flavor="blue"] img{
     width: 212px;
     margin-top: -11.25rem;
@@ -669,10 +670,9 @@
     filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
   }
 
-  /* Classic asset reads slightly smaller — nudge to match renewal */
   .menu-landing-viewport .hero-right .card[data-flavor="classic"] img {
-    width: 116px !important;
-    margin-top: -4.92rem !important;
+    width: 112px !important;
+    margin-top: -4.85rem !important;
   }
 
   .menu-landing-viewport .hero-right .card:hover img {
@@ -728,8 +728,8 @@
   }
 
   .menu-landing-viewport .hero-right .card[data-flavor="classic"] img {
-    width: 107px !important;
-    margin-top: -4.6rem !important;
+    width: 104px !important;
+    margin-top: -4.55rem !important;
   }
 
   .menu-landing-viewport .hero-right .card-info {
