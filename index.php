@@ -2,6 +2,7 @@
 require_once 'config.php';
 require_once 'auth_functions.php';
 require_once 'homepage_news.php';
+require_once __DIR__ . '/includes/media_public_video.php';
 
 $pr = '';
 if (defined('PROMO_WEB_ROOT')) {
@@ -59,6 +60,12 @@ $hero_marketing = htmlspecialchars($pr) . 'assets/imgs/marketing.jpg';
 
 $homepage_news_cards = homepage_news_get_cards();
 $homepage_news_fallback_img = htmlspecialchars($pr) . 'assets/imgs/undermaintenance.jpg';
+
+$notice_video = dpm_media_fetch_announcement(getDBConnection(), [
+    'homepage_announcement_video',
+    'third_video',
+]);
+$homepage_announcement_video_ready = !empty($notice_video['public_src']);
 
 // Redirect logged-in users to the correct portal
 if (isset($_SESSION['user_id'])) {
@@ -1550,93 +1557,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                 <img src="<?php echo htmlspecialchars($pr); ?>assets/imgs/announcementicon.jpg" alt="">
                             </h3>
                             <p class="about-notice-card__hint">announcement, prices, birthdays, etc.</p>
-                            <?php
-                            
-                            $homepage_announcement_video_path = null;
-                            $homepage_announcement_media_id = null;
-                            $conn_index = getDBConnection();
-                            if ($conn_index) {
-                                $mf_check = $conn_index->query("SHOW TABLES LIKE 'media_files'");
-                                if ($mf_check && $mf_check->num_rows > 0) {
-                                    $sec_col = $conn_index->query("SHOW COLUMNS FROM media_files LIKE 'section'");
-                                    if ($sec_col && $sec_col->num_rows === 0) {
-                                        $conn_index->query("ALTER TABLE media_files ADD COLUMN section VARCHAR(100) DEFAULT 'overview_video'");
-                                    }
-                                    $ha_stmt = $conn_index->prepare(
-                                        "SELECT media_id, file_path FROM media_files
-                                         WHERE file_type = 'video' AND section = 'homepage_announcement_video' AND (is_active = 1 OR is_active IS NULL)
-                                         ORDER BY uploaded_at DESC, media_id DESC LIMIT 1"
-                                    );
-                                    if ($ha_stmt) {
-                                        $ha_stmt->execute();
-                                        $ha_res = $ha_stmt->get_result();
-                                        if ($ha_row = $ha_res->fetch_assoc()) {
-                                            $p = trim((string) ($ha_row['file_path'] ?? ''));
-                                            $homepage_announcement_video_path = $p !== '' ? $p : null;
-                                            $homepage_announcement_media_id = isset($ha_row['media_id']) ? (int) $ha_row['media_id'] : null;
-                                        }
-                                        $ha_stmt->close();
-                                    }
-                                }
-                                $conn_index->close();
-                            }
-                            $homepage_announcement_video_ready = false;
-                            $homepage_announcement_video_src = '';
-                            $homepage_announcement_video_mime = 'video/mp4';
-                            if (!empty($homepage_announcement_video_path)) {
-                                $rel = str_replace('\\', '/', trim($homepage_announcement_video_path));
-                                $rel = preg_replace('#/{2,}#', '/', $rel);
-                                $rel = ltrim($rel, '/');
-                                if ($rel !== '' && strpos($rel, '..') === false) {
-                                    $abs = __DIR__ . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $rel);
-                                    if (is_file($abs) && is_readable($abs)) {
-                                        $homepage_announcement_video_ready = true;
-                                        $parts = explode('/', $rel);
-                                        $parts = array_map('rawurlencode', $parts);
-                                        $homepage_announcement_video_src = implode('/', $parts);
-                                        if ($homepage_announcement_media_id > 0) {
-                                            $homepage_announcement_video_src .= '?v=' . $homepage_announcement_media_id;
-                                        }
-                                        if (function_exists('finfo_open')) {
-                                            $fi = @finfo_open(FILEINFO_MIME_TYPE);
-                                            if ($fi) {
-                                                $detected = @finfo_file($fi, $abs);
-                                                finfo_close($fi);
-                                                if (is_string($detected) && strpos($detected, 'video/') === 0) {
-                                                    $homepage_announcement_video_mime = $detected;
-                                                }
-                                            }
-                                        }
-                                        if (strpos($homepage_announcement_video_mime, 'video/') !== 0) {
-                                            $ha_ext = strtolower(pathinfo($rel, PATHINFO_EXTENSION));
-                                            $ext_mimes = [
-                                                'mp4' => 'video/mp4',
-                                                'webm' => 'video/webm',
-                                                'ogg' => 'video/ogg',
-                                                'ogv' => 'video/ogg',
-                                                'mov' => 'video/quicktime',
-                                                'qt' => 'video/quicktime',
-                                                'avi' => 'video/x-msvideo',
-                                                'wmv' => 'video/x-ms-wmv',
-                                            ];
-                                            if (isset($ext_mimes[$ha_ext])) {
-                                                $homepage_announcement_video_mime = $ext_mimes[$ha_ext];
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if (!empty($homepage_announcement_video_ready) && $homepage_announcement_video_src !== ''): ?>
+                            <?php if (!empty($notice_video['public_src'])): ?>
                                 <div class="about-notice-video">
-                                    <video id="aboutNoticeVideo" controls muted playsinline webkit-playsinline preload="auto">
-                                        <source src="<?php echo htmlspecialchars($homepage_announcement_video_src); ?>" type="<?php echo htmlspecialchars($homepage_announcement_video_mime); ?>">
+                                    <video
+                                        id="aboutNoticeVideo"
+                                        controls
+                                        muted
+                                        playsinline
+                                        webkit-playsinline
+                                        preload="auto"
+                                        src="<?php echo htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>"
+                                    >
+                                        <source src="<?php echo htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>" type="<?php echo htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8'); ?>">
                                         Your browser does not support the video tag.
                                     </video>
                                 </div>
                             <?php else: ?>
                                 <span style="color:#6b7280;font-size:1rem;">No announcement video uploaded.</span>
                             <?php endif; ?>
-                            <!-- --- END: Copy from index.php homepage announcement video logic --- -->
                         </div>
                     </div>
                     <div class="about-copy">

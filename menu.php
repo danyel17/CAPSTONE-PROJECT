@@ -26,72 +26,7 @@ if (function_exists('mb_substr') && function_exists('mb_strtoupper')) {
 // Get unread notifications count from database
 $unread_notifications_count = getUnreadApprovalNotificationCount($_SESSION['user_id'] ?? null);
 
-function dpm_menu_resolve_media_video(?array $row): ?array
-{
-    if (!$row) {
-        return null;
-    }
-    $rel = str_replace('\\', '/', trim((string) ($row['file_path'] ?? '')));
-    $rel = preg_replace('#/{2,}#', '/', $rel);
-    $rel = ltrim($rel, '/');
-    if ($rel === '' || strpos($rel, '..') !== false) {
-        return null;
-    }
-    $abs = __DIR__ . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $rel);
-    if (!is_file($abs) || !is_readable($abs)) {
-        if (!is_file($rel) || !is_readable($rel)) {
-            return null;
-        }
-        $abs = $rel;
-    }
-    $parts = array_map('rawurlencode', explode('/', $rel));
-    $src = implode('/', $parts);
-    $mediaId = isset($row['media_id']) ? (int) $row['media_id'] : 0;
-    if ($mediaId > 0) {
-        $src .= '?v=' . $mediaId;
-    }
-    $mime = (string) ($row['mime_type'] ?? '');
-    if (strpos($mime, 'video/') !== 0) {
-        $ext = strtolower(pathinfo($rel, PATHINFO_EXTENSION));
-        $extMimes = [
-            'mp4' => 'video/mp4',
-            'webm' => 'video/webm',
-            'ogg' => 'video/ogg',
-            'ogv' => 'video/ogg',
-            'mov' => 'video/quicktime',
-        ];
-        $mime = $extMimes[$ext] ?? 'video/mp4';
-    }
-    $row['public_src'] = $src;
-    $row['public_mime'] = $mime;
-    return $row;
-}
-
-function dpm_menu_fetch_video(mysqli $conn, array $sections): ?array
-{
-    $stmt = $conn->prepare(
-        "SELECT * FROM media_files
-         WHERE file_type = 'video' AND section = ? AND (is_active = 1 OR is_active IS NULL)
-         ORDER BY display_order ASC, uploaded_at DESC, media_id DESC
-         LIMIT 1"
-    );
-    if (!$stmt) {
-        return null;
-    }
-    foreach ($sections as $section) {
-        $stmt->bind_param('s', $section);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result ? $result->fetch_assoc() : null;
-        $resolved = dpm_menu_resolve_media_video($row ?: null);
-        if ($resolved) {
-            $stmt->close();
-            return $resolved;
-        }
-    }
-    $stmt->close();
-    return null;
-}
+require_once __DIR__ . '/includes/media_public_video.php';
 
 $conn = getDBConnection();
 $promotional_video = null;
@@ -99,9 +34,9 @@ $price_video = null;
 $announcement_video = null;
 
 if ($conn) {
-    $promotional_video = dpm_menu_fetch_video($conn, ['overview_video']);
-    $price_video = dpm_menu_fetch_video($conn, ['price_video']);
-    $announcement_video = dpm_menu_fetch_video($conn, ['third_video', 'homepage_announcement_video']);
+    $promotional_video = dpm_media_fetch_video($conn, ['overview_video', 'promotional_video', 'promo_video']);
+    $price_video = dpm_media_fetch_video($conn, ['price_video', 'prices_video', 'market_price_video']);
+    $announcement_video = dpm_media_fetch_announcement($conn, ['third_video', 'homepage_announcement_video']);
 }
 
 function getSlotStatus($conn, $blockName, $slotNumber) {
@@ -2406,21 +2341,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       min-height: 200px;
       overflow: hidden;
     }
-    .mc-video-wrap .mc-slide {
+    .mc-video-wrap video {
       position: absolute;
       inset: 0;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .mc-video-wrap .mc-slide.active {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      z-index: 1;
-    }
-    .mc-video-wrap video {
       width: 100%;
       height: 100%;
       display: block;
@@ -2428,6 +2351,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       background: #0f0f0f;
       max-height: none;
     }
+    .mc-video-wrap [hidden] { display: none !important; }
 
     /* No media placeholder inside card */
     .mc-no-video {
@@ -2537,7 +2461,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       color: #667eea;
     }
 
-    /* mc-slide: inner video panel visibility handled by .mc-video-wrap .mc-slide rules above */
+    /* Single #mcPlayer fills .mc-video-wrap; src is swapped in JS per tab. */
 
     /* Responsive */
     @media (max-width: 991px) {
@@ -3277,51 +3201,30 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
             <span class="mc-topbar-counter" id="mcTopCounter">1 / 3</span>
           </div>
 
-          <!-- Video panels — only active one shown -->
+          <!-- One always-visible player; src swaps per tab so phones never hide the video -->
           <div class="mc-video-wrap">
-
-            <div class="mc-slide active" id="mcSlide0">
-              <?php if ($price_video): ?>
-                <video controls muted playsinline webkit-playsinline preload="auto" id="mcVideo0">
-                  <source src="<?php echo htmlspecialchars($price_video['public_src']); ?>" type="<?php echo htmlspecialchars($price_video['public_mime']); ?>">
-                </video>
-              <?php else: ?>
-                <div class="mc-no-video">
-                  <i class="fas fa-video-slash"></i>
-                  <p>No video available</p>
-                  <small>Admin can upload a video in the admin panel</small>
-                </div>
+            <video
+              id="mcPlayer"
+              controls
+              muted
+              playsinline
+              webkit-playsinline
+              preload="auto"
+              <?php if (!empty($price_video['public_src'])): ?>
+              src="<?php echo htmlspecialchars($price_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>"
               <?php endif; ?>
+              data-src-0="<?php echo $price_video ? htmlspecialchars($price_video['public_src'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+              data-mime-0="<?php echo $price_video ? htmlspecialchars($price_video['public_mime'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+              data-src-1="<?php echo $promotional_video ? htmlspecialchars($promotional_video['public_src'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+              data-mime-1="<?php echo $promotional_video ? htmlspecialchars($promotional_video['public_mime'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+              data-src-2="<?php echo $announcement_video ? htmlspecialchars($announcement_video['public_src'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+              data-mime-2="<?php echo $announcement_video ? htmlspecialchars($announcement_video['public_mime'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+            ></video>
+            <div class="mc-no-video" id="mcNoVideo" <?php echo !empty($price_video['public_src']) ? 'hidden' : ''; ?>>
+              <i class="fas fa-video-slash"></i>
+              <p>No video available</p>
+              <small>Admin can upload a video in the admin panel</small>
             </div>
-
-            <div class="mc-slide" id="mcSlide1">
-              <?php if ($promotional_video): ?>
-                <video controls muted playsinline webkit-playsinline preload="auto" id="mcVideo1">
-                  <source src="<?php echo htmlspecialchars($promotional_video['public_src']); ?>" type="<?php echo htmlspecialchars($promotional_video['public_mime']); ?>">
-                </video>
-              <?php else: ?>
-                <div class="mc-no-video">
-                  <i class="fas fa-video-slash"></i>
-                  <p>No video available</p>
-                  <small>Admin can upload a video in the admin panel</small>
-                </div>
-              <?php endif; ?>
-            </div>
-
-            <div class="mc-slide" id="mcSlide2">
-              <?php if ($announcement_video): ?>
-                <video controls muted playsinline webkit-playsinline preload="auto" id="mcVideo2">
-                  <source src="<?php echo htmlspecialchars($announcement_video['public_src']); ?>" type="<?php echo htmlspecialchars($announcement_video['public_mime']); ?>">
-                </video>
-              <?php else: ?>
-                <div class="mc-no-video">
-                  <i class="fas fa-video-slash"></i>
-                  <p>No video available</p>
-                  <small>Admin can upload a video in the admin panel</small>
-                </div>
-              <?php endif; ?>
-            </div>
-
           </div><!-- end mc-video-wrap -->
 
           <!-- Bottom info (updated by JS) -->
@@ -4029,27 +3932,57 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       let current = 0;
       let mediaCenterInView = false;
 
-      function getMcVideo(index) {
-        return document.getElementById('mcVideo' + index);
+      function getMcPlayer() {
+        return document.getElementById('mcPlayer');
       }
 
-      function pauseAllMcVideos() {
-        for (let i = 0; i < TOTAL; i++) {
-          const video = getMcVideo(i);
-          if (video && !video.paused) {
-            video.pause();
-          }
+      function getMcSlideSrc(index) {
+        const player = getMcPlayer();
+        if (!player) return '';
+        return (player.getAttribute('data-src-' + index) || '').trim();
+      }
+
+      function pauseMcPlayer() {
+        const player = getMcPlayer();
+        if (player && !player.paused) {
+          player.pause();
         }
       }
 
+      function applyMcSlide(index) {
+        const player = getMcPlayer();
+        const empty = document.getElementById('mcNoVideo');
+        if (!player) return;
+        const src = getMcSlideSrc(index);
+        if (!src) {
+          pauseMcPlayer();
+          player.removeAttribute('src');
+          try { player.load(); } catch (e) {}
+          player.style.display = 'none';
+          if (empty) empty.hidden = false;
+          return;
+        }
+        if (empty) empty.hidden = true;
+        player.style.display = 'block';
+        player.muted = true;
+        player.playsInline = true;
+        player.setAttribute('playsinline', '');
+        player.setAttribute('webkit-playsinline', 'true');
+        if (player.getAttribute('src') !== src) {
+          player.setAttribute('src', src);
+          player.src = src;
+          try { player.load(); } catch (e) {}
+        }
+        playActiveMcVideo();
+      }
+
       function playActiveMcVideo() {
+        const player = getMcPlayer();
+        if (!player || !getMcSlideSrc(current)) return;
         if (!mediaCenterInView) return;
-        const activeVideo = getMcVideo(current);
-        if (!activeVideo) return;
-        activeVideo.muted = true;
-        activeVideo.playsInline = true;
-        activeVideo.setAttribute('webkit-playsinline', 'true');
-        const playPromise = activeVideo.play();
+        player.muted = true;
+        player.playsInline = true;
+        const playPromise = player.play();
         if (playPromise && typeof playPromise.catch === 'function') {
           playPromise.catch(function () {});
         }
@@ -4060,7 +3993,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
         if (shouldPlay) {
           playActiveMcVideo();
         } else {
-          pauseAllMcVideos();
+          pauseMcPlayer();
         }
       }
 
@@ -4093,16 +4026,11 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       ];
 
       function goTo(index) {
-        pauseAllMcVideos();
+        pauseMcPlayer();
 
         current = (index + TOTAL) % TOTAL;
         const s = slides[current];
-
-        // Update video slides
-        for (let i = 0; i < TOTAL; i++) {
-          const sl = document.getElementById('mcSlide' + i);
-          if (sl) sl.classList.toggle('active', i === current);
-        }
+        applyMcSlide(current);
 
         // Update progress dots
         for (let i = 0; i < TOTAL; i++) {
