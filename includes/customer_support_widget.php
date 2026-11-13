@@ -1142,7 +1142,18 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
             color: #ffffff;
         }
 
+        @media (max-width: 768px) {
+            :root {
+                --cs-widget-size: 128px;
+                --cs-widget-gap: 4px;
+            }
+        }
+
         @media (max-width: 520px) {
+            :root {
+                --cs-widget-size: 118px;
+            }
+
             .cs-float-btn {
                 bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
             }

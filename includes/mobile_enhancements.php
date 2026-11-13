@@ -16,12 +16,13 @@
     height: 100%;
   }
   @media (max-width: 768px) {
-    .about-notice-video, .about-notice-video video, #aboutNoticeVideo {
+    .about-notice-video {
+      max-width: none !important;
+    }
+    .about-notice-video video,
+    #aboutNoticeVideo {
       max-width: none !important;
       width: 100% !important;
-      height: auto;
-    }
-    #aboutNoticeVideo {
       height: 100% !important;
       object-fit: cover !important;
     }

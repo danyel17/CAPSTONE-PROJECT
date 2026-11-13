@@ -790,15 +790,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
         }
         .about-notice-video {
             flex: 1 1 auto;
-            width: calc(100% + (2 * var(--notice-pad)));
-            margin: 0.25rem calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
+            width: 100%;
+            max-width: 100%;
+            margin: 0.5rem 0 0;
             background: #fff;
-            border-radius: 0 0 16px 16px;
+            border-radius: 12px;
             overflow: hidden;
             line-height: 0;
             position: relative;
             min-height: 200px;
             aspect-ratio: 16 / 9;
+            box-shadow: inset 0 0 0 1px rgba(45, 35, 108, 0.06);
         }
         #aboutNoticeVideo {
             position: absolute;
@@ -818,7 +820,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             }
             .about-notice-card {
                 height: 100%;
-                padding-bottom: 0;
             }
             .about-notice-card__title {
                 margin-bottom: 0.3rem;
@@ -832,38 +833,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             }
             .about-notice-video {
                 flex: 1 1 0;
-                margin: 0 calc(-1 * var(--notice-pad)) 0;
+                width: 100%;
+                margin: 0.35rem 0 0;
                 min-height: 360px;
                 aspect-ratio: auto;
                 align-self: stretch;
             }
         }
-        /* Mobile: same video as desktop — layout box only differs */
+        /* Mobile: same inset as text — white card shows on left, right, bottom */
         @media (max-width: 768px) {
-            html, body { overflow-x: visible !important; }
             .about-notice-card {
                 min-width: 0;
-                overflow: visible;
             }
             .about-notice-card__hint {
                 margin-bottom: 0.35rem;
             }
             .about-notice-video {
                 flex: none;
-                margin: 0 calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
-                min-height: clamp(220px, 54vw, 380px);
+                width: 100%;
+                max-width: 100%;
+                margin: 0.4rem 0 0;
+                min-height: clamp(200px, 52vw, 360px);
                 aspect-ratio: 16 / 9;
-                overflow: hidden;
-            }
-            #aboutNoticeVideo {
-                position: absolute !important;
-                inset: 0 !important;
-                width: 100% !important;
-                height: 100% !important;
-                max-width: none !important;
-                object-fit: cover !important;
-                object-position: center top !important;
-                background: #fff !important;
             }
         }
         .about-copy {
