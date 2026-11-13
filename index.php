@@ -857,6 +857,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                 aspect-ratio: 16 / 9;
             }
         }
+        /* iOS Safari: compositor layer so inline video paints inside rounded box */
+        @supports (-webkit-touch-callout: none) {
+            .about-notice-video {
+                transform: translateZ(0);
+                -webkit-transform: translateZ(0);
+            }
+            #aboutNoticeVideo {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
+        }
         .about-copy {
             flex: 1 1 300px;
             min-width: 0;
@@ -1607,6 +1618,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                     $notice_src = htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8');
                                     $notice_src_clean = htmlspecialchars($notice_video['public_src_clean'] ?? preg_replace('/[?#].*$/', '', $notice_video['public_src']), ENT_QUOTES, 'UTF-8');
                                     $notice_mime = htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8');
+                                    $notice_ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+                                    $notice_is_ios = (bool) preg_match('/iPad|iPhone|iPod/i', $notice_ua)
+                                        || (stripos($notice_ua, 'Macintosh') !== false && stripos($notice_ua, 'Mobile') !== false);
+                                    $notice_play_src = ($notice_is_ios && $notice_src_clean !== '') ? $notice_src_clean : $notice_src;
                                 ?>
                                 <div class="about-notice-video">
                                     <video
@@ -1615,13 +1630,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                         muted
                                         autoplay
                                         loop
-                                        playsinline="true"
+                                        playsinline
                                         webkit-playsinline="true"
-                                        preload="auto"
-                                        src="<?php echo $notice_src; ?>"
+                                        preload="metadata"
+                                        src="<?php echo $notice_play_src; ?>"
+                                        data-src-primary="<?php echo $notice_src; ?>"
                                         data-src-clean="<?php echo $notice_src_clean; ?>"
                                     >
-                                        <source src="<?php echo $notice_src; ?>" type="<?php echo $notice_mime; ?>">
+                                        <source src="<?php echo $notice_play_src; ?>" type="<?php echo $notice_mime; ?>">
                                     </video>
                                 </div>
                             <?php else: ?>
@@ -2290,23 +2306,32 @@ include __DIR__ . '/includes/customer_support_widget.php';
             });
         });
 
-        /* ── About notice video: mobile uses the same file + player as desktop ── */
+        /* ── About notice video (iOS: clean MP4 URL; desktop: cache-busted URL) ── */
         (function () {
             var noticeVideo = document.getElementById('aboutNoticeVideo');
             if (!noticeVideo) return;
 
-            var primarySrc = noticeVideo.getAttribute('src') || '';
-            var sourceEl = noticeVideo.querySelector('source');
-            if (primarySrc && sourceEl) {
-                sourceEl.setAttribute('src', primarySrc);
+            function isAppleMobile() {
+                var ua = navigator.userAgent || '';
+                if (/iPad|iPhone|iPod/i.test(ua)) return true;
+                return navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+            }
+
+            var primarySrc = noticeVideo.getAttribute('data-src-primary') || noticeVideo.getAttribute('src') || '';
+            var cleanSrc = noticeVideo.getAttribute('data-src-clean') || '';
+            var playSrc = (isAppleMobile() && cleanSrc) ? cleanSrc : primarySrc;
+            if (playSrc) {
+                noticeVideo.setAttribute('src', playSrc);
+                var sourceEl = noticeVideo.querySelector('source');
+                if (sourceEl) sourceEl.setAttribute('src', playSrc);
             }
 
             noticeVideo.muted = true;
             noticeVideo.defaultMuted = true;
             noticeVideo.playsInline = true;
-            noticeVideo.setAttribute('playsinline', 'true');
+            noticeVideo.setAttribute('muted', '');
+            noticeVideo.setAttribute('playsinline', '');
             noticeVideo.setAttribute('webkit-playsinline', 'true');
-            noticeVideo.setAttribute('x5-playsinline', 'true');
 
             function paintNoticeFrame() {
                 try {
@@ -2316,40 +2341,54 @@ include __DIR__ . '/includes/customer_support_widget.php';
                 } catch (e) {}
             }
 
+            function tryPlay() {
+                paintNoticeFrame();
+                var p = noticeVideo.play();
+                if (p && typeof p.catch === 'function') {
+                    p.catch(function () { paintNoticeFrame(); });
+                }
+            }
+
             noticeVideo.addEventListener('loadedmetadata', paintNoticeFrame);
             noticeVideo.addEventListener('loadeddata', paintNoticeFrame);
-            noticeVideo.addEventListener('canplay', paintNoticeFrame);
+            noticeVideo.addEventListener('canplay', tryPlay);
 
-            noticeVideo.addEventListener('error', function () {
-                var clean = noticeVideo.getAttribute('data-src-clean') || '';
+            noticeVideo.addEventListener('error', function onErr() {
                 var current = noticeVideo.getAttribute('src') || '';
-                if (!clean || current.indexOf('?') === -1) return;
-                noticeVideo.setAttribute('src', clean);
+                var next = '';
+                if (current.indexOf('?') !== -1 && cleanSrc && current !== cleanSrc) {
+                    next = cleanSrc;
+                } else if (primarySrc && current !== primarySrc) {
+                    next = primarySrc;
+                }
+                if (!next) return;
+                noticeVideo.removeEventListener('error', onErr);
+                noticeVideo.setAttribute('src', next);
                 var source = noticeVideo.querySelector('source');
-                if (source) source.setAttribute('src', clean);
+                if (source) source.setAttribute('src', next);
                 try { noticeVideo.load(); } catch (e) {}
-            }, { once: true });
+                tryPlay();
+            });
 
-            var playPromise = noticeVideo.play();
-            if (playPromise && typeof playPromise.catch === 'function') {
-                playPromise.catch(function () { paintNoticeFrame(); });
+            try { noticeVideo.load(); } catch (e) {}
+            tryPlay();
+
+            if ('IntersectionObserver' in window) {
+                var about = document.getElementById('about');
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) tryPlay();
+                    });
+                }, { threshold: 0.2 });
+                io.observe(about || noticeVideo);
             }
 
-            if (window.matchMedia('(max-width: 768px)').matches) {
-                document.addEventListener('touchstart', function onTouch() {
-                    paintNoticeFrame();
-                    if (noticeVideo.paused) {
-                        noticeVideo.muted = true;
-                        noticeVideo.play().catch(function () {});
-                    }
-                }, { once: true, passive: true });
-            }
+            noticeVideo.addEventListener('touchstart', function () {
+                tryPlay();
+            }, { passive: true });
 
             noticeVideo.addEventListener('click', function () {
-                if (noticeVideo.paused) {
-                    noticeVideo.muted = true;
-                    noticeVideo.play().catch(function () {});
-                }
+                if (noticeVideo.paused) tryPlay();
             });
         })();
 
