@@ -11390,14 +11390,14 @@ console.log('Check console for errors and network requests');
               ],
               [
                   'key' => 'third_video', 'title' => 'Announcement Video',
-                  'desc' => 'important annoucement',
+                  'desc' => 'Shown on the vendor menu page. Upload here to replace it.',
                   'icon' => 'fa-bullhorn', 'area_id' => 'video3UploadArea',
                   'container' => 'currentVideo3', 'input' => 'video3Upload',
                   'onchange' => 'handleVideo3Upload(this)', 'remove' => 'removeVideo3()',
               ],
               [
                   'key' => 'homepage_announcement_video', 'title' => 'Homepage Announcement Video',
-                  'desc' => 'Featured announcement video on the homepage website.',
+                  'desc' => 'This is the Notice video on the public homepage. Upload here to replace it — do not use File Manager.',
                   'icon' => 'fa-house', 'area_id' => 'homepageAnnouncementUploadArea',
                   'container' => 'currentHomepageAnnouncementVideo', 'input' => 'homepageAnnouncementUpload',
                   'onchange' => 'handleHomepageAnnouncementUpload(this)', 'remove' => 'removeHomepageAnnouncementVideo()',

@@ -786,42 +786,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             line-height: 1.45;
         }
         .about-notice-video {
+            position: relative;
+            flex: 1 1 auto;
             width: 100%;
-            line-height: 0;
-            background: #000;
+            min-height: 320px;
+            aspect-ratio: 16 / 9;
+            background: #111827;
             border-radius: 12px;
+            overflow: hidden;
         }
         .about-notice-video video {
+            position: absolute;
+            inset: 0;
             display: block;
             width: 100%;
-            height: auto;
-            max-width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #111827;
             border: 0;
-            background: #000;
-        }
-        .about-notice-play,
-        .about-notice-fallback { display: none; }
-        .about-notice-play {
-            margin-top: 0.65rem;
-            width: 100%;
-            border: 0;
-            border-radius: 10px;
-            background: #3f4191;
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 0.75rem 1rem;
-        }
-        .about-notice-fallback {
-            margin: 0.55rem 0 0;
-            font-size: 0.9rem;
+            border-radius: 12px;
         }
         @media (max-width: 768px) {
             html, body { overflow-x: visible !important; }
             .about-notice-card { min-width: 0; overflow: visible; }
-            .about-notice-video { border-radius: 0; overflow: visible; }
-            .about-notice-play,
-            .about-notice-fallback { display: block; }
+            .about-notice-video {
+                flex: none;
+                min-height: 200px;
+                overflow: visible;
+            }
+            .about-notice-video video {
+                position: static;
+                inset: auto;
+                height: auto;
+                min-height: 200px;
+                object-fit: contain;
+                -webkit-transform: none;
+                transform: none;
+            }
         }
         .about-copy {
             flex: 1 1 300px;
@@ -1575,17 +1576,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                         id="aboutNoticeVideo"
                                         controls
                                         muted
+                                        autoplay
+                                        loop
                                         playsinline
                                         webkit-playsinline
                                         preload="auto"
                                         src="<?php echo $notice_src; ?>"
-                                        style="width:100%;height:auto;max-width:100%;display:block;background:#000;border-radius:0;-webkit-transform:none;transform:none;"
                                     >
                                         <source src="<?php echo $notice_src; ?>" type="<?php echo htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8'); ?>">
                                     </video>
                                 </div>
-                                <button type="button" class="about-notice-play" id="aboutNoticePlay">Tap to play video</button>
-                                <p class="about-notice-fallback"><a href="<?php echo $notice_src; ?>" target="_blank" rel="noopener">Open video</a></p>
                             <?php else: ?>
                                 <span style="color:#6b7280;font-size:1rem;">No announcement video uploaded.</span>
                             <?php endif; ?>
@@ -2252,10 +2252,9 @@ include __DIR__ . '/includes/customer_support_widget.php';
             });
         });
 
-        /* ── About notice video: iPhone needs a tap; do not pause on scroll ── */
+        /* ── About notice video ── */
         (function () {
             var noticeVideo = document.getElementById('aboutNoticeVideo');
-            var playBtn = document.getElementById('aboutNoticePlay');
             if (!noticeVideo) return;
 
             noticeVideo.muted = true;
@@ -2263,22 +2262,10 @@ include __DIR__ . '/includes/customer_support_widget.php';
             noticeVideo.playsInline = true;
             noticeVideo.setAttribute('playsinline', '');
             noticeVideo.setAttribute('webkit-playsinline', 'true');
-
-            function tryPlay() {
-                noticeVideo.muted = true;
-                var p = noticeVideo.play();
-                if (p && typeof p.catch === 'function') {
-                    p.catch(function () {});
-                }
+            var playPromise = noticeVideo.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(function () {});
             }
-
-            if (playBtn) {
-                playBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    tryPlay();
-                });
-            }
-            document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
         })();
 
         /* ── Contact form ── */
