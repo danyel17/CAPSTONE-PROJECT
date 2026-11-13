@@ -190,13 +190,13 @@ $ticker = [
                 linear-gradient(90deg, rgba(12,8,32,0.82) 0%, rgba(12,8,32,0.55) 46%, rgba(12,8,32,0.22) 100%),
                 linear-gradient(to top, rgba(12,8,32,0.78) 0%, rgba(12,8,32,0.15) 46%, transparent 70%);
         }
-        /* Mobile/tablet: crop baked-in video titles (match desktop — no on-video text visible) */
+        /* Mobile/tablet: crop top of hero video so baked-in titles stay off-screen */
         @media (max-width: 900px) {
             .hero__media video {
                 object-fit: cover;
-                object-position: 50% 56%;
-                transform: scale(1.22);
-                transform-origin: 50% 42%;
+                object-position: 50% 82%;
+                transform: scale(1.38);
+                transform-origin: 50% 78%;
             }
             .hero__shade {
                 background:
@@ -207,16 +207,16 @@ $ticker = [
         }
         @media (max-width: 768px) {
             .hero__media video {
-                object-position: 50% 58%;
-                transform: scale(1.26);
-                transform-origin: 50% 40%;
+                object-position: 50% 86%;
+                transform: scale(1.44);
+                transform-origin: 50% 82%;
             }
         }
         @media (max-width: 480px) {
             .hero__media video {
-                object-position: 50% 62%;
-                transform: scale(1.32);
-                transform-origin: 50% 38%;
+                object-position: 50% 90%;
+                transform: scale(1.5);
+                transform-origin: 50% 85%;
             }
         }
         .hero__inner {
