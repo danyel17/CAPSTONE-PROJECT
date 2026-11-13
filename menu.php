@@ -26,39 +26,82 @@ if (function_exists('mb_substr') && function_exists('mb_strtoupper')) {
 // Get unread notifications count from database
 $unread_notifications_count = getUnreadApprovalNotificationCount($_SESSION['user_id'] ?? null);
 
-// Get video files from database
+function dpm_menu_resolve_media_video(?array $row): ?array
+{
+    if (!$row) {
+        return null;
+    }
+    $rel = str_replace('\\', '/', trim((string) ($row['file_path'] ?? '')));
+    $rel = preg_replace('#/{2,}#', '/', $rel);
+    $rel = ltrim($rel, '/');
+    if ($rel === '' || strpos($rel, '..') !== false) {
+        return null;
+    }
+    $abs = __DIR__ . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $rel);
+    if (!is_file($abs) || !is_readable($abs)) {
+        if (!is_file($rel) || !is_readable($rel)) {
+            return null;
+        }
+        $abs = $rel;
+    }
+    $parts = array_map('rawurlencode', explode('/', $rel));
+    $src = implode('/', $parts);
+    $mediaId = isset($row['media_id']) ? (int) $row['media_id'] : 0;
+    if ($mediaId > 0) {
+        $src .= '?v=' . $mediaId;
+    }
+    $mime = (string) ($row['mime_type'] ?? '');
+    if (strpos($mime, 'video/') !== 0) {
+        $ext = strtolower(pathinfo($rel, PATHINFO_EXTENSION));
+        $extMimes = [
+            'mp4' => 'video/mp4',
+            'webm' => 'video/webm',
+            'ogg' => 'video/ogg',
+            'ogv' => 'video/ogg',
+            'mov' => 'video/quicktime',
+        ];
+        $mime = $extMimes[$ext] ?? 'video/mp4';
+    }
+    $row['public_src'] = $src;
+    $row['public_mime'] = $mime;
+    return $row;
+}
+
+function dpm_menu_fetch_video(mysqli $conn, array $sections): ?array
+{
+    $stmt = $conn->prepare(
+        "SELECT * FROM media_files
+         WHERE file_type = 'video' AND section = ? AND (is_active = 1 OR is_active IS NULL)
+         ORDER BY display_order ASC, uploaded_at DESC, media_id DESC
+         LIMIT 1"
+    );
+    if (!$stmt) {
+        return null;
+    }
+    foreach ($sections as $section) {
+        $stmt->bind_param('s', $section);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result ? $result->fetch_assoc() : null;
+        $resolved = dpm_menu_resolve_media_video($row ?: null);
+        if ($resolved) {
+            $stmt->close();
+            return $resolved;
+        }
+    }
+    $stmt->close();
+    return null;
+}
+
 $conn = getDBConnection();
 $promotional_video = null;
 $price_video = null;
 $announcement_video = null;
 
 if ($conn) {
-    // Get promotional permit video (overview_video)
-    $stmt = $conn->prepare("SELECT * FROM media_files WHERE file_type = 'video' AND section = 'overview_video' AND is_active = TRUE ORDER BY display_order ASC, uploaded_at DESC LIMIT 1");
-    if ($stmt) {
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $promotional_video = $result->fetch_assoc();
-        $stmt->close();
-    }
-    
-    // Get price video (price_video)
-    $stmt = $conn->prepare("SELECT * FROM media_files WHERE file_type = 'video' AND section = 'price_video' AND is_active = TRUE ORDER BY display_order ASC, uploaded_at DESC LIMIT 1");
-    if ($stmt) {
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $price_video = $result->fetch_assoc();
-        $stmt->close();
-    }
-    
-    // Get announcement video (third_video)
-    $stmt = $conn->prepare("SELECT * FROM media_files WHERE file_type = 'video' AND section = 'third_video' AND is_active = TRUE ORDER BY display_order ASC, uploaded_at DESC LIMIT 1");
-    if ($stmt) {
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $announcement_video = $result->fetch_assoc();
-        $stmt->close();
-    }
+    $promotional_video = dpm_menu_fetch_video($conn, ['overview_video']);
+    $price_video = dpm_menu_fetch_video($conn, ['price_video']);
+    $announcement_video = dpm_menu_fetch_video($conn, ['third_video', 'homepage_announcement_video']);
 }
 
 function getSlotStatus($conn, $blockName, $slotNumber) {
@@ -3212,9 +3255,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           <div class="mc-video-wrap">
 
             <div class="mc-slide active" id="mcSlide0">
-              <?php if ($price_video && file_exists($price_video['file_path'])): ?>
+              <?php if ($price_video): ?>
                 <video controls muted playsinline preload="metadata" id="mcVideo0">
-                  <source src="<?php echo htmlspecialchars($price_video['file_path']); ?>" type="<?php echo htmlspecialchars($price_video['mime_type']); ?>">
+                  <source src="<?php echo htmlspecialchars($price_video['public_src']); ?>" type="<?php echo htmlspecialchars($price_video['public_mime']); ?>">
                 </video>
               <?php else: ?>
                 <div class="mc-no-video">
@@ -3226,9 +3269,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
             </div>
 
             <div class="mc-slide" id="mcSlide1">
-              <?php if ($promotional_video && file_exists($promotional_video['file_path'])): ?>
+              <?php if ($promotional_video): ?>
                 <video controls muted playsinline preload="metadata" id="mcVideo1">
-                  <source src="<?php echo htmlspecialchars($promotional_video['file_path']); ?>" type="<?php echo htmlspecialchars($promotional_video['mime_type']); ?>">
+                  <source src="<?php echo htmlspecialchars($promotional_video['public_src']); ?>" type="<?php echo htmlspecialchars($promotional_video['public_mime']); ?>">
                 </video>
               <?php else: ?>
                 <div class="mc-no-video">
@@ -3240,9 +3283,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
             </div>
 
             <div class="mc-slide" id="mcSlide2">
-              <?php if ($announcement_video && file_exists($announcement_video['file_path'])): ?>
+              <?php if ($announcement_video): ?>
                 <video controls muted playsinline preload="metadata" id="mcVideo2">
-                  <source src="<?php echo htmlspecialchars($announcement_video['file_path']); ?>" type="<?php echo htmlspecialchars($announcement_video['mime_type']); ?>">
+                  <source src="<?php echo htmlspecialchars($announcement_video['public_src']); ?>" type="<?php echo htmlspecialchars($announcement_video['public_mime']); ?>">
                 </video>
               <?php else: ?>
                 <div class="mc-no-video">
