@@ -182,6 +182,7 @@ $ticker = [
             height: 100%;
             object-fit: cover;
             object-position: center center;
+            transform: none;
         }
         .hero__shade {
             position: absolute; inset: 0; z-index: 1;
@@ -189,16 +190,13 @@ $ticker = [
                 linear-gradient(90deg, rgba(12,8,32,0.82) 0%, rgba(12,8,32,0.55) 46%, rgba(12,8,32,0.22) 100%),
                 linear-gradient(to top, rgba(12,8,32,0.78) 0%, rgba(12,8,32,0.15) 46%, transparent 70%);
         }
-        /* Mobile: crop baked-in “Palengke Tour” title out of the hero video */
+        /* Mobile/tablet: crop baked-in video titles (match desktop — no on-video text visible) */
         @media (max-width: 900px) {
             .hero__media video {
-                height: 118%;
-                width: 108%;
-                max-width: none;
                 object-fit: cover;
-                object-position: 50% 78%;
-                transform: translate(-4%, -10%) scale(1.06);
-                transform-origin: 50% 70%;
+                object-position: 50% 56%;
+                transform: scale(1.22);
+                transform-origin: 50% 42%;
             }
             .hero__shade {
                 background:
@@ -207,12 +205,18 @@ $ticker = [
                     linear-gradient(to top, rgba(12,8,32,0.82) 0%, rgba(12,8,32,0.2) 42%, transparent 72%);
             }
         }
+        @media (max-width: 768px) {
+            .hero__media video {
+                object-position: 50% 58%;
+                transform: scale(1.26);
+                transform-origin: 50% 40%;
+            }
+        }
         @media (max-width: 480px) {
             .hero__media video {
-                height: 125%;
-                width: 112%;
-                object-position: 50% 82%;
-                transform: translate(-6%, -14%) scale(1.1);
+                object-position: 50% 62%;
+                transform: scale(1.32);
+                transform-origin: 50% 38%;
             }
         }
         .hero__inner {
