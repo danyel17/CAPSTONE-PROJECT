@@ -138,16 +138,14 @@ if (!function_exists('dpm_media_project_root')) {
         }
 
         $publicSrc = dpm_media_web_path($rel, $foundAbs);
-        $fileType = strtolower(trim((string) ($row['file_type'] ?? '')));
         $mediaId = isset($row['media_id']) ? (int) $row['media_id'] : 0;
-        // Hostinger CDN can 404 MP4 URLs with ?v= — iOS then shows a broken (slashed) play icon.
-        if ($fileType === 'video') {
-            $publicSrc = preg_replace('/[?#].*$/', '', $publicSrc);
-        } elseif ($mediaId > 0 && strpos($publicSrc, '://') === false) {
+        $publicSrcClean = preg_replace('/[?#].*$/', '', $publicSrc);
+        if ($mediaId > 0 && strpos($publicSrc, '://') === false) {
             $publicSrc .= (strpos($publicSrc, '?') === false ? '?' : '&') . 'v=' . $mediaId;
         }
 
         $row['public_src'] = $publicSrc;
+        $row['public_src_clean'] = $publicSrcClean;
         $row['public_mime'] = dpm_media_video_mime_for($foundAbs !== '' ? $foundAbs : $rel, (string) ($row['mime_type'] ?? ''));
         $row['abs_path'] = $foundAbs;
         return $row;

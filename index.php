@@ -807,12 +807,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             width: 100%;
             height: 100%;
             max-width: none;
-            object-fit: cover;
-            object-position: center top;
-            background: #fff;
+            object-fit: contain;
+            object-position: center center;
+            background: #111827;
             border: 0;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
         }
         @media (min-width: 769px) {
             .about-visual {
@@ -839,8 +837,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                 aspect-ratio: auto;
                 align-self: stretch;
             }
+            #aboutNoticeVideo {
+                object-fit: cover;
+                object-position: center top;
+                background: #fff;
+            }
         }
-        /* Mobile uses the same Notice player as desktop (no alternate layout). */
+        /* Mobile: same player rules as desktop — only card width differs */
         @media (max-width: 768px) {
             .about-notice-card {
                 min-width: 0;
@@ -853,6 +856,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                 margin: 0 calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
                 min-height: 240px;
                 aspect-ratio: 16 / 9;
+            }
+            #aboutNoticeVideo {
+                object-fit: cover;
+                object-position: center top;
+                background: #fff;
             }
         }
         .about-copy {
@@ -1601,7 +1609,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                             </h3>
                             <p class="about-notice-card__hint">announcement, prices, birthdays, etc.</p>
                             <?php if (!empty($notice_video['public_src'])): ?>
-                                <?php $notice_src = htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>
+                                <?php
+                                    $notice_src = htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8');
+                                    $notice_src_clean = htmlspecialchars($notice_video['public_src_clean'] ?? preg_replace('/[?#].*$/', '', $notice_video['public_src']), ENT_QUOTES, 'UTF-8');
+                                    $notice_mime = htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8');
+                                ?>
                                 <div class="about-notice-video">
                                     <video
                                         id="aboutNoticeVideo"
@@ -1613,7 +1625,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                         webkit-playsinline="true"
                                         preload="auto"
                                         src="<?php echo $notice_src; ?>"
-                                    ></video>
+                                        data-src-clean="<?php echo $notice_src_clean; ?>"
+                                    >
+                                        <source src="<?php echo $notice_src; ?>" type="<?php echo $notice_mime; ?>">
+                                    </video>
                                 </div>
                             <?php else: ?>
                                 <span style="color:#6b7280;font-size:1rem;">No announcement video uploaded.</span>
@@ -2305,11 +2320,13 @@ include __DIR__ . '/includes/customer_support_widget.php';
             noticeVideo.addEventListener('canplay', paintNoticeFrame);
 
             noticeVideo.addEventListener('error', function () {
-                var s = noticeVideo.getAttribute('src') || '';
-                if (s.indexOf('?') !== -1) {
-                    noticeVideo.setAttribute('src', s.replace(/[?#].*$/, ''));
-                    try { noticeVideo.load(); } catch (e) {}
-                }
+                var clean = noticeVideo.getAttribute('data-src-clean') || '';
+                var current = noticeVideo.getAttribute('src') || '';
+                if (!clean || current.indexOf('?') === -1) return;
+                noticeVideo.setAttribute('src', clean);
+                var source = noticeVideo.querySelector('source');
+                if (source) source.setAttribute('src', clean);
+                try { noticeVideo.load(); } catch (e) {}
             }, { once: true });
 
             var playPromise = noticeVideo.play();
