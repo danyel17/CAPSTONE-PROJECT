@@ -75,8 +75,9 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
         }
 <?php endif; ?>
         :root {
-            --cs-widget-size: 240px;
-            --cs-widget-gap: 0;
+            /* One size sitewide — readable but not oversized (was 240px) */
+            --cs-widget-size: 168px;
+            --cs-widget-gap: 6px;
         }
 
         /* Draggable customer service icon */
@@ -1142,11 +1143,6 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
         }
 
         @media (max-width: 520px) {
-            :root {
-                --cs-widget-size: 200px;
-                --cs-widget-gap: 0;
-            }
-
             .cs-float-btn {
                 bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
             }
