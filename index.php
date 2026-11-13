@@ -797,14 +797,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             overflow: hidden;
             line-height: 0;
             position: relative;
-            min-height: 0;
+            min-height: 200px;
+            aspect-ratio: 16 / 9;
         }
         #aboutNoticeVideo {
+            position: absolute;
+            inset: 0;
             display: block;
             width: 100%;
-            height: auto;
-            max-width: 100%;
-            object-fit: contain;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
             background: #fff;
             border: 0;
         }
@@ -830,48 +833,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                 flex: 1 1 0;
                 margin: 0 calc(-1 * var(--notice-pad)) 0;
                 min-height: 360px;
+                aspect-ratio: auto;
                 align-self: stretch;
-            }
-            #aboutNoticeVideo {
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                min-height: 0;
-                object-fit: cover;
-                object-position: center top;
             }
         }
         @media (max-width: 768px) {
-            html, body { overflow-x: visible !important; }
             .about-notice-card {
                 min-width: 0;
-                overflow: visible;
-                padding-bottom: var(--notice-pad);
             }
             .about-notice-video {
-                width: calc(100% + (2 * var(--notice-pad)));
+                flex: none;
                 margin: 0 calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
-                position: relative;
-                aspect-ratio: 16 / 9;
-                min-height: 200px;
-                overflow: visible;
-                background: #fff;
-                border-radius: 0 0 16px 16px;
-                -webkit-mask-image: none;
-            }
-            #aboutNoticeVideo {
-                position: relative !important;
-                inset: auto !important;
-                width: 100% !important;
-                height: 100% !important;
-                min-height: 200px;
-                max-height: none;
-                object-fit: contain !important;
-                background: #fff;
-                border-radius: 0;
-                -webkit-transform: none !important;
-                transform: none !important;
             }
         }
         .about-copy {
@@ -1626,12 +1598,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                         id="aboutNoticeVideo"
                                         controls
                                         muted
+                                        autoplay
+                                        loop
                                         playsinline="true"
                                         webkit-playsinline="true"
-                                        preload="metadata"
+                                        preload="auto"
                                         src="<?php echo $notice_src; ?>"
-                                        data-autoplay-desktop="1"
-                                    ></video>
+                                    >
+                                        <source src="<?php echo $notice_src; ?>" type="<?php echo htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8'); ?>">
+                                    </video>
                                 </div>
                             <?php else: ?>
                                 <span style="color:#6b7280;font-size:1rem;">No announcement video uploaded.</span>
@@ -2299,13 +2274,10 @@ include __DIR__ . '/includes/customer_support_widget.php';
             });
         });
 
-        /* ── About notice video (iPhone: no autoplay; show frame via controls) ── */
+        /* ── About notice video (same init on desktop and mobile) ── */
         (function () {
             var noticeVideo = document.getElementById('aboutNoticeVideo');
             if (!noticeVideo) return;
-
-            var isMobile = window.matchMedia('(max-width: 768px)').matches
-                || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '');
 
             noticeVideo.muted = true;
             noticeVideo.defaultMuted = true;
@@ -2323,25 +2295,19 @@ include __DIR__ . '/includes/customer_support_widget.php';
 
             noticeVideo.addEventListener('loadedmetadata', paintNoticeFrame);
             noticeVideo.addEventListener('loadeddata', paintNoticeFrame);
+            noticeVideo.addEventListener('canplay', paintNoticeFrame);
 
-            if (isMobile) {
-                noticeVideo.removeAttribute('autoplay');
-                noticeVideo.removeAttribute('loop');
-                noticeVideo.setAttribute('preload', 'metadata');
-                noticeVideo.addEventListener('click', function () {
-                    if (noticeVideo.paused) {
-                        noticeVideo.muted = true;
-                        noticeVideo.play().catch(function () {});
-                    }
-                });
-            } else if (noticeVideo.getAttribute('data-autoplay-desktop') === '1') {
-                noticeVideo.setAttribute('autoplay', '');
-                noticeVideo.setAttribute('loop', '');
-                var playPromise = noticeVideo.play();
-                if (playPromise && typeof playPromise.catch === 'function') {
-                    playPromise.catch(function () { paintNoticeFrame(); });
-                }
+            var playPromise = noticeVideo.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(function () { paintNoticeFrame(); });
             }
+
+            noticeVideo.addEventListener('click', function () {
+                if (noticeVideo.paused) {
+                    noticeVideo.muted = true;
+                    noticeVideo.play().catch(function () {});
+                }
+            });
         })();
 
         /* ── Contact form ── */
