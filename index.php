@@ -806,10 +806,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             display: block;
             width: 100%;
             height: 100%;
+            max-width: none;
             object-fit: cover;
             object-position: center top;
             background: #fff;
             border: 0;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
         @media (min-width: 769px) {
             .about-visual {
@@ -837,26 +840,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                 align-self: stretch;
             }
         }
+        /* Mobile uses the same Notice player as desktop (no alternate layout). */
         @media (max-width: 768px) {
             .about-notice-card {
                 min-width: 0;
-                overflow: visible;
+            }
+            .about-notice-card__hint {
+                margin-bottom: 0.35rem;
             }
             .about-notice-video {
                 flex: none;
                 margin: 0 calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
-                overflow: visible;
-                -webkit-mask-image: none;
-            }
-            #aboutNoticeVideo {
-                position: static !important;
-                inset: auto !important;
-                width: 100% !important;
-                height: auto !important;
-                min-height: 200px;
-                object-fit: contain !important;
-                -webkit-transform: none !important;
-                transform: none !important;
+                min-height: 240px;
+                aspect-ratio: 16 / 9;
             }
         }
         .about-copy {
