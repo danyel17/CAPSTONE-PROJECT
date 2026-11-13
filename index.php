@@ -745,19 +745,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             flex: 1 1 380px;
             position: relative;
             display: flex;
+            align-items: stretch;
             min-width: 0;
         }
         .about-notice-card {
+            --notice-pad: clamp(1.35rem, 2.5vw, 1.85rem);
             flex: 1;
             width: 100%;
             background: #fff;
             border-radius: 16px;
             box-shadow: 0 8px 30px rgba(45, 35, 108, 0.08);
-            padding: clamp(1.35rem, 2.5vw, 1.85rem);
+            padding: var(--notice-pad);
             min-width: 300px;
             display: flex;
             flex-direction: column;
             align-items: stretch;
+            min-height: 100%;
         }
         .about-notice-card__title {
             font-family: var(--font-serif);
@@ -786,40 +789,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             line-height: 1.45;
         }
         .about-notice-video {
-            position: relative;
             flex: 1 1 auto;
-            width: 100%;
-            min-height: 320px;
-            aspect-ratio: 16 / 9;
-            background: #111827;
-            border-radius: 12px;
+            width: calc(100% + (2 * var(--notice-pad)));
+            margin: 0.25rem calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
+            background: #fff;
+            border-radius: 0 0 16px 16px;
             overflow: hidden;
+            line-height: 0;
+            position: relative;
+            min-height: 0;
         }
-        .about-notice-video video {
-            position: absolute;
-            inset: 0;
+        #aboutNoticeVideo {
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            background: #111827;
+            object-fit: contain;
+            background: #fff;
             border: 0;
-            border-radius: 12px;
+        }
+        @media (min-width: 769px) {
+            .about-visual {
+                align-self: stretch;
+            }
+            .about-notice-card {
+                height: 100%;
+                padding-bottom: 0;
+            }
+            .about-notice-card__title {
+                margin-bottom: 0.3rem;
+            }
+            .about-notice-card__title,
+            .about-notice-card__hint {
+                flex-shrink: 0;
+            }
+            .about-notice-card__hint {
+                margin-bottom: 0.35rem;
+            }
+            .about-notice-video {
+                flex: 1 1 0;
+                margin: 0 calc(-1 * var(--notice-pad)) 0;
+                min-height: 360px;
+                align-self: stretch;
+            }
+            #aboutNoticeVideo {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                min-height: 0;
+                object-fit: cover;
+                object-position: center top;
+            }
         }
         @media (max-width: 768px) {
             html, body { overflow-x: visible !important; }
-            .about-notice-card { min-width: 0; overflow: visible; }
-            .about-notice-video {
-                flex: none;
-                min-height: 200px;
+            .about-notice-card {
+                min-width: 0;
                 overflow: visible;
+                padding-bottom: var(--notice-pad);
             }
-            .about-notice-video video {
-                position: static;
-                inset: auto;
-                height: auto;
+            .about-notice-video {
+                width: calc(100% + (2 * var(--notice-pad)));
+                margin-left: calc(-1 * var(--notice-pad));
+                margin-right: calc(-1 * var(--notice-pad));
+                margin-bottom: calc(-1 * var(--notice-pad));
+                min-height: 0;
+                aspect-ratio: 16 / 9;
+                overflow: visible;
+                -webkit-mask-image: none;
+                border-radius: 0 0 16px 16px;
+            }
+            #aboutNoticeVideo {
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
                 min-height: 200px;
-                object-fit: contain;
+                max-height: none;
+                object-fit: contain !important;
+                background: #fff;
                 -webkit-transform: none;
                 transform: none;
             }
@@ -1576,14 +1623,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                         id="aboutNoticeVideo"
                                         controls
                                         muted
-                                        autoplay
-                                        loop
-                                        playsinline
-                                        webkit-playsinline
+                                        playsinline="true"
+                                        webkit-playsinline="true"
                                         preload="auto"
                                         src="<?php echo $notice_src; ?>"
+                                        data-autoplay-desktop="1"
                                     >
                                         <source src="<?php echo $notice_src; ?>" type="<?php echo htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8'); ?>">
+                                        Your browser does not support the video tag.
                                     </video>
                                 </div>
                             <?php else: ?>
@@ -2252,19 +2299,43 @@ include __DIR__ . '/includes/customer_support_widget.php';
             });
         });
 
-        /* ── About notice video ── */
+        /* ── About notice video (iPhone: no autoplay; show frame via controls) ── */
         (function () {
             var noticeVideo = document.getElementById('aboutNoticeVideo');
             if (!noticeVideo) return;
 
+            var isMobile = window.matchMedia('(max-width: 768px)').matches
+                || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '');
+
             noticeVideo.muted = true;
             noticeVideo.defaultMuted = true;
             noticeVideo.playsInline = true;
-            noticeVideo.setAttribute('playsinline', '');
+            noticeVideo.setAttribute('playsinline', 'true');
             noticeVideo.setAttribute('webkit-playsinline', 'true');
-            var playPromise = noticeVideo.play();
-            if (playPromise && typeof playPromise.catch === 'function') {
-                playPromise.catch(function () {});
+
+            function paintNoticeFrame() {
+                try {
+                    if (noticeVideo.readyState >= 1 && noticeVideo.currentTime < 0.05) {
+                        noticeVideo.currentTime = 0.12;
+                    }
+                } catch (e) {}
+            }
+
+            noticeVideo.addEventListener('loadedmetadata', paintNoticeFrame);
+            noticeVideo.addEventListener('loadeddata', paintNoticeFrame);
+
+            if (isMobile) {
+                noticeVideo.removeAttribute('autoplay');
+                noticeVideo.removeAttribute('loop');
+                noticeVideo.setAttribute('preload', 'auto');
+                try { noticeVideo.load(); } catch (e) {}
+            } else if (noticeVideo.getAttribute('data-autoplay-desktop') === '1') {
+                noticeVideo.setAttribute('autoplay', '');
+                noticeVideo.setAttribute('loop', '');
+                var playPromise = noticeVideo.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.catch(function () { paintNoticeFrame(); });
+                }
             }
         })();
 
