@@ -840,10 +840,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
         @media (max-width: 768px) {
             .about-notice-card {
                 min-width: 0;
+                overflow: visible;
             }
             .about-notice-video {
                 flex: none;
                 margin: 0 calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
+                overflow: visible;
+                -webkit-mask-image: none;
+            }
+            #aboutNoticeVideo {
+                position: static !important;
+                inset: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                min-height: 200px;
+                object-fit: contain !important;
+                -webkit-transform: none !important;
+                transform: none !important;
             }
         }
         .about-copy {
@@ -1604,9 +1617,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                         webkit-playsinline="true"
                                         preload="auto"
                                         src="<?php echo $notice_src; ?>"
-                                    >
-                                        <source src="<?php echo $notice_src; ?>" type="<?php echo htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8'); ?>">
-                                    </video>
+                                    ></video>
                                 </div>
                             <?php else: ?>
                                 <span style="color:#6b7280;font-size:1rem;">No announcement video uploaded.</span>
@@ -2296,6 +2307,14 @@ include __DIR__ . '/includes/customer_support_widget.php';
             noticeVideo.addEventListener('loadedmetadata', paintNoticeFrame);
             noticeVideo.addEventListener('loadeddata', paintNoticeFrame);
             noticeVideo.addEventListener('canplay', paintNoticeFrame);
+
+            noticeVideo.addEventListener('error', function () {
+                var s = noticeVideo.getAttribute('src') || '';
+                if (s.indexOf('?') !== -1) {
+                    noticeVideo.setAttribute('src', s.replace(/[?#].*$/, ''));
+                    try { noticeVideo.load(); } catch (e) {}
+                }
+            }, { once: true });
 
             var playPromise = noticeVideo.play();
             if (playPromise && typeof playPromise.catch === 'function') {
