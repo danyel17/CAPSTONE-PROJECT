@@ -2402,14 +2402,31 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       position: relative;
       width: 100%;
       background: #0f0f0f;
+      aspect-ratio: 16 / 9;
+      min-height: 200px;
+      overflow: hidden;
     }
-    .mc-video-wrap .mc-slide { display: none; }
-    .mc-video-wrap .mc-slide.active { display: block; }
+    .mc-video-wrap .mc-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .mc-video-wrap .mc-slide.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 1;
+    }
     .mc-video-wrap video {
       width: 100%;
+      height: 100%;
       display: block;
-      max-height: 400px;
       object-fit: contain;
+      background: #0f0f0f;
+      max-height: none;
     }
 
     /* No media placeholder inside card */
@@ -2418,7 +2435,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 280px;
+      position: absolute;
+      inset: 0;
+      min-height: 0;
       background: #f8fafc;
       color: #94a3b8;
       gap: 0.75rem;
@@ -2525,6 +2544,10 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       .media-center-wrapper { margin-left: -1rem; margin-right: -1rem; width: calc(100% + 2rem); padding: 3rem 1.5rem 3.5rem; }
       .mc-nav-prev { left: -15px; }
       .mc-nav-next { right: -15px; }
+      .mc-card { overflow: visible; }
+      .mc-video-wrap {
+        min-height: 220px;
+      }
     }
     @media (max-width: 768px) {
       .mc-nav-prev, .mc-nav-next { width: 36px; height: 36px; font-size: 0.85rem; }
@@ -2537,6 +2560,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       .mc-nav-next { right: 4px; }
       .mc-tabs { gap: 0.5rem; }
       .mc-tab { padding: 0.5rem 1rem; font-size: 0.82rem; }
+      .mc-video-wrap {
+        min-height: 180px;
+      }
     }
 
     /* ============================================
@@ -3256,7 +3282,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
 
             <div class="mc-slide active" id="mcSlide0">
               <?php if ($price_video): ?>
-                <video controls muted playsinline preload="metadata" id="mcVideo0">
+                <video controls muted playsinline webkit-playsinline preload="auto" id="mcVideo0">
                   <source src="<?php echo htmlspecialchars($price_video['public_src']); ?>" type="<?php echo htmlspecialchars($price_video['public_mime']); ?>">
                 </video>
               <?php else: ?>
@@ -3270,7 +3296,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
 
             <div class="mc-slide" id="mcSlide1">
               <?php if ($promotional_video): ?>
-                <video controls muted playsinline preload="metadata" id="mcVideo1">
+                <video controls muted playsinline webkit-playsinline preload="auto" id="mcVideo1">
                   <source src="<?php echo htmlspecialchars($promotional_video['public_src']); ?>" type="<?php echo htmlspecialchars($promotional_video['public_mime']); ?>">
                 </video>
               <?php else: ?>
@@ -3284,7 +3310,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
 
             <div class="mc-slide" id="mcSlide2">
               <?php if ($announcement_video): ?>
-                <video controls muted playsinline preload="metadata" id="mcVideo2">
+                <video controls muted playsinline webkit-playsinline preload="auto" id="mcVideo2">
                   <source src="<?php echo htmlspecialchars($announcement_video['public_src']); ?>" type="<?php echo htmlspecialchars($announcement_video['public_mime']); ?>">
                 </video>
               <?php else: ?>
@@ -4022,6 +4048,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
         if (!activeVideo) return;
         activeVideo.muted = true;
         activeVideo.playsInline = true;
+        activeVideo.setAttribute('webkit-playsinline', 'true');
         const playPromise = activeVideo.play();
         if (playPromise && typeof playPromise.catch === 'function') {
           playPromise.catch(function () {});
@@ -4120,11 +4147,11 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
         if ('IntersectionObserver' in window) {
           const observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
-              setMediaCenterPlayback(entry.isIntersecting && entry.intersectionRatio >= 0.35);
+              setMediaCenterPlayback(entry.isIntersecting && entry.intersectionRatio >= 0.12);
             });
           }, {
-            threshold: [0, 0.2, 0.35, 0.5, 0.75, 1],
-            rootMargin: '-8% 0px -8% 0px'
+            threshold: [0, 0.1, 0.2, 0.35, 0.5, 0.75, 1],
+            rootMargin: '0px 0px 0px 0px'
           });
           observer.observe(mediaSection);
         } else {
@@ -4133,7 +4160,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
             const viewHeight = window.innerHeight || document.documentElement.clientHeight;
             const visibleHeight = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
             const ratio = rect.height > 0 ? visibleHeight / rect.height : 0;
-            setMediaCenterPlayback(ratio >= 0.35 && rect.bottom > 0 && rect.top < viewHeight);
+            setMediaCenterPlayback(ratio >= 0.12 && rect.bottom > 0 && rect.top < viewHeight);
           }
           window.addEventListener('scroll', syncMediaCenterOnScroll, { passive: true });
           window.addEventListener('resize', syncMediaCenterOnScroll);

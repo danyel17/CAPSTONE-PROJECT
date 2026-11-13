@@ -4,7 +4,8 @@
   html, body { max-width: 100%; overflow-x: hidden; }
 
   /* Media never overflows its container on any screen */
-  img, video, canvas, svg, iframe { max-width: 100%; }
+  img, canvas, svg, iframe { max-width: 100%; }
+  video { max-width: 100%; }
 
   @media (max-width: 576px) {
     /* Avoid iOS auto-zoom on focus by keeping inputs >= 16px */

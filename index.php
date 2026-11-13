@@ -779,20 +779,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             line-height: 1.45;
         }
         .about-notice-video {
-            flex: 1;
-            min-height: clamp(260px, 42vw, 380px);
+            position: relative;
+            flex: 1 1 auto;
+            width: 100%;
+            min-height: 220px;
+            aspect-ratio: 16 / 9;
             background: #e8e9fc;
             border-radius: 12px;
             overflow: hidden;
-            display: flex;
-            align-items: stretch;
         }
         .about-notice-video video {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 12px;
             display: block;
+            background: #0f0f0f;
+        }
+        @media (max-width: 768px) {
+            .about-notice-card { min-width: 0; }
+            .about-notice-video {
+                flex: none;
+                min-height: 200px;
+            }
         }
         .about-copy {
             flex: 1 1 300px;
@@ -1617,7 +1628,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                             }
                             if (!empty($homepage_announcement_video_ready) && $homepage_announcement_video_src !== ''): ?>
                                 <div class="about-notice-video">
-                                    <video id="aboutNoticeVideo" controls muted playsinline preload="metadata">
+                                    <video id="aboutNoticeVideo" controls muted playsinline webkit-playsinline preload="auto">
                                         <source src="<?php echo htmlspecialchars($homepage_announcement_video_src); ?>" type="<?php echo htmlspecialchars($homepage_announcement_video_mime); ?>">
                                         Your browser does not support the video tag.
                                     </video>
@@ -2297,6 +2308,7 @@ include __DIR__ . '/includes/customer_support_widget.php';
 
             noticeVideo.muted = true;
             noticeVideo.playsInline = true;
+            noticeVideo.setAttribute('webkit-playsinline', 'true');
 
             function setNoticeVideoPlaying(shouldPlay) {
                 if (shouldPlay) {
@@ -2310,24 +2322,22 @@ include __DIR__ . '/includes/customer_support_widget.php';
             }
 
             if ('IntersectionObserver' in window) {
-                var aboutVisible = false;
                 var observer = new IntersectionObserver(function (entries) {
                     entries.forEach(function (entry) {
-                        aboutVisible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
-                        setNoticeVideoPlaying(aboutVisible);
+                        setNoticeVideoPlaying(entry.isIntersecting && entry.intersectionRatio >= 0.12);
                     });
                 }, {
-                    threshold: [0, 0.2, 0.35, 0.5, 0.75, 1],
-                    rootMargin: '-8% 0px -8% 0px'
+                    threshold: [0, 0.1, 0.2, 0.35, 0.5, 0.75, 1],
+                    rootMargin: '0px'
                 });
-                observer.observe(aboutSection);
+                observer.observe(noticeVideo);
             } else {
                 function syncNoticeVideoOnScroll() {
-                    var rect = aboutSection.getBoundingClientRect();
+                    var rect = noticeVideo.getBoundingClientRect();
                     var viewHeight = window.innerHeight || document.documentElement.clientHeight;
                     var visibleHeight = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
                     var ratio = rect.height > 0 ? visibleHeight / rect.height : 0;
-                    setNoticeVideoPlaying(ratio >= 0.35 && rect.bottom > 0 && rect.top < viewHeight);
+                    setNoticeVideoPlaying(ratio >= 0.12 && rect.bottom > 0 && rect.top < viewHeight);
                 }
                 window.addEventListener('scroll', syncNoticeVideoOnScroll, { passive: true });
                 window.addEventListener('resize', syncNoticeVideoOnScroll);
