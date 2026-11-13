@@ -802,7 +802,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
         #aboutNoticeVideo {
             display: block;
             width: 100%;
-            height: 100%;
+            height: auto;
+            max-width: 100%;
             object-fit: contain;
             background: #fff;
             border: 0;
@@ -850,25 +851,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             }
             .about-notice-video {
                 width: calc(100% + (2 * var(--notice-pad)));
-                margin-left: calc(-1 * var(--notice-pad));
-                margin-right: calc(-1 * var(--notice-pad));
-                margin-bottom: calc(-1 * var(--notice-pad));
-                min-height: 0;
+                margin: 0 calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
+                position: relative;
                 aspect-ratio: 16 / 9;
+                min-height: 200px;
                 overflow: visible;
-                -webkit-mask-image: none;
+                background: #fff;
                 border-radius: 0 0 16px 16px;
+                -webkit-mask-image: none;
             }
             #aboutNoticeVideo {
-                position: static !important;
+                position: relative !important;
+                inset: auto !important;
                 width: 100% !important;
-                height: auto !important;
+                height: 100% !important;
                 min-height: 200px;
                 max-height: none;
                 object-fit: contain !important;
                 background: #fff;
-                -webkit-transform: none;
-                transform: none;
+                border-radius: 0;
+                -webkit-transform: none !important;
+                transform: none !important;
             }
         }
         .about-copy {
@@ -1625,13 +1628,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                         muted
                                         playsinline="true"
                                         webkit-playsinline="true"
-                                        preload="auto"
+                                        preload="metadata"
                                         src="<?php echo $notice_src; ?>"
                                         data-autoplay-desktop="1"
-                                    >
-                                        <source src="<?php echo $notice_src; ?>" type="<?php echo htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8'); ?>">
-                                        Your browser does not support the video tag.
-                                    </video>
+                                    ></video>
                                 </div>
                             <?php else: ?>
                                 <span style="color:#6b7280;font-size:1rem;">No announcement video uploaded.</span>
@@ -2327,8 +2327,13 @@ include __DIR__ . '/includes/customer_support_widget.php';
             if (isMobile) {
                 noticeVideo.removeAttribute('autoplay');
                 noticeVideo.removeAttribute('loop');
-                noticeVideo.setAttribute('preload', 'auto');
-                try { noticeVideo.load(); } catch (e) {}
+                noticeVideo.setAttribute('preload', 'metadata');
+                noticeVideo.addEventListener('click', function () {
+                    if (noticeVideo.paused) {
+                        noticeVideo.muted = true;
+                        noticeVideo.play().catch(function () {});
+                    }
+                });
             } else if (noticeVideo.getAttribute('data-autoplay-desktop') === '1') {
                 noticeVideo.setAttribute('autoplay', '');
                 noticeVideo.setAttribute('loop', '');

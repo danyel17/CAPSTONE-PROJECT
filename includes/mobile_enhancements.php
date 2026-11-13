@@ -10,6 +10,16 @@
   /* Media never overflows its container on any screen */
   img, canvas, svg, iframe { max-width: 100%; }
   video { max-width: 100%; }
+  @media (max-width: 768px) {
+    #aboutNoticeVideo {
+      display: block !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 100% !important;
+      min-height: 200px;
+      object-fit: contain !important;
+    }
+  }
 
   @media (max-width: 576px) {
     /* Avoid iOS auto-zoom on focus by keeping inputs >= 16px */
