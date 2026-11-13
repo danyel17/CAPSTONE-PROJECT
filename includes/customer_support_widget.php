@@ -29,9 +29,15 @@ if (!isset($customerservice_img)) {
     }
 }
 
+$cs_img_public = (string) $customerservice_img;
+$cs_img_disk = $__dpm_root . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, ltrim($cs_img_public, '/'));
+if (is_file($cs_img_disk)) {
+    $cs_img_public .= (strpos($cs_img_public, '?') === false ? '?' : '&') . 'v=' . filemtime($cs_img_disk);
+}
+
 $cs_contact_href = isset($cs_contact_href) ? (string) $cs_contact_href : '#contact';
 $cs_announcement_href = isset($cs_announcement_href) ? trim((string) $cs_announcement_href) : '';
-$cs_img_esc = htmlspecialchars($customerservice_img, ENT_QUOTES, 'UTF-8');
+$cs_img_esc = htmlspecialchars($cs_img_public, ENT_QUOTES, 'UTF-8');
 $cs_contact_esc = htmlspecialchars($cs_contact_href, ENT_QUOTES, 'UTF-8');
 $cs_concern_action = isset($cs_concern_action) ? trim((string) $cs_concern_action) : 'submit_customer_concern.php';
 if (!isset($cs_google_account_url)) {
@@ -75,9 +81,22 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
         }
 <?php endif; ?>
         :root {
-            /* One size sitewide — readable but not oversized (was 240px) */
+            /* Sitewide default (was 240px) */
             --cs-widget-size: 168px;
             --cs-widget-gap: 6px;
+        }
+
+        @media (min-width: 769px) {
+            :root {
+                --cs-widget-size: 140px;
+            }
+            #csFloat.cs-float-btn,
+            .cs-float-btn {
+                width: var(--cs-widget-size) !important;
+                height: var(--cs-widget-size) !important;
+                max-width: var(--cs-widget-size) !important;
+                max-height: var(--cs-widget-size) !important;
+            }
         }
 
         /* Draggable customer service icon */
