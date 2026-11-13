@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             color: var(--text);
             background: var(--white);
             line-height: 1.6;
-            overflow-x: hidden;
+            overflow-x: clip;
         }
         a { color: inherit; text-decoration: none; }
         img { max-width: 100%; height: auto; display: block; }
@@ -786,43 +786,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             line-height: 1.45;
         }
         .about-notice-video {
-            position: relative;
-            flex: 1 1 auto;
             width: 100%;
-            min-height: 220px;
-            aspect-ratio: 16 / 9;
-            background: #111827;
+            line-height: 0;
+            background: #000;
             border-radius: 12px;
-            overflow: visible;
-            -webkit-mask-image: none;
         }
         .about-notice-video video {
             display: block;
             width: 100%;
-            height: 100%;
-            min-height: 200px;
-            object-fit: contain;
-            border-radius: 12px;
-            background: #111827;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
+            height: auto;
+            max-width: 100%;
+            border: 0;
+            background: #000;
+        }
+        .about-notice-play,
+        .about-notice-fallback { display: none; }
+        .about-notice-play {
+            margin-top: 0.65rem;
+            width: 100%;
+            border: 0;
+            border-radius: 10px;
+            background: #3f4191;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.75rem 1rem;
+        }
+        .about-notice-fallback {
+            margin: 0.55rem 0 0;
+            font-size: 0.9rem;
         }
         @media (max-width: 768px) {
-            .about-notice-card { min-width: 0; }
-            .about-notice-video {
-                flex: none;
-                min-height: 200px;
-                overflow: visible;
-            }
-            .about-notice-video video {
-                position: static;
-                inset: auto;
-                height: auto;
-                min-height: 200px;
-                object-fit: contain;
-            }
+            html, body { overflow-x: visible !important; }
+            .about-notice-card { min-width: 0; overflow: visible; }
+            .about-notice-video { border-radius: 0; overflow: visible; }
+            .about-notice-play,
+            .about-notice-fallback { display: block; }
         }
         .about-copy {
             flex: 1 1 300px;
@@ -1570,22 +1569,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                             </h3>
                             <p class="about-notice-card__hint">announcement, prices, birthdays, etc.</p>
                             <?php if (!empty($notice_video['public_src'])): ?>
+                                <?php $notice_src = htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>
                                 <div class="about-notice-video">
                                     <video
                                         id="aboutNoticeVideo"
                                         controls
                                         muted
-                                        autoplay
-                                        loop
-                                        playsinline="true"
-                                        webkit-playsinline="true"
+                                        playsinline
+                                        webkit-playsinline
                                         preload="auto"
-                                        src="<?php echo htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        src="<?php echo $notice_src; ?>"
+                                        style="width:100%;height:auto;max-width:100%;display:block;background:#000;border-radius:0;-webkit-transform:none;transform:none;"
                                     >
-                                        <source src="<?php echo htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>" type="<?php echo htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8'); ?>">
-                                        Your browser does not support the video tag.
+                                        <source src="<?php echo $notice_src; ?>" type="<?php echo htmlspecialchars($notice_video['public_mime'] ?? 'video/mp4', ENT_QUOTES, 'UTF-8'); ?>">
                                     </video>
                                 </div>
+                                <button type="button" class="about-notice-play" id="aboutNoticePlay">Tap to play video</button>
+                                <p class="about-notice-fallback"><a href="<?php echo $notice_src; ?>" target="_blank" rel="noopener">Open video</a></p>
                             <?php else: ?>
                                 <span style="color:#6b7280;font-size:1rem;">No announcement video uploaded.</span>
                             <?php endif; ?>
@@ -2252,70 +2252,33 @@ include __DIR__ . '/includes/customer_support_widget.php';
             });
         });
 
-        /* ── About notice video: paint a frame on iPhone, then play while in view ── */
+        /* ── About notice video: iPhone needs a tap; do not pause on scroll ── */
         (function () {
             var noticeVideo = document.getElementById('aboutNoticeVideo');
+            var playBtn = document.getElementById('aboutNoticePlay');
             if (!noticeVideo) return;
 
             noticeVideo.muted = true;
             noticeVideo.defaultMuted = true;
             noticeVideo.playsInline = true;
-            noticeVideo.setAttribute('playsinline', 'true');
+            noticeVideo.setAttribute('playsinline', '');
             noticeVideo.setAttribute('webkit-playsinline', 'true');
 
-            function paintFirstFrame() {
-                try {
-                    if (noticeVideo.readyState >= 1 && noticeVideo.currentTime < 0.05) {
-                        noticeVideo.currentTime = 0.15;
-                    }
-                } catch (e) {}
-            }
-            noticeVideo.addEventListener('loadedmetadata', paintFirstFrame);
-            noticeVideo.addEventListener('loadeddata', paintFirstFrame);
-            noticeVideo.addEventListener('canplay', paintFirstFrame);
-            try { noticeVideo.load(); } catch (e) {}
-
-            function setNoticeVideoPlaying(shouldPlay) {
-                if (shouldPlay) {
-                    noticeVideo.muted = true;
-                    var playPromise = noticeVideo.play();
-                    if (playPromise && typeof playPromise.catch === 'function') {
-                        playPromise.catch(function () { paintFirstFrame(); });
-                    }
-                } else if (!noticeVideo.paused) {
-                    noticeVideo.pause();
+            function tryPlay() {
+                noticeVideo.muted = true;
+                var p = noticeVideo.play();
+                if (p && typeof p.catch === 'function') {
+                    p.catch(function () {});
                 }
             }
 
-            if ('IntersectionObserver' in window) {
-                var observer = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                        setNoticeVideoPlaying(entry.isIntersecting && entry.intersectionRatio >= 0.08);
-                    });
-                }, {
-                    threshold: [0, 0.08, 0.2, 0.35, 0.5, 1],
-                    rootMargin: '80px 0px 80px 0px'
+            if (playBtn) {
+                playBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    tryPlay();
                 });
-                observer.observe(noticeVideo);
-            } else {
-                function syncNoticeVideoOnScroll() {
-                    var rect = noticeVideo.getBoundingClientRect();
-                    var viewHeight = window.innerHeight || document.documentElement.clientHeight;
-                    var visibleHeight = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
-                    var ratio = rect.height > 0 ? visibleHeight / rect.height : 0;
-                    setNoticeVideoPlaying(ratio >= 0.08 && rect.bottom > 0 && rect.top < viewHeight);
-                }
-                window.addEventListener('scroll', syncNoticeVideoOnScroll, { passive: true });
-                window.addEventListener('resize', syncNoticeVideoOnScroll);
-                syncNoticeVideoOnScroll();
             }
-
-            noticeVideo.addEventListener('click', function () {
-                if (noticeVideo.paused) {
-                    noticeVideo.muted = true;
-                    noticeVideo.play().catch(function () {});
-                }
-            });
+            document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
         })();
 
         /* ── Contact form ── */

@@ -1,11 +1,15 @@
 <?php /* Shared defensive mobile refinements for vendor-facing pages. Kept conservative so it augments (not overrides) each page's own responsive CSS. */ ?>
 <style>
   /* Prevent accidental horizontal scrolling from wide children */
-  html, body { max-width: 100%; overflow-x: hidden; }
+  html, body { max-width: 100%; }
+  body { overflow-x: clip; }
+  @media (max-width: 768px) {
+    html, body { overflow-x: visible; }
+  }
 
   /* Media never overflows its container on any screen */
   img, canvas, svg, iframe { max-width: 100%; }
-  video { max-width: 100%; }
+  video { max-width: 100%; height: auto; }
 
   @media (max-width: 576px) {
     /* Avoid iOS auto-zoom on focus by keeping inputs >= 16px */
