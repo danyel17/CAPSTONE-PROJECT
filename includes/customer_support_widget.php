@@ -88,7 +88,8 @@ $cs_is_homepage = basename($_SERVER['SCRIPT_NAME'] ?? '') === 'index.php';
 
         @media (min-width: 769px) {
             :root {
-                --cs-widget-size: 140px;
+                /* Desktop: slightly larger than mobile, still compact (was 140px) */
+                --cs-widget-size: 156px;
             }
             #csFloat.cs-float-btn,
             .cs-float-btn {
