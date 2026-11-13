@@ -15,6 +15,17 @@
     width: 100%;
     height: 100%;
   }
+  @media (max-width: 768px) {
+    .about-notice-video, .about-notice-video video, #aboutNoticeVideo {
+      max-width: none !important;
+      width: 100% !important;
+      height: auto;
+    }
+    #aboutNoticeVideo {
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+  }
 
   @media (max-width: 576px) {
     /* Avoid iOS auto-zoom on focus by keeping inputs >= 16px */

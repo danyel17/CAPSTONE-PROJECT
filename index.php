@@ -807,9 +807,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             width: 100%;
             height: 100%;
             max-width: none;
-            object-fit: contain;
-            object-position: center center;
-            background: #111827;
+            object-fit: cover;
+            object-position: center top;
+            background: #fff;
             border: 0;
         }
         @media (min-width: 769px) {
@@ -837,16 +837,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                 aspect-ratio: auto;
                 align-self: stretch;
             }
-            #aboutNoticeVideo {
-                object-fit: cover;
-                object-position: center top;
-                background: #fff;
-            }
         }
-        /* Mobile: same player rules as desktop — only card width differs */
+        /* Mobile: same video as desktop — layout box only differs */
         @media (max-width: 768px) {
+            html, body { overflow-x: visible !important; }
             .about-notice-card {
                 min-width: 0;
+                overflow: visible;
             }
             .about-notice-card__hint {
                 margin-bottom: 0.35rem;
@@ -854,13 +851,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             .about-notice-video {
                 flex: none;
                 margin: 0 calc(-1 * var(--notice-pad)) calc(-1 * var(--notice-pad));
-                min-height: 240px;
+                min-height: clamp(220px, 54vw, 380px);
                 aspect-ratio: 16 / 9;
+                overflow: hidden;
             }
             #aboutNoticeVideo {
-                object-fit: cover;
-                object-position: center top;
-                background: #fff;
+                position: absolute !important;
+                inset: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                max-width: none !important;
+                object-fit: cover !important;
+                object-position: center top !important;
+                background: #fff !important;
             }
         }
         .about-copy {
@@ -2296,16 +2299,23 @@ include __DIR__ . '/includes/customer_support_widget.php';
             });
         });
 
-        /* ── About notice video (same init on desktop and mobile) ── */
+        /* ── About notice video: mobile uses the same file + player as desktop ── */
         (function () {
             var noticeVideo = document.getElementById('aboutNoticeVideo');
             if (!noticeVideo) return;
+
+            var primarySrc = noticeVideo.getAttribute('src') || '';
+            var sourceEl = noticeVideo.querySelector('source');
+            if (primarySrc && sourceEl) {
+                sourceEl.setAttribute('src', primarySrc);
+            }
 
             noticeVideo.muted = true;
             noticeVideo.defaultMuted = true;
             noticeVideo.playsInline = true;
             noticeVideo.setAttribute('playsinline', 'true');
             noticeVideo.setAttribute('webkit-playsinline', 'true');
+            noticeVideo.setAttribute('x5-playsinline', 'true');
 
             function paintNoticeFrame() {
                 try {
@@ -2332,6 +2342,16 @@ include __DIR__ . '/includes/customer_support_widget.php';
             var playPromise = noticeVideo.play();
             if (playPromise && typeof playPromise.catch === 'function') {
                 playPromise.catch(function () { paintNoticeFrame(); });
+            }
+
+            if (window.matchMedia('(max-width: 768px)').matches) {
+                document.addEventListener('touchstart', function onTouch() {
+                    paintNoticeFrame();
+                    if (noticeVideo.paused) {
+                        noticeVideo.muted = true;
+                        noticeVideo.play().catch(function () {});
+                    }
+                }, { once: true, passive: true });
             }
 
             noticeVideo.addEventListener('click', function () {
