@@ -2336,20 +2336,33 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
     .mc-video-wrap {
       position: relative;
       width: 100%;
-      background: #0f0f0f;
+      background: #111827;
       aspect-ratio: 16 / 9;
       min-height: 200px;
-      overflow: hidden;
+      overflow: visible;
+      -webkit-mask-image: none;
     }
     .mc-video-wrap video {
-      position: absolute;
-      inset: 0;
+      display: block;
       width: 100%;
       height: 100%;
-      display: block;
+      min-height: 180px;
       object-fit: contain;
-      background: #0f0f0f;
+      background: #111827;
       max-height: none;
+      border-radius: 0 0 0 0;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    @media (max-width: 768px) {
+      .mc-video-wrap video {
+        position: static;
+        inset: auto;
+        height: auto;
+        min-height: 180px;
+      }
     }
     .mc-video-wrap [hidden] { display: none !important; }
 
@@ -3207,8 +3220,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
               id="mcPlayer"
               controls
               muted
-              playsinline
-              webkit-playsinline
+              autoplay
+              playsinline="true"
+              webkit-playsinline="true"
               preload="auto"
               <?php if (!empty($price_video['public_src'])): ?>
               src="<?php echo htmlspecialchars($price_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>"
@@ -3949,6 +3963,16 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
         }
       }
 
+      function paintMcFirstFrame() {
+        const player = getMcPlayer();
+        if (!player) return;
+        try {
+          if (player.readyState >= 1 && player.currentTime < 0.05) {
+            player.currentTime = 0.15;
+          }
+        } catch (e) {}
+      }
+
       function applyMcSlide(index) {
         const player = getMcPlayer();
         const empty = document.getElementById('mcNoVideo');
@@ -3965,8 +3989,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
         if (empty) empty.hidden = true;
         player.style.display = 'block';
         player.muted = true;
+        player.defaultMuted = true;
         player.playsInline = true;
-        player.setAttribute('playsinline', '');
+        player.setAttribute('playsinline', 'true');
         player.setAttribute('webkit-playsinline', 'true');
         if (player.getAttribute('src') !== src) {
           player.setAttribute('src', src);
@@ -3974,6 +3999,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
           try { player.load(); } catch (e) {}
         }
         playActiveMcVideo();
+        paintMcFirstFrame();
       }
 
       function playActiveMcVideo() {
@@ -3984,7 +4010,7 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
         player.playsInline = true;
         const playPromise = player.play();
         if (playPromise && typeof playPromise.catch === 'function') {
-          playPromise.catch(function () {});
+          playPromise.catch(function () { paintMcFirstFrame(); });
         }
       }
 
@@ -4109,6 +4135,19 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
             const tab = document.getElementById('mcTab' + idx);
             if (tab) tab.addEventListener('click', function () { goTo(idx); });
           })(i);
+        }
+
+        const player = getMcPlayer();
+        if (player) {
+          player.addEventListener('loadedmetadata', paintMcFirstFrame);
+          player.addEventListener('loadeddata', paintMcFirstFrame);
+          player.addEventListener('canplay', paintMcFirstFrame);
+          player.addEventListener('click', function () {
+            if (player.paused) {
+              player.muted = true;
+              player.play().catch(function () {});
+            }
+          });
         }
 
         // Init to slide 0

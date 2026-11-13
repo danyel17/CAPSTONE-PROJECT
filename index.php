@@ -791,25 +791,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
             width: 100%;
             min-height: 220px;
             aspect-ratio: 16 / 9;
-            background: #e8e9fc;
+            background: #111827;
             border-radius: 12px;
-            overflow: hidden;
+            overflow: visible;
+            -webkit-mask-image: none;
         }
         .about-notice-video video {
-            position: absolute;
-            inset: 0;
+            display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            min-height: 200px;
+            object-fit: contain;
             border-radius: 12px;
-            display: block;
-            background: #0f0f0f;
+            background: #111827;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
         @media (max-width: 768px) {
             .about-notice-card { min-width: 0; }
             .about-notice-video {
                 flex: none;
                 min-height: 200px;
+                overflow: visible;
+            }
+            .about-notice-video video {
+                position: static;
+                inset: auto;
+                height: auto;
+                min-height: 200px;
+                object-fit: contain;
             }
         }
         .about-copy {
@@ -1563,8 +1575,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vendor_portal_login']
                                         id="aboutNoticeVideo"
                                         controls
                                         muted
-                                        playsinline
-                                        webkit-playsinline
+                                        autoplay
+                                        loop
+                                        playsinline="true"
+                                        webkit-playsinline="true"
                                         preload="auto"
                                         src="<?php echo htmlspecialchars($notice_video['public_src'], ENT_QUOTES, 'UTF-8'); ?>"
                                     >
@@ -2238,21 +2252,35 @@ include __DIR__ . '/includes/customer_support_widget.php';
             });
         });
 
-        /* ── About notice video: play only while About section is in view ── */
+        /* ── About notice video: paint a frame on iPhone, then play while in view ── */
         (function () {
-            var aboutSection = document.getElementById('about');
             var noticeVideo = document.getElementById('aboutNoticeVideo');
-            if (!aboutSection || !noticeVideo) return;
+            if (!noticeVideo) return;
 
             noticeVideo.muted = true;
+            noticeVideo.defaultMuted = true;
             noticeVideo.playsInline = true;
+            noticeVideo.setAttribute('playsinline', 'true');
             noticeVideo.setAttribute('webkit-playsinline', 'true');
+
+            function paintFirstFrame() {
+                try {
+                    if (noticeVideo.readyState >= 1 && noticeVideo.currentTime < 0.05) {
+                        noticeVideo.currentTime = 0.15;
+                    }
+                } catch (e) {}
+            }
+            noticeVideo.addEventListener('loadedmetadata', paintFirstFrame);
+            noticeVideo.addEventListener('loadeddata', paintFirstFrame);
+            noticeVideo.addEventListener('canplay', paintFirstFrame);
+            try { noticeVideo.load(); } catch (e) {}
 
             function setNoticeVideoPlaying(shouldPlay) {
                 if (shouldPlay) {
+                    noticeVideo.muted = true;
                     var playPromise = noticeVideo.play();
                     if (playPromise && typeof playPromise.catch === 'function') {
-                        playPromise.catch(function () {});
+                        playPromise.catch(function () { paintFirstFrame(); });
                     }
                 } else if (!noticeVideo.paused) {
                     noticeVideo.pause();
@@ -2262,11 +2290,11 @@ include __DIR__ . '/includes/customer_support_widget.php';
             if ('IntersectionObserver' in window) {
                 var observer = new IntersectionObserver(function (entries) {
                     entries.forEach(function (entry) {
-                        setNoticeVideoPlaying(entry.isIntersecting && entry.intersectionRatio >= 0.12);
+                        setNoticeVideoPlaying(entry.isIntersecting && entry.intersectionRatio >= 0.08);
                     });
                 }, {
-                    threshold: [0, 0.1, 0.2, 0.35, 0.5, 0.75, 1],
-                    rootMargin: '0px'
+                    threshold: [0, 0.08, 0.2, 0.35, 0.5, 1],
+                    rootMargin: '80px 0px 80px 0px'
                 });
                 observer.observe(noticeVideo);
             } else {
@@ -2275,12 +2303,19 @@ include __DIR__ . '/includes/customer_support_widget.php';
                     var viewHeight = window.innerHeight || document.documentElement.clientHeight;
                     var visibleHeight = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
                     var ratio = rect.height > 0 ? visibleHeight / rect.height : 0;
-                    setNoticeVideoPlaying(ratio >= 0.12 && rect.bottom > 0 && rect.top < viewHeight);
+                    setNoticeVideoPlaying(ratio >= 0.08 && rect.bottom > 0 && rect.top < viewHeight);
                 }
                 window.addEventListener('scroll', syncNoticeVideoOnScroll, { passive: true });
                 window.addEventListener('resize', syncNoticeVideoOnScroll);
                 syncNoticeVideoOnScroll();
             }
+
+            noticeVideo.addEventListener('click', function () {
+                if (noticeVideo.paused) {
+                    noticeVideo.muted = true;
+                    noticeVideo.play().catch(function () {});
+                }
+            });
         })();
 
         /* ── Contact form ── */
