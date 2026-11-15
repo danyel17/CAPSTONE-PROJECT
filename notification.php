@@ -4095,12 +4095,12 @@ function notif_card_message(array $item): string {
   </style>
   <link rel="stylesheet" href="assets/css/vendor-light-mode-text.css?v=earlier-white-1">
   <link rel="stylesheet" href="assets/css/vendor-mobile-sidebar-logout.css">
-  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-mob-states-4">
-  <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=mobile-dropbar-2">
+  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-desktop-pill-5">
+  <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=mobile-dropbar-3">
   <link rel="stylesheet" href="assets/css/vendor-portal-shell.css?v=1">
   <link rel="stylesheet" href="assets/css/menu-landing-nav.css?v=menu-nav-lock-4">
   <link rel="stylesheet" href="assets/css/vendor-page-glass.css?v=notif-elevate-2">
-  <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-7">
+  <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-8">
   <link rel="stylesheet" href="assets/css/notification-filter-pills.css?v=3">
 </head>
 <body class="page-notification">

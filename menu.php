@@ -3160,10 +3160,10 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
     }
   </style>
   <link rel="stylesheet" href="assets/css/vendor-mobile-sidebar-logout.css">
-  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-mob-states-4">
-  <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=mobile-dropbar-2">
+  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-desktop-pill-5">
+  <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=mobile-dropbar-3">
   <link rel="stylesheet" href="assets/css/menu-landing-nav.css?v=menu-nav-lock-4">
-  <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-7">
+  <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-8">
 </head>
 <body class="page-menu">
   <script>try{if(localStorage.getItem('darkmode')==='active')document.body.classList.add('darkmode');}catch(e){}</script>

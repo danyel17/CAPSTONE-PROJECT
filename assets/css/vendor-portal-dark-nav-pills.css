@@ -2,17 +2,20 @@
  * Dark mode: liquid-glass nav pill tray (application, renewal, profile, notification).
  * Loads after vendor-nav-theme-lock.css.
  */
-body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
-body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
-body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
-body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container {
-  background: rgba(10, 10, 14, 0.58) !important;
-  backdrop-filter: blur(22px) saturate(1.15) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(1.15) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow:
-    0 14px 42px rgba(0, 0, 0, 0.42),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+@media (min-width: 992px) {
+  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
+  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container {
+    background: rgba(10, 10, 14, 0.58) !important;
+    backdrop-filter: blur(22px) saturate(1.15) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(1.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow:
+      0 14px 42px rgba(0, 0, 0, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+  }
 }
 
 body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill.active,
@@ -96,23 +99,21 @@ body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-conta
 /* Phone only: reverse the glass. Light mode = dark glass + black icons.
    Dark mode = light glass on the top bar and the bottom pill, black icons. */
 @media (max-width: 991px) {
-  body:not(.darkmode):has(.main-container .nav-pills-wrap) .main-container .nav-pills-container {
-    background:
-      linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.92) 0%,
-        rgba(248, 250, 255, 0.86) 48%,
-        rgba(255, 255, 255, 0.9) 100%
-      ) !important;
-    backdrop-filter: blur(18px) saturate(1.25) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(1.25) !important;
-    border: 1px solid rgba(255, 255, 255, 0.72) !important;
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-container {
+    background-color: #f4f6fb !important;
+    background-image: linear-gradient(
+      145deg,
+      #f8f9fd 0%,
+      #eef1f8 50%,
+      #f6f7fc 100%
+    ) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.92) !important;
     box-shadow:
-      0 10px 32px rgba(15, 23, 42, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+      0 10px 28px rgba(15, 23, 42, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 1) !important;
   }
-
-  /* Item colors: see vendor-navbar-glass.css mobile active/inactive rules */
 
   body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__text,
   body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .navbar .brand__text,
@@ -141,51 +142,42 @@ body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-conta
   body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
   body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container,
   body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-container {
-    background:
-      linear-gradient(
-        145deg,
-        rgba(52, 54, 64, 0.94) 0%,
-        rgba(38, 40, 48, 0.9) 55%,
-        rgba(46, 48, 58, 0.92) 100%
-      ) !important;
-    backdrop-filter: blur(18px) saturate(1.25) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(1.25) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    background-color: #2a2c34 !important;
+    background-image: linear-gradient(
+      145deg,
+      #34363f 0%,
+      #25272e 55%,
+      #30323a 100%
+    ) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
     box-shadow:
-      0 12px 36px rgba(0, 0, 0, 0.38),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+      0 12px 32px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
   }
 
-  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
-  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
-  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
-  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
-  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
-  body.page-menu.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
-  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
-  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
-  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
-  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
-  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
-  body.page-application.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
-  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
-  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
-  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
-  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
-  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
-  body.page-renewal.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
-  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
-  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
-  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
-  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
-  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
-  body.page-profile.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
-  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill,
-  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill i,
-  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-pill span,
-  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill,
-  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill i,
-  body.page-notification.darkmode:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-pill span,
+  /* Mobile pills: same frosted active/hover as desktop (vendor-navbar-glass base rules) */
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+    background: rgba(255, 255, 255, 0.38) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+    color: #1c1c1e !important;
+    -webkit-text-fill-color: #1c1c1e !important;
+  }
+
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active i,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active span,
+  body:has(.main-container .nav-pills-wrap):not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active span {
+    color: #1c1c1e !important;
+    -webkit-text-fill-color: #1c1c1e !important;
+  }
 }
 
 body:has(.main-container .nav-pills-wrap) .main-container .nav-pills-wrap .nav-icon-badge {

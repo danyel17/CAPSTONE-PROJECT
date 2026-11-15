@@ -39,29 +39,27 @@ body:not(.darkmode) .main-container .navbar .brand__place {
   -webkit-text-fill-color: var(--v-nav-text-light-soft) !important;
 }
 
-@media (min-width: 992px) {
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:hover,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    color: var(--v-nav-text-light) !important;
-    -webkit-text-fill-color: var(--v-nav-text-light) !important;
-  }
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:hover,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: var(--v-nav-text-light) !important;
+  -webkit-text-fill-color: var(--v-nav-text-light) !important;
+}
 
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active {
-    background: rgba(255, 255, 255, 0.34) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.38) !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
-    color: var(--v-nav-text-light) !important;
-    -webkit-text-fill-color: var(--v-nav-text-light) !important;
-  }
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active {
+  background: rgba(255, 255, 255, 0.34) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  color: var(--v-nav-text-light) !important;
+  -webkit-text-fill-color: var(--v-nav-text-light) !important;
+}
 
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
-    background: rgba(255, 255, 255, 0.38) !important;
-  }
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
+body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+  background: rgba(255, 255, 255, 0.38) !important;
 }
 
 body:not(.darkmode) .main-container .navbar .logout-btn:hover,
@@ -193,7 +191,7 @@ body.darkmode .main-container .navbar .logout-btn:hover span {
   display: none;
 }
 
-/* Phone: stable liquid glass + icon with short label */
+/* Phone: fixed glass tray (no scroll tint) + desktop-matching pills */
 @media (max-width: 991px) {
   .main-container .nav-pills-wrap {
     left: 50% !important;
@@ -206,39 +204,41 @@ body.darkmode .main-container .navbar .logout-btn:hover span {
   .main-container .nav-pills-container {
     position: relative;
     isolation: isolate;
+    overflow: hidden;
     width: max-content;
     max-width: 100%;
     justify-content: center;
     flex-wrap: nowrap;
-    gap: 0.12rem;
-    padding: 0.42rem 0.55rem;
-    background:
-      linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.92) 0%,
-        rgba(248, 250, 255, 0.86) 48%,
-        rgba(255, 255, 255, 0.9) 100%
-      ) !important;
-    backdrop-filter: blur(18px) saturate(1.25) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(1.25) !important;
-    border: 1px solid rgba(255, 255, 255, 0.72) !important;
+    gap: 0.2rem;
+    padding: 0.3rem !important;
+    border-radius: 50px !important;
+    background-color: #f4f6fb !important;
+    background-image: linear-gradient(
+      145deg,
+      #f8f9fd 0%,
+      #eef1f8 50%,
+      #f6f7fc 100%
+    ) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.92) !important;
     box-shadow:
-      0 10px 32px rgba(15, 23, 42, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+      0 10px 28px rgba(15, 23, 42, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 1) !important;
   }
 
   body.darkmode .main-container .nav-pills-container {
-    background:
-      linear-gradient(
-        145deg,
-        rgba(52, 54, 64, 0.94) 0%,
-        rgba(38, 40, 48, 0.9) 55%,
-        rgba(46, 48, 58, 0.92) 100%
-      ) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    background-color: #2a2c34 !important;
+    background-image: linear-gradient(
+      145deg,
+      #34363f 0%,
+      #25272e 55%,
+      #30323a 100%
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
     box-shadow:
-      0 12px 36px rgba(0, 0, 0, 0.38),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+      0 12px 32px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
   }
 
   .main-container .nav-pills-wrap .nav-pill-label--desk {
@@ -247,12 +247,10 @@ body.darkmode .main-container .navbar .logout-btn:hover span {
 
   .main-container .nav-pills-wrap .nav-pill-label--mob {
     display: block !important;
-    font-size: 0.58rem;
+    font-size: 0.62rem;
     font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: 0.02em;
-    text-transform: none;
-    opacity: 0.92;
+    line-height: 1;
+    letter-spacing: 0.01em;
   }
 
   .main-container .nav-pills-wrap .nav-pill,
@@ -261,117 +259,30 @@ body.darkmode .main-container .navbar .logout-btn:hover span {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0.38rem 0.5rem !important;
-    gap: 0.18rem !important;
+    padding: 0.5rem 0.62rem !important;
+    gap: 0.2rem !important;
     flex: 0 0 auto;
-    min-width: 2.85rem;
-    border-radius: 14px !important;
+    min-width: 2.75rem;
+    border-radius: 50px !important;
+    font-size: 0.95rem;
+    font-weight: 500;
   }
 
   .main-container .nav-pills-wrap .nav-pill i,
   .main-container .nav-pills-wrap .nav-icon-pill i {
-    font-size: 1.05rem !important;
+    font-size: 1rem !important;
     line-height: 1;
   }
 
   .main-container .nav-pills-wrap .nav-icon-pill .nav-icon-badge {
-    top: 0.05rem;
-    right: 0.2rem;
-  }
-
-  /* Light mode: black icons/labels on light glass bar; active = white on black pill */
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill i,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill i,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill span,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill span {
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
-  }
-
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill-label--mob {
-    opacity: 1;
+    top: 0;
+    right: 0.05rem;
   }
 
   body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active),
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active),
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover {
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    background: #121212 !important;
-    border: 1px solid rgba(0, 0, 0, 0.35) !important;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active i,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active i,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active span,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active span,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover i,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover i,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover span,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover span {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
-
-  /* Dark mode: bar unchanged; inactive = white; active = dark on light pill */
-  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active),
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active),
-  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active) i,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active) i,
-  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active) span,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active) span,
-  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active):hover i,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover i,
-  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active):hover span,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover span {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
-
-  body.darkmode .main-container .nav-pills-wrap .nav-pill.active,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active,
-  body.darkmode .main-container .nav-pills-wrap .nav-pill.active:hover,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
-    background: rgba(255, 255, 255, 0.88) !important;
-    border: 1px solid rgba(255, 255, 255, 0.62) !important;
-    box-shadow:
-      0 2px 10px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
-  }
-
-  body.darkmode .main-container .nav-pills-wrap .nav-pill.active i,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active i,
-  body.darkmode .main-container .nav-pills-wrap .nav-pill.active span,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active span,
-  body.darkmode .main-container .nav-pills-wrap .nav-pill.active:hover i,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active:hover i,
-  body.darkmode .main-container .nav-pills-wrap .nav-pill.active:hover span,
-  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active:hover span {
-    color: #1c1c1e !important;
-    -webkit-text-fill-color: #1c1c1e !important;
   }
 }
