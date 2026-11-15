@@ -5917,6 +5917,7 @@ console.log('Check console for errors and network requests');
   body.dark-mode .sidebar-search-input,
   body.dark-mode .rep-search,
   body.dark-mode .rep-search input,
+  body.dark-mode .rep-date-btn,
   body.dark-mode .rep-control,
   body.dark-mode .rep-control select,
   body.dark-mode .mm-search {
@@ -6630,16 +6631,85 @@ console.log('Check console for errors and network requests');
     font-size: 0.88rem; color: #374151; font-weight: 500; padding-right: 0.5rem;
     appearance: none; -webkit-appearance: none; min-width: 120px;
   }
-  .rep-search {
-    display: inline-flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 220px;
+  .rep-date-btn {
+    display: inline-flex; align-items: center; justify-content: flex-start; flex: 1; min-width: 220px;
     background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
-    padding: 0 0.85rem; height: 42px;
+    padding: 0 0.95rem; height: 42px; cursor: pointer;
+    font: inherit; font-size: 0.88rem; font-weight: 600; color: #374151; text-align: left;
   }
-  .rep-search i { color: #9ca3af; font-size: 0.85rem; }
-  .rep-search input {
-    border: none; outline: none; background: transparent; width: 100%;
-    font-size: 0.88rem; color: #374151;
+  .rep-date-btn:hover { border-color: #c7d2fe; }
+  .rep-range-overlay {
+    position: fixed; inset: 0; z-index: 4000;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(15, 23, 42, 0.45); padding: 1rem;
   }
+  .rep-range-overlay.is-open { display: flex; }
+  .rep-range-card {
+    width: min(420px, 100%);
+    background: #ffffff; color: #111827;
+    border-radius: 18px; padding: 1.15rem 1.2rem 1.2rem;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+  }
+  .rep-range-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; }
+  .rep-range-head h3 { margin: 0; font-size: 1.15rem; font-weight: 800; }
+  .rep-range-close {
+    width: 34px; height: 34px; border: none; border-radius: 10px;
+    background: transparent; color: inherit; font-size: 1.4rem; cursor: pointer; line-height: 1;
+  }
+  .rep-range-label { margin: 0 0 0.55rem; font-weight: 700; font-size: 0.95rem; }
+  .rep-range-presets { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1rem; }
+  .rep-range-presets button {
+    border: none; border-radius: 999px; padding: 0.45rem 0.85rem; cursor: pointer;
+    background: #eef2ff; color: #3730a3; font-weight: 700; font-size: 0.82rem;
+  }
+  .rep-range-presets button.is-active { background: #4f46e5; color: #fff; }
+  .rep-range-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.55rem; }
+  .rep-range-nav strong { font-size: 1.02rem; }
+  .rep-range-nav-btns { display: flex; gap: 0.35rem; }
+  .rep-range-nav-btns button {
+    width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer;
+    background: #eef2ff; color: #3730a3; font-size: 1rem;
+  }
+  .rep-range-week, .rep-range-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .rep-range-week span { text-align: center; font-size: 0.75rem; color: #6b7280; padding: 0.25rem 0 0.45rem; }
+  .rep-range-grid { border-top: 1px solid #e5e7eb; padding-top: 0.45rem; margin-bottom: 1rem; }
+  .rep-range-day {
+    border: none; background: transparent; height: 40px; cursor: pointer;
+    color: inherit; font-weight: 600; position: relative;
+  }
+  .rep-range-day.is-muted { color: #c4c9d4; }
+  .rep-range-day.is-in { background: rgba(79, 70, 229, 0.16); }
+  .rep-range-day.is-start, .rep-range-day.is-end {
+    background: transparent;
+  }
+  .rep-range-day.is-start::before, .rep-range-day.is-end::before,
+  .rep-range-day.is-in::before {
+    content: ''; position: absolute; top: 4px; bottom: 4px; background: rgba(79, 70, 229, 0.16); z-index: 0;
+  }
+  .rep-range-day.is-start::before { left: 50%; right: 0; }
+  .rep-range-day.is-end::before { left: 0; right: 50%; }
+  .rep-range-day.is-in::before { left: 0; right: 0; }
+  .rep-range-day.is-start.is-end::before { display: none; }
+  .rep-range-day span {
+    position: relative; z-index: 1; display: inline-flex; width: 32px; height: 32px;
+    align-items: center; justify-content: center; border-radius: 50%;
+  }
+  .rep-range-day.is-start span, .rep-range-day.is-end span { background: #4f46e5; color: #fff; }
+  .rep-range-apply {
+    width: 100%; height: 46px; border: none; border-radius: 12px; cursor: pointer;
+    background: #4f46e5; color: #fff; font-weight: 800; font-size: 1rem;
+  }
+  .rep-range-apply:hover { background: #4338ca; }
+  body.dark-mode .rep-date-btn {
+    background: #1f1f1f !important; color: #ffffff !important; border-color: #3a3a3a !important;
+  }
+  body.dark-mode .rep-range-card { background: #1f1f1f; color: #ffffff; }
+  body.dark-mode .rep-range-presets button,
+  body.dark-mode .rep-range-nav-btns button { background: #2a2a2a; color: #ffffff; }
+  body.dark-mode .rep-range-presets button.is-active { background: #4f46e5; color: #fff; }
+  body.dark-mode .rep-range-week span { color: #b0b0b0; }
+  body.dark-mode .rep-range-grid { border-top-color: #3a3a3a; }
+  body.dark-mode .rep-range-day.is-muted { color: #6b7280; }
   .rep-tabs {
     display: inline-flex; align-items: center; background: #f3f4f6;
     border-radius: 10px; padding: 4px; gap: 2px;
@@ -6743,7 +6813,7 @@ console.log('Check console for errors and network requests');
   @media (max-width: 560px) {
     .reports-stats { grid-template-columns: 1fr; }
     .rep-tabs { width: 100%; justify-content: space-between; }
-    .rep-search { min-width: 0; }
+    .rep-date-btn { min-width: 0; }
   }
 
   /* Reports dark mode */
@@ -10961,7 +11031,7 @@ console.log('Check console for errors and network requests');
           <div class="reports-toolbar">
             <div class="rep-control">
               <i class="fas fa-calendar-days"></i>
-              <select id="repDateRange" onchange="applyReportsFilters()">
+              <select id="repDateRange">
                 <option value="all">All Time</option>
                 <option value="day">This Day</option>
                 <option value="month">This Month</option>
@@ -10977,10 +11047,7 @@ console.log('Check console for errors and network requests');
                 <option value="pending">Pending</option>
               </select>
             </div>
-            <div class="rep-search">
-              <i class="fas fa-search"></i>
-              <input type="text" id="repSearchDate" placeholder="Search by date (mm-dd-yyyy)" autocomplete="off" oninput="applyReportsFilters()">
-            </div>
+            <button type="button" class="rep-date-btn" id="repDatePickerBtn">Select date for reports</button>
             <div class="rep-tabs" id="repTabs">
               <button type="button" class="rep-tab active" data-status="all" onclick="setReportsStatus('all', this)">All</button>
               <button type="button" class="rep-tab" data-status="approved" onclick="setReportsStatus('approved', this)">Approved</button>
@@ -10990,12 +11057,40 @@ console.log('Check console for errors and network requests');
             <button type="button" class="rep-export" id="repExportBtn" onclick="exportReportsCsv()"><i class="fas fa-download"></i> Export</button>
           </div>
 
+          <div class="rep-range-overlay" id="repRangeOverlay" aria-hidden="true">
+            <div class="rep-range-card" role="dialog" aria-modal="true" aria-labelledby="repRangeTitle">
+              <div class="rep-range-head">
+                <h3 id="repRangeTitle">Select Date Range</h3>
+                <button type="button" class="rep-range-close" id="repRangeClose" aria-label="Close">&times;</button>
+              </div>
+              <p class="rep-range-label">Show Transaction for</p>
+              <div class="rep-range-presets" id="repRangePresets">
+                <button type="button" data-days="1">Today</button>
+                <button type="button" data-days="3">3 Days</button>
+                <button type="button" data-days="7">7 Days</button>
+                <button type="button" data-days="30">30 Days</button>
+              </div>
+              <div class="rep-range-nav">
+                <strong id="repRangeMonthLabel">November 2026</strong>
+                <div class="rep-range-nav-btns">
+                  <button type="button" id="repRangePrev" aria-label="Previous month">&lsaquo;</button>
+                  <button type="button" id="repRangeNext" aria-label="Next month">&rsaquo;</button>
+                </div>
+              </div>
+              <div class="rep-range-week" aria-hidden="true">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+              <div class="rep-range-grid" id="repRangeGrid"></div>
+              <button type="button" class="rep-range-apply" id="repRangeApply">Apply</button>
+            </div>
+          </div>
+
           <div class="reports-stats">
             <div class="rep-stat">
               <div class="rep-stat-info">
                 <span class="rep-stat-label">Total Applications</span>
                 <span class="rep-stat-value" id="repTotal">0</span>
-                <span class="rep-stat-sub">All time</span>
+                <span class="rep-stat-sub" id="repTotalSub">All time</span>
               </div>
               <div class="rep-stat-icon blue"><i class="fas fa-file-alt"></i></div>
             </div>
@@ -12308,21 +12403,24 @@ console.log('Check console for errors and network requests');
 
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
-    // Normalize a typed search like "6-5-2026", "06/05/2026", "2026" etc. to compare against YYYY-MM-DD
-    function matchesSearch(dateStr, q) {
-      if (!q) return true;
-      if (!dateStr) return false;
-      var parts = dateStr.split('-'); // [YYYY, MM, DD]
-      var y = parts[0], m = parts[1], d = parts[2];
-      var variants = [
-        m + '-' + d + '-' + y,
-        pad(parseInt(m,10)) + '-' + pad(parseInt(d,10)) + '-' + y,
-        dateStr,
-        m + '/' + d + '/' + y,
-        y
-      ];
-      var nq = q.toLowerCase().replace(/\s+/g, '');
-      return variants.some(function (v) { return v.toLowerCase().replace(/\s+/g, '').indexOf(nq) !== -1; });
+    var repCustomStart = '';
+    var repCustomEnd = '';
+    var pickerYear = new Date().getFullYear();
+    var pickerMonth = new Date().getMonth();
+    var draftStart = null;
+    var draftEnd = null;
+
+    function isoFromDate(d) {
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    }
+    function dateFromIso(iso) {
+      var p = String(iso || '').slice(0, 10).split('-');
+      if (p.length < 3) return null;
+      var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+      return isNaN(d.getTime()) ? null : d;
+    }
+    function startOfDay(d) {
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate());
     }
 
     function inDateRange(dateStr, range) {
@@ -12342,17 +12440,40 @@ console.log('Check console for errors and network requests');
       return true;
     }
 
+    function inCustomRange(dateStr) {
+      if (!repCustomStart || !repCustomEnd || !dateStr) return !repCustomStart && !repCustomEnd;
+      var d = String(dateStr).slice(0, 10);
+      var a = repCustomStart <= repCustomEnd ? repCustomStart : repCustomEnd;
+      var b = repCustomStart <= repCustomEnd ? repCustomEnd : repCustomStart;
+      return d >= a && d <= b;
+    }
+
+    function rangeLabel() {
+      if (!repCustomStart || !repCustomEnd) return '';
+      var a = dateFromIso(repCustomStart);
+      var b = dateFromIso(repCustomEnd);
+      if (!a || !b) return '';
+      if (a > b) { var t = a; a = b; b = t; }
+      var opts = { month: 'short', day: 'numeric', year: 'numeric' };
+      var left = a.toLocaleDateString('en-US', opts);
+      var right = b.toLocaleDateString('en-US', opts);
+      return left === right ? left : left + ' – ' + right;
+    }
+
     function getFiltered() {
       var range = (document.getElementById('repDateRange') || {}).value || 'all';
       var type = (document.getElementById('repTypeFilter') || {}).value || 'all';
-      var q = (document.getElementById('repSearchDate') || {}).value || '';
+      var useCustom = !!(repCustomStart && repCustomEnd);
       return repData().filter(function (a) {
-        if (!inDateRange(a.date, range)) return false;
+        if (useCustom) {
+          if (!inCustomRange(a.date)) return false;
+        } else if (!inDateRange(a.date, range)) {
+          return false;
+        }
         if (type === 'new' && a.type !== 'new') return false;
         if (type === 'renewal' && a.type !== 'renewal') return false;
         if (type === 'pending' && a.status !== 'pending') return false;
         if (repStatus !== 'all' && a.status !== repStatus) return false;
-        if (!matchesSearch(a.date, q)) return false;
         return true;
       });
     }
@@ -12368,18 +12489,47 @@ console.log('Check console for errors and network requests');
       setText('repPending', pending);
       setText('repApproved', approved);
       setText('repIncomplete', incomplete);
+      setText('repTotalSub', rangeLabel() || scopeLabel());
       return { total: total, pending: pending, approved: approved, incomplete: incomplete };
     }
 
     function setText(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
 
+    function scopeLabel() {
+      var range = (document.getElementById('repDateRange') || {}).value || 'all';
+      if (range === 'day') return 'This day';
+      if (range === 'month') return 'This month';
+      if (range === 'year') return 'This year';
+      return 'All time';
+    }
+
     function buildMonthly(rows) {
       var labels = [], keys = [];
-      var now = new Date();
-      for (var i = 5; i >= 0; i--) {
-        var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        labels.push(d.toLocaleString('en-US', { month: 'short' }));
-        keys.push(d.getFullYear() + '-' + pad(d.getMonth() + 1));
+      if (repCustomStart && repCustomEnd) {
+        var from = dateFromIso(repCustomStart);
+        var to = dateFromIso(repCustomEnd);
+        if (from && to) {
+          if (from > to) { var swap = from; from = to; to = swap; }
+          var cursor = new Date(from.getFullYear(), from.getMonth(), 1);
+          var last = new Date(to.getFullYear(), to.getMonth(), 1);
+          var spanYears = from.getFullYear() !== to.getFullYear();
+          var guard = 0;
+          while (cursor <= last && guard < 24) {
+            var name = cursor.toLocaleString('en-US', { month: 'short' });
+            labels.push(spanYears ? name + ' ' + cursor.getFullYear() : name);
+            keys.push(cursor.getFullYear() + '-' + pad(cursor.getMonth() + 1));
+            cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+            guard++;
+          }
+        }
+      }
+      if (!keys.length) {
+        var now = new Date();
+        for (var i = 5; i >= 0; i--) {
+          var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          labels.push(d.toLocaleString('en-US', { month: 'short' }));
+          keys.push(d.getFullYear() + '-' + pad(d.getMonth() + 1));
+        }
       }
       var ap = {}, pe = {}, re = {};
       keys.forEach(function (k) { ap[k] = 0; pe[k] = 0; re[k] = 0; });
@@ -12505,6 +12655,140 @@ console.log('Check console for errors and network requests');
       });
     }
 
+    function renderPicker() {
+      var grid = document.getElementById('repRangeGrid');
+      var label = document.getElementById('repRangeMonthLabel');
+      if (!grid || !label) return;
+      var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      label.textContent = monthNames[pickerMonth] + ' ' + pickerYear;
+      var first = new Date(pickerYear, pickerMonth, 1);
+      var startWeek = first.getDay();
+      var daysInMonth = new Date(pickerYear, pickerMonth + 1, 0).getDate();
+      var prevDays = new Date(pickerYear, pickerMonth, 0).getDate();
+      var s = draftStart ? startOfDay(draftStart).getTime() : null;
+      var e = draftEnd ? startOfDay(draftEnd).getTime() : null;
+      if (s != null && e != null && s > e) { var swap = s; s = e; e = swap; }
+      var html = '';
+      for (var i = 0; i < 42; i++) {
+        var dayNum, muted = false, cellDate;
+        if (i < startWeek) {
+          dayNum = prevDays - startWeek + 1 + i;
+          muted = true;
+          cellDate = new Date(pickerYear, pickerMonth - 1, dayNum);
+        } else if (i >= startWeek + daysInMonth) {
+          dayNum = i - (startWeek + daysInMonth) + 1;
+          muted = true;
+          cellDate = new Date(pickerYear, pickerMonth + 1, dayNum);
+        } else {
+          dayNum = i - startWeek + 1;
+          cellDate = new Date(pickerYear, pickerMonth, dayNum);
+        }
+        var t = startOfDay(cellDate).getTime();
+        var cls = 'rep-range-day' + (muted ? ' is-muted' : '');
+        if (s != null && e != null && t > s && t < e) cls += ' is-in';
+        if (s != null && t === s) cls += ' is-start';
+        if (e != null && t === e) cls += ' is-end';
+        if (s != null && e == null && t === s) cls += ' is-start is-end';
+        html += '<button type="button" class="' + cls + '" data-iso="' + isoFromDate(cellDate) + '"><span>' + dayNum + '</span></button>';
+      }
+      grid.innerHTML = html;
+    }
+
+    function openRangePicker() {
+      var overlay = document.getElementById('repRangeOverlay');
+      if (!overlay) return;
+      draftStart = dateFromIso(repCustomStart);
+      draftEnd = dateFromIso(repCustomEnd);
+      if (draftStart) {
+        pickerYear = draftStart.getFullYear();
+        pickerMonth = draftStart.getMonth();
+      }
+      renderPicker();
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeRangePicker() {
+      var overlay = document.getElementById('repRangeOverlay');
+      if (!overlay) return;
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    function setDraftRange(start, end) {
+      draftStart = startOfDay(start);
+      draftEnd = startOfDay(end);
+      pickerYear = draftStart.getFullYear();
+      pickerMonth = draftStart.getMonth();
+      renderPicker();
+    }
+
+    function bindRangePicker() {
+      var openBtn = document.getElementById('repDatePickerBtn');
+      var overlay = document.getElementById('repRangeOverlay');
+      var grid = document.getElementById('repRangeGrid');
+      if (!openBtn || !overlay || openBtn.dataset.bound === '1') return;
+      openBtn.dataset.bound = '1';
+      openBtn.addEventListener('click', openRangePicker);
+      document.getElementById('repRangeClose').addEventListener('click', closeRangePicker);
+      overlay.addEventListener('click', function (ev) { if (ev.target === overlay) closeRangePicker(); });
+      document.getElementById('repRangePrev').addEventListener('click', function () {
+        pickerMonth -= 1;
+        if (pickerMonth < 0) { pickerMonth = 11; pickerYear -= 1; }
+        renderPicker();
+      });
+      document.getElementById('repRangeNext').addEventListener('click', function () {
+        pickerMonth += 1;
+        if (pickerMonth > 11) { pickerMonth = 0; pickerYear += 1; }
+        renderPicker();
+      });
+      document.getElementById('repRangePresets').addEventListener('click', function (ev) {
+        var btn = ev.target.closest('button[data-days]');
+        if (!btn) return;
+        document.querySelectorAll('#repRangePresets button').forEach(function (b) { b.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        var days = parseInt(btn.getAttribute('data-days'), 10) || 1;
+        var end = startOfDay(new Date());
+        var start = new Date(end.getFullYear(), end.getMonth(), end.getDate() - (days - 1));
+        setDraftRange(start, end);
+      });
+      grid.addEventListener('click', function (ev) {
+        var btn = ev.target.closest('.rep-range-day');
+        if (!btn) return;
+        document.querySelectorAll('#repRangePresets button').forEach(function (b) { b.classList.remove('is-active'); });
+        var picked = dateFromIso(btn.getAttribute('data-iso'));
+        if (!picked) return;
+        if (!draftStart || (draftStart && draftEnd)) {
+          draftStart = picked;
+          draftEnd = null;
+        } else {
+          draftEnd = picked;
+        }
+        renderPicker();
+      });
+      document.getElementById('repRangeApply').addEventListener('click', function () {
+        if (!draftStart) return;
+        var end = draftEnd || draftStart;
+        var a = startOfDay(draftStart);
+        var b = startOfDay(end);
+        if (a > b) { var tmp = a; a = b; b = tmp; }
+        repCustomStart = isoFromDate(a);
+        repCustomEnd = isoFromDate(b);
+        openBtn.textContent = rangeLabel();
+        closeRangePicker();
+        window.applyReportsFilters();
+      });
+      var rangeSelect = document.getElementById('repDateRange');
+      if (rangeSelect) {
+        rangeSelect.addEventListener('change', function () {
+          repCustomStart = '';
+          repCustomEnd = '';
+          openBtn.textContent = 'Select date for reports';
+          window.applyReportsFilters();
+        });
+      }
+    }
+
     window.applyReportsFilters = function () {
       var rows = getFiltered();
       var c = updateCards(rows);
@@ -12547,6 +12831,7 @@ console.log('Check console for errors and network requests');
       var section = document.getElementById('reports-section');
       if (!section) return;
       repInited = true;
+      bindRangePicker();
       window.applyReportsFilters();
       // Ensure charts size correctly after becoming visible
       setTimeout(function () {
