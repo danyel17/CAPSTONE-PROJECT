@@ -690,7 +690,7 @@ $pv = function ($key) {
             .auth-card.right-panel-active .sign-in-container { display: flex; }
             .overlay-container {
                 position: relative;
-                left: 0; width: 100%; height: 170px;
+                left: 0; width: 100%; height: 192px;
                 order: -1;
                 transform: none !important;
             }
@@ -704,34 +704,33 @@ $pv = function ($key) {
             .auth-card.right-panel-active .overlay-left { display: flex; }
             .auth-card.right-panel-active .overlay-right { display: none; }
             .overlay-right { display: flex; }
-            .overlay-title--full { display: none; }
-            .overlay-title--short { display: block; }
             .overlay-panel h2 {
-                font-size: 1.28rem;
-                line-height: 1.2;
-                margin-bottom: 0.35rem;
+                font-size: 1.15rem;
+                line-height: 1.22;
+                margin-bottom: 0.3rem;
             }
             .overlay-panel p {
-                font-size: 0.78rem;
-                line-height: 1.4;
-                margin-bottom: 0.55rem;
-                max-width: 100%;
+                font-size: 0.76rem;
+                line-height: 1.38;
+                margin-bottom: 0.5rem;
+                max-width: 20rem;
                 padding: 0 0.25rem;
             }
             .overlay-panel.overlay-right {
                 justify-content: flex-start;
-                padding-top: 0.95rem;
-                padding-bottom: 0.85rem;
+                padding: 0.85rem 1rem 0.9rem;
                 gap: 0;
             }
+            .overlay-panel.overlay-right h2 {
+                max-width: 17.5rem;
+            }
             .overlay-panel .btn-ghost {
-                margin-top: 0.15rem;
-                padding: 0.62rem 1.35rem;
-                font-size: 0.85rem;
+                margin-top: 0.1rem;
+                padding: 0.6rem 1.3rem;
+                font-size: 0.84rem;
                 flex-shrink: 0;
             }
         }
-        .overlay-title--short { display: none; }
     </style>
 </head>
 <body>
@@ -932,10 +931,7 @@ $pv = function ($key) {
 
                     <!-- Shown when register form is active (panel on RIGHT) -->
                     <div class="overlay-panel overlay-right">
-                        <h2>
-                            <span class="overlay-title--full">Welcome to Daet Public Market</span>
-                            <span class="overlay-title--short">Welcome to DPM</span>
-                        </h2>
+                        <h2>Welcome to Daet Public Market</h2>
                         <p>If you already have an account, login here and continue managing your vendor services.</p>
                         <button type="button" class="btn-ghost" id="showLoginBtn">Login <i class="fas fa-arrow-right"></i></button>
                     </div>
