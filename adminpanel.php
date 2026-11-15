@@ -3536,6 +3536,7 @@ if ($records_page < 1) {
 }
 $records_page_size = 12;
 $records_offset = ($records_page - 1) * $records_page_size;
+$records_sort = (isset($_GET['records_sort']) && $_GET['records_sort'] === 'name') ? 'name' : 'date';
 
 // Ensure database connection exists
 if (!isset($conn) || !$conn) {
@@ -3562,7 +3563,7 @@ $all_records = [];
 try {
     adminEnsureUserProfileColumns($conn);
     // First, get all users with simplest query (profile fields come from registration)
-    $simple_users_result = $conn->query("SELECT user_id, email, full_name, phone_number, gender, age, residential_address, created_at, status, last_login FROM users ORDER BY created_at DESC, user_id DESC LIMIT " . (int)$records_page_size . " OFFSET " . (int)$records_offset);
+    $simple_users_result = $conn->query("SELECT user_id, email, full_name, phone_number, gender, age, residential_address, created_at, status, last_login FROM users");
     if ($simple_users_result) {
         while ($row = $simple_users_result->fetch_assoc()) {
             // Add defaults for missing fields
@@ -3574,31 +3575,11 @@ try {
             $row['residential_address'] = $row['residential_address'] ?? '';
             $row['member_since'] = $row['created_at'] ?? date('Y-m-d H:i:s');
             $row['user_status'] = $row['status'] ?? 'active';
-            $row['profile_image'] = ''; // Will be filled below
+            $row['profile_image'] = '';
             
         $all_records[] = $row;
         }
         error_log("✓✓✓ USERS QUERY SUCCESS: Found " . count($all_records) . " users");
-        
-        // Now get profile images for each user
-        if (count($all_records) > 0) {
-            foreach ($all_records as &$record) {
-                $user_id = $record['user_id'];
-                // Try to get profile image from user_profiles table
-                $profile_query = $conn->query("SELECT profile_image FROM user_profiles WHERE user_id = " . (int)$user_id . " AND profile_type = 'vendor' LIMIT 1");
-                if ($profile_query && $profile_row = $profile_query->fetch_assoc()) {
-                    $record['profile_image'] = $profile_row['profile_image'] ?? '';
-                }
-                // If still empty, check users table
-                if (empty($record['profile_image'])) {
-                    $user_profile_query = $conn->query("SELECT profile_image FROM users WHERE user_id = " . (int)$user_id . " LIMIT 1");
-                    if ($user_profile_query && $user_profile_row = $user_profile_query->fetch_assoc()) {
-                        $record['profile_image'] = $user_profile_row['profile_image'] ?? '';
-                    }
-                }
-            }
-            unset($record);
-        }
     } else {
         error_log("✗✗✗ USERS QUERY FAILED: " . $conn->error);
     }
@@ -3632,6 +3613,42 @@ if (empty($all_records) && $records_total > 0) {
     } else {
         error_log("✗ Fallback query failed: " . $conn->error);
     }
+}
+
+usort($all_records, static function (array $a, array $b) use ($records_sort): int {
+    if ($records_sort === 'name') {
+        return strcasecmp((string)($a['user_name'] ?? ''), (string)($b['user_name'] ?? ''));
+    }
+    $ta = strtotime((string)($a['member_since'] ?? '')) ?: 0;
+    $tb = strtotime((string)($b['member_since'] ?? '')) ?: 0;
+    if ($ta === $tb) {
+        return ((int)($b['user_id'] ?? 0)) <=> ((int)($a['user_id'] ?? 0));
+    }
+    return $tb <=> $ta;
+});
+$records_total = count($all_records);
+$records_total_pages = max(1, (int)ceil($records_total / $records_page_size));
+if ($records_page > $records_total_pages) {
+    $records_page = $records_total_pages;
+}
+$records_offset = ($records_page - 1) * $records_page_size;
+$all_records = array_slice($all_records, $records_offset, $records_page_size);
+
+if (count($all_records) > 0 && isset($conn) && $conn) {
+    foreach ($all_records as &$record) {
+        $profile_user_id = (int)($record['user_id'] ?? 0);
+        $profile_query = $conn->query("SELECT profile_image FROM user_profiles WHERE user_id = " . $profile_user_id . " AND profile_type = 'vendor' LIMIT 1");
+        if ($profile_query && $profile_row = $profile_query->fetch_assoc()) {
+            $record['profile_image'] = $profile_row['profile_image'] ?? '';
+        }
+        if (empty($record['profile_image'])) {
+            $user_profile_query = $conn->query("SELECT profile_image FROM users WHERE user_id = " . $profile_user_id . " LIMIT 1");
+            if ($user_profile_query && $user_profile_row = $user_profile_query->fetch_assoc()) {
+                $record['profile_image'] = $user_profile_row['profile_image'] ?? '';
+            }
+        }
+    }
+    unset($record);
 }
 
 $admin_log_page = isset($_GET['admin_log_page']) && is_numeric($_GET['admin_log_page']) ? (int)$_GET['admin_log_page'] : 1;
@@ -5981,6 +5998,65 @@ console.log('Check console for errors and network requests');
   }
   body.dark-mode .user-record-card .user-info-item span {
     color: #b0b0b0;
+  }
+
+  .records-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 0 16px;
+  }
+  .records-sort {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 12px 0 14px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    color: #64748b;
+  }
+  .records-sort i {
+    font-size: 13px;
+    pointer-events: none;
+  }
+  .records-sort select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: transparent;
+    color: #2d3a4a;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 0 18px 0 0;
+    cursor: pointer;
+    outline: none;
+  }
+  .records-sort::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid #64748b;
+    border-bottom: 2px solid #64748b;
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+  body.dark-mode .records-sort {
+    background: #2c2c2c;
+    border-color: #444;
+    color: #aaa;
+  }
+  body.dark-mode .records-sort select {
+    color: #e0e0e0;
+  }
+  body.dark-mode .records-sort::after {
+    border-color: #aaa;
   }
 
   /* ── Records header right: view toggles + search ── */
@@ -10387,6 +10463,16 @@ console.log('Check console for errors and network requests');
             </div>
           </div>
 
+          <div class="records-toolbar">
+            <label class="records-sort" for="recordsSortSelect">
+              <i class="fas fa-sort-amount-down" aria-hidden="true"></i>
+              <select id="recordsSortSelect" onchange="window.location.href='?section=records&records_sort=' + encodeURIComponent(this.value);">
+                <option value="date"<?php echo $records_sort === 'date' ? ' selected' : ''; ?>>Date</option>
+                <option value="name"<?php echo $records_sort === 'name' ? ' selected' : ''; ?>>Name</option>
+              </select>
+            </label>
+          </div>
+
           <!-- Drawer mode: collapsed cards list -->
           <div id="records-drawer" class="records-drawer" style="display:none;">
             <?php foreach ($all_records as $rec_d):
@@ -10493,7 +10579,7 @@ console.log('Check console for errors and network requests');
           </div>
           <div class="pagination">
             <?php if ($records_page > 1): ?>
-              <a href="?section=records&records_page=<?php echo $records_page - 1; ?>" class="pagination-btn">
+              <a href="?section=records&records_sort=<?php echo $records_sort; ?>&records_page=<?php echo $records_page - 1; ?>" class="pagination-btn">
                 <i class="fas fa-chevron-left"></i> Previous
               </a>
             <?php else: ?>
@@ -10505,7 +10591,7 @@ console.log('Check console for errors and network requests');
               Page <?php echo $records_page; ?> of <?php echo $records_total_pages; ?> (Total: <?php echo number_format($records_total); ?> users)
             </span>
             <?php if ($records_page < $records_total_pages): ?>
-              <a href="?section=records&records_page=<?php echo $records_page + 1; ?>" class="pagination-btn">
+              <a href="?section=records&records_sort=<?php echo $records_sort; ?>&records_page=<?php echo $records_page + 1; ?>" class="pagination-btn">
                 Next <i class="fas fa-chevron-right"></i>
               </a>
             <?php else: ?>
