@@ -82,3 +82,15 @@ $vpNavActive = static function (string $page) use ($vendor_nav_active): string {
         </a>
       </div>
     </div>
+    <script>
+    (function () {
+      document.querySelectorAll('a[href*="notification.php"]').forEach(function (link) {
+        link.addEventListener('click', function () {
+          var badge = link.querySelector('.nav-icon-badge');
+          if (badge) {
+            badge.remove();
+          }
+        });
+      });
+    })();
+    </script>

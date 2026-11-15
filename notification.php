@@ -21,8 +21,12 @@ if (!$conn) {
     die("Database connection failed. Please try again later.");
 }
 
-// Unread count for nav badge only
+// Unread count for nav badge — cleared when vendor opens Notifications
 $unread_notifications_count = getUnreadApprovalNotificationCount($user_id);
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET') {
+    markApprovalNotificationsAsRead($user_id);
+    $unread_notifications_count = 0;
+}
 
 // Handle AJAX requests for editing applications
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
