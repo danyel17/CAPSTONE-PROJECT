@@ -697,8 +697,12 @@ $pv = function ($key) {
             .auth-card { display: flex; flex-direction: column; }
             .overlay { left: 0; width: 100%; transform: none !important; }
             .overlay-panel {
-                width: 100%; padding: 1.25rem;
+                width: 100%;
+                padding: 0.75rem 1rem;
                 transform: none !important;
+                justify-content: center;
+                align-items: center;
+                gap: 0;
             }
             .overlay-left { display: none; }
             .auth-card.right-panel-active .overlay-left { display: flex; }
@@ -707,25 +711,26 @@ $pv = function ($key) {
             .overlay-panel h2 {
                 font-size: 1.15rem;
                 line-height: 1.22;
-                margin-bottom: 0.3rem;
+                margin-bottom: 0;
+                max-width: 17.5rem;
+                min-height: 2.75rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .overlay-panel p {
                 font-size: 0.76rem;
                 line-height: 1.38;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0;
                 max-width: 20rem;
                 padding: 0 0.25rem;
-            }
-            .overlay-panel.overlay-right {
-                justify-content: flex-start;
-                padding: 0.85rem 1rem 0.9rem;
-                gap: 0;
-            }
-            .overlay-panel.overlay-right h2 {
-                max-width: 17.5rem;
+                min-height: 2.15rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .overlay-panel .btn-ghost {
-                margin-top: 0.1rem;
+                margin-top: 0.55rem;
                 padding: 0.6rem 1.3rem;
                 font-size: 0.84rem;
                 flex-shrink: 0;
