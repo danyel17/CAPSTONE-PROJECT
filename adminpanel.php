@@ -5910,7 +5910,28 @@ console.log('Check console for errors and network requests');
     z-index: 1;
   }
   body.dark-mode .search-filter .search-icon {
-    color: #999;
+    color: #cfcfcf;
+  }
+  body.dark-mode .search-filter input,
+  body.dark-mode .search-filter select,
+  body.dark-mode .sidebar-search-input,
+  body.dark-mode .rep-search,
+  body.dark-mode .rep-search input,
+  body.dark-mode .rep-control,
+  body.dark-mode .rep-control select,
+  body.dark-mode .mm-search {
+    background: #1f1f1f !important;
+    background-color: #1f1f1f !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    border-color: #3a3a3a !important;
+  }
+  body.dark-mode .search-filter input::placeholder,
+  body.dark-mode .rep-search input::placeholder,
+  body.dark-mode .sidebar-search-input::placeholder,
+  body.dark-mode .mm-search::placeholder {
+    color: #b0b0b0 !important;
+    -webkit-text-fill-color: #b0b0b0 !important;
   }
   
   /* User Records Box/Card Layout */
@@ -6061,15 +6082,21 @@ console.log('Check console for errors and network requests');
     pointer-events: none;
   }
   body.dark-mode .records-sort {
-    background: #2c2c2c;
-    border-color: #444;
-    color: #aaa;
+    background: #1f1f1f !important;
+    border-color: #3a3a3a !important;
+    color: #ffffff !important;
   }
-  body.dark-mode .records-sort select {
-    color: #e0e0e0;
+  body.dark-mode .records-sort select,
+  body.dark-mode .records-sort select option {
+    background: #1f1f1f !important;
+    background-color: #1f1f1f !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
   }
+  body.dark-mode .records-sort i,
   body.dark-mode .records-sort::after {
-    border-color: #aaa;
+    color: #ffffff;
+    border-color: #ffffff;
   }
 
   /* ── Records header right: view toggles + search ── */
@@ -6737,7 +6764,8 @@ console.log('Check console for errors and network requests');
   body.dark-mode .rep-stat-value,
   body.dark-mode .rep-panel-head h3,
   body.dark-mode .rep-cat-meta,
-  body.dark-mode .rep-donut-legend .rdl-val { color: #e0e0e0; }
+  body.dark-mode .rep-donut-legend .rdl-val,
+  body.dark-mode .rep-donut-total { color: #ffffff !important; }
   body.dark-mode .rep-stat-label { color: #8a8a8a; }
   body.dark-mode .rep-cat-name,
   body.dark-mode .rep-activity-text,
@@ -12439,7 +12467,7 @@ console.log('Check console for errors and network requests');
         existing.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;';
         wrap.appendChild(existing);
       }
-      existing.innerHTML = '<div style="font-size:1.8rem;font-weight:800;color:#111827;">' + total + '</div><div style="font-size:0.78rem;color:#9ca3af;">Total</div>';
+      existing.innerHTML = '<div class="rep-donut-total" style="font-size:1.8rem;font-weight:800;color:#111827;">' + total + '</div><div style="font-size:0.78rem;color:#9ca3af;">Total</div>';
     }
 
     function rdlItem(color, label, val) {
