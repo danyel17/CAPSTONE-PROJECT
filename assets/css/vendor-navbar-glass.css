@@ -276,4 +276,92 @@ body.darkmode .main-container .navbar .logout-btn:hover span {
     top: 0.05rem;
     right: 0.2rem;
   }
+
+  /* Light mode: inactive = dark on glass; active = white on dark pill */
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active),
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active) i,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) i,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active) span,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) span {
+    color: #1c1c1e !important;
+    -webkit-text-fill-color: #1c1c1e !important;
+  }
+
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+    background: linear-gradient(
+      160deg,
+      rgba(32, 34, 42, 0.96) 0%,
+      rgba(18, 20, 26, 0.94) 100%
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow:
+      0 4px 14px rgba(0, 0, 0, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  }
+
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active i,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active i,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active span,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active span,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover i,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover i,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover span,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover span {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  /* Dark mode: bar unchanged; inactive = white; active = dark on light pill */
+  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active),
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active),
+  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active) i,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active) i,
+  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active) span,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active) span,
+  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active):hover i,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover i,
+  body.darkmode .main-container .nav-pills-wrap .nav-pill:not(.active):hover span,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover span {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  body.darkmode .main-container .nav-pills-wrap .nav-pill.active,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active,
+  body.darkmode .main-container .nav-pills-wrap .nav-pill.active:hover,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid rgba(255, 255, 255, 0.62) !important;
+    box-shadow:
+      0 2px 10px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+  }
+
+  body.darkmode .main-container .nav-pills-wrap .nav-pill.active i,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active i,
+  body.darkmode .main-container .nav-pills-wrap .nav-pill.active span,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active span,
+  body.darkmode .main-container .nav-pills-wrap .nav-pill.active:hover i,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active:hover i,
+  body.darkmode .main-container .nav-pills-wrap .nav-pill.active:hover span,
+  body.darkmode .main-container .nav-pills-wrap .nav-icon-pill.active:hover span {
+    color: #1c1c1e !important;
+    -webkit-text-fill-color: #1c1c1e !important;
+  }
 }

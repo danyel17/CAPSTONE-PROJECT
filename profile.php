@@ -3945,11 +3945,11 @@ $profile_activity_count = count($profile_activity_entries);
   </style>
   <link rel="stylesheet" href="assets/css/vendor-light-mode-text.css?v=profile-elevate-2">
   <link rel="stylesheet" href="assets/css/vendor-mobile-sidebar-logout.css">
-  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-mob-labels-2">
+  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-mob-states-3">
   <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=1">
   <link rel="stylesheet" href="assets/css/vendor-portal-shell.css?v=1">
   <link rel="stylesheet" href="assets/css/menu-landing-nav.css?v=menu-nav-lock-4">
-  <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-6">
+  <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-7">
   <link rel="stylesheet" href="assets/css/vendor-page-glass.css?v=profile-manage-accordion-8">
 </head>
 <body class="page-profile">
