@@ -3487,6 +3487,48 @@ $recent_query = "
     LIMIT " . (int)$page_size . " OFFSET " . (int)$offset . "
 ";
 
+/**
+ * Registration stores "First Middle Surname". Records show "Surname, First Middle".
+ */
+function adminRecordsDisplayName(string $fullName): string {
+    $fullName = trim(preg_replace('/\s+/', ' ', $fullName));
+    if ($fullName === '') {
+        return 'Unknown User';
+    }
+    if (strpos($fullName, ',') !== false) {
+        return $fullName;
+    }
+    $parts = preg_split('/\s+/', $fullName);
+    if (!$parts || count($parts) < 2) {
+        return $fullName;
+    }
+    $suffixes = ['jr', 'jr.', 'sr', 'sr.', 'ii', 'iii', 'iv'];
+    $suffix = '';
+    $last = strtolower((string) end($parts));
+    if (in_array($last, $suffixes, true) && count($parts) >= 3) {
+        $suffix = ' ' . array_pop($parts);
+    }
+    $surname = array_pop($parts);
+    return $surname . ', ' . implode(' ', $parts) . $suffix;
+}
+
+function adminEnsureUserProfileColumns($conn): void {
+    if (!$conn) {
+        return;
+    }
+    $cols = [
+        'gender' => "ALTER TABLE users ADD COLUMN gender VARCHAR(20) NULL",
+        'age' => "ALTER TABLE users ADD COLUMN age INT NULL",
+        'residential_address' => "ALTER TABLE users ADD COLUMN residential_address VARCHAR(255) NULL",
+    ];
+    foreach ($cols as $name => $sql) {
+        $check = $conn->query("SHOW COLUMNS FROM users LIKE '" . $conn->real_escape_string($name) . "'");
+        if ($check && $check->num_rows === 0) {
+            $conn->query($sql);
+        }
+    }
+}
+
 // User Records pagination
 $records_page = isset($_GET['records_page']) && is_numeric($_GET['records_page']) ? (int)$_GET['records_page'] : 1;
 if ($records_page < 1) {
@@ -3518,18 +3560,13 @@ if ($records_page > $records_total_pages) {
 // Get records - SIMPLEST QUERY FIRST (like recent applications approach)
 $all_records = [];
 try {
-    // Include profile columns (gender, age, residential_address) when they exist
-    $profile_cols = '';
-    $col_check = $conn->query("SHOW COLUMNS FROM users LIKE 'residential_address'");
-    if ($col_check && $col_check->num_rows > 0) {
-        $profile_cols = ', gender, age, residential_address';
-    }
-    // First, get all users with simplest query
-    $simple_users_result = $conn->query("SELECT user_id, email, full_name, phone_number{$profile_cols}, created_at, status, last_login FROM users ORDER BY created_at DESC, user_id DESC LIMIT " . (int)$records_page_size . " OFFSET " . (int)$records_offset);
+    adminEnsureUserProfileColumns($conn);
+    // First, get all users with simplest query (profile fields come from registration)
+    $simple_users_result = $conn->query("SELECT user_id, email, full_name, phone_number, gender, age, residential_address, created_at, status, last_login FROM users ORDER BY created_at DESC, user_id DESC LIMIT " . (int)$records_page_size . " OFFSET " . (int)$records_offset);
     if ($simple_users_result) {
         while ($row = $simple_users_result->fetch_assoc()) {
             // Add defaults for missing fields
-            $row['user_name'] = $row['full_name'] ?? 'Unknown User';
+            $row['user_name'] = adminRecordsDisplayName((string)($row['full_name'] ?? ''));
             $row['email'] = $row['email'] ?? '';
             $row['phone_number'] = $row['phone_number'] ?? '';
             $row['gender'] = $row['gender'] ?? '';
@@ -3575,11 +3612,12 @@ error_log("✓✓✓ Records loaded: " . count($all_records) . " out of " . $rec
 // Fallback: If records are still empty, try simplest possible query
 if (empty($all_records) && $records_total > 0) {
     error_log("⚠ WARNING: all_records is empty but database has " . $records_total . " users, attempting fallback query...");
-    $fallback_result = $conn->query("SELECT user_id, email, full_name, phone_number, created_at, status FROM users ORDER BY user_id DESC");
+    adminEnsureUserProfileColumns($conn);
+    $fallback_result = $conn->query("SELECT user_id, email, full_name, phone_number, gender, age, residential_address, created_at, status FROM users ORDER BY user_id DESC");
     if ($fallback_result) {
         $all_records = [];
         while ($row = $fallback_result->fetch_assoc()) {
-            $row['user_name'] = $row['full_name'] ?? 'Unknown User';
+            $row['user_name'] = adminRecordsDisplayName((string)($row['full_name'] ?? ''));
             $row['email'] = $row['email'] ?? '';
             $row['phone_number'] = $row['phone_number'] ?? '';
             $row['gender'] = $row['gender'] ?? '';
