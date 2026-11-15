@@ -12,6 +12,63 @@ $rating_source = isset($rating_source) && in_array($rating_source, ['application
     ? $rating_source
     : 'application';
 
+$rate_prefill = [
+    'name' => trim((string)($_SESSION['full_name'] ?? '')),
+    'email' => trim((string)($_SESSION['email'] ?? '')),
+    'sex' => '',
+    'age_group' => '',
+    'address' => '',
+    'contact' => '',
+];
+$rate_user_id = (int)($_SESSION['user_id'] ?? ($user_id ?? 0));
+if ($rate_user_id > 0 && function_exists('getDBConnection')) {
+    $rate_conn = getDBConnection();
+    if ($rate_conn) {
+        try {
+            $rate_stmt = $rate_conn->prepare('SELECT full_name, email, phone_number, gender, age, residential_address FROM users WHERE user_id = ? LIMIT 1');
+            if ($rate_stmt) {
+                $rate_stmt->bind_param('i', $rate_user_id);
+                $rate_stmt->execute();
+                $rate_row = $rate_stmt->get_result()->fetch_assoc();
+                $rate_stmt->close();
+                if ($rate_row) {
+                    if (trim((string)($rate_row['full_name'] ?? '')) !== '') {
+                        $rate_prefill['name'] = trim((string)$rate_row['full_name']);
+                    }
+                    if (trim((string)($rate_row['email'] ?? '')) !== '') {
+                        $rate_prefill['email'] = trim((string)$rate_row['email']);
+                    }
+                    $rate_prefill['contact'] = trim((string)($rate_row['phone_number'] ?? ''));
+                    $rate_prefill['address'] = trim((string)($rate_row['residential_address'] ?? ''));
+                    $rate_gender = trim((string)($rate_row['gender'] ?? ''));
+                    if (strcasecmp($rate_gender, 'Male') === 0 || strcasecmp($rate_gender, 'Female') === 0) {
+                        $rate_prefill['sex'] = ucfirst(strtolower($rate_gender));
+                    }
+                    $rate_age = (int)($rate_row['age'] ?? 0);
+                    if ($rate_age > 0) {
+                        if ($rate_age <= 17) {
+                            $rate_prefill['age_group'] = '17 and below';
+                        } elseif ($rate_age === 18) {
+                            $rate_prefill['age_group'] = '18 and above';
+                        } elseif ($rate_age <= 24) {
+                            $rate_prefill['age_group'] = '19-24';
+                        } elseif ($rate_age <= 39) {
+                            $rate_prefill['age_group'] = '25-39';
+                        } elseif ($rate_age <= 59) {
+                            $rate_prefill['age_group'] = '40-59';
+                        } else {
+                            $rate_prefill['age_group'] = '60 and above';
+                        }
+                    }
+                }
+            }
+        } catch (Throwable $e) {
+            error_log('rating prefill: ' . $e->getMessage());
+        }
+        $rate_conn->close();
+    }
+}
+
 $rating_criteria = [
     "I am satisfied with the staff/employee's approach to me.",
     "I am satisfied with the employee's responses to my question.",
@@ -74,42 +131,42 @@ $rating_scale = [
 
         <div class="rate-field">
           <label for="rateClientName"><span data-rt="fName">Name</span> <span class="rate-optional" data-rt="optional">(Optional)</span></label>
-          <input type="text" id="rateClientName" name="client_name" maxlength="255">
+          <input type="text" id="rateClientName" name="client_name" maxlength="255" value="<?php echo htmlspecialchars($rate_prefill['name'], ENT_QUOTES, 'UTF-8'); ?>">
         </div>
 
         <div class="rate-field">
           <span class="rate-field-label" data-rt="fSex">Sex</span>
           <div class="rate-choices">
-            <label><input type="radio" name="sex" value="Male"> <span data-rt="male">Male</span></label>
-            <label><input type="radio" name="sex" value="Female"> <span data-rt="female">Female</span></label>
+            <label><input type="radio" name="sex" value="Male"<?php echo $rate_prefill['sex'] === 'Male' ? ' checked' : ''; ?>> <span data-rt="male">Male</span></label>
+            <label><input type="radio" name="sex" value="Female"<?php echo $rate_prefill['sex'] === 'Female' ? ' checked' : ''; ?>> <span data-rt="female">Female</span></label>
           </div>
         </div>
 
         <div class="rate-field">
           <span class="rate-field-label" data-rt="fAge">Age</span>
           <div class="rate-choices rate-choices-grid">
-            <label><input type="radio" name="age_group" value="17 and below"> <span data-rt="age1">17 and below</span></label>
-            <label><input type="radio" name="age_group" value="18 and above"> <span data-rt="age2">18 and above</span></label>
-            <label><input type="radio" name="age_group" value="19-24"> 19 &ndash; 24</label>
-            <label><input type="radio" name="age_group" value="25-39"> 25 &ndash; 39</label>
-            <label><input type="radio" name="age_group" value="40-59"> 40 &ndash; 59</label>
-            <label><input type="radio" name="age_group" value="60 and above"> <span data-rt="age6">60 and above</span></label>
+            <label><input type="radio" name="age_group" value="17 and below"<?php echo $rate_prefill['age_group'] === '17 and below' ? ' checked' : ''; ?>> <span data-rt="age1">17 and below</span></label>
+            <label><input type="radio" name="age_group" value="18 and above"<?php echo $rate_prefill['age_group'] === '18 and above' ? ' checked' : ''; ?>> <span data-rt="age2">18 and above</span></label>
+            <label><input type="radio" name="age_group" value="19-24"<?php echo $rate_prefill['age_group'] === '19-24' ? ' checked' : ''; ?>> 19 &ndash; 24</label>
+            <label><input type="radio" name="age_group" value="25-39"<?php echo $rate_prefill['age_group'] === '25-39' ? ' checked' : ''; ?>> 25 &ndash; 39</label>
+            <label><input type="radio" name="age_group" value="40-59"<?php echo $rate_prefill['age_group'] === '40-59' ? ' checked' : ''; ?>> 40 &ndash; 59</label>
+            <label><input type="radio" name="age_group" value="60 and above"<?php echo $rate_prefill['age_group'] === '60 and above' ? ' checked' : ''; ?>> <span data-rt="age6">60 and above</span></label>
           </div>
         </div>
 
         <div class="rate-field">
           <label for="rateAddress" data-rt="fAddress">Address</label>
-          <input type="text" id="rateAddress" name="address" maxlength="255">
+          <input type="text" id="rateAddress" name="address" maxlength="255" value="<?php echo htmlspecialchars($rate_prefill['address'], ENT_QUOTES, 'UTF-8'); ?>">
         </div>
 
         <div class="rate-field-row">
           <div class="rate-field">
             <label for="rateEmail"><span data-rt="fEmail">Email</span> <span class="rate-optional" data-rt="optional">(Optional)</span></label>
-            <input type="email" id="rateEmail" name="email" maxlength="255">
+            <input type="email" id="rateEmail" name="email" maxlength="255" value="<?php echo htmlspecialchars($rate_prefill['email'], ENT_QUOTES, 'UTF-8'); ?>">
           </div>
           <div class="rate-field">
             <label for="rateContact"><span data-rt="fContact">Contact No.</span> <span class="rate-optional" data-rt="optional">(Optional)</span></label>
-            <input type="text" id="rateContact" name="contact_no" maxlength="50">
+            <input type="text" id="rateContact" name="contact_no" maxlength="50" value="<?php echo htmlspecialchars($rate_prefill['contact'], ENT_QUOTES, 'UTF-8'); ?>">
           </div>
         </div>
 
