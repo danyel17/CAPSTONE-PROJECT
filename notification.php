@@ -4114,7 +4114,6 @@ function notif_card_message(array $item): string {
         <h1 class="accounts-title">
           <span data-translate="notif.titleLead">Notif</span><span class="app-title-accent" data-translate="notif.titleAccent">ications.</span>
         </h1>
-        <p class="notif-page-sub" data-translate="notif.subtitle">Everything the allotment office sends you in one place — application updates, renewal reminders and receipts. Open a notice to read the full message, then jump straight to the action it needs.</p>
       </div>
       <div class="accounts-header-right">
         <button type="button" class="profile-darkmode-btn" id="theme-switch" data-translate-title="profile.darkModeTitle" data-translate-aria="profile.darkModeAria" title="Dark mode" aria-label="Toggle dark mode">
@@ -4597,7 +4596,6 @@ function notif_card_message(array $item): string {
           'section.earlier': 'Earlier',
           'notif.titleLead': 'Notif',
           'notif.titleAccent': 'ications.',
-          'notif.subtitle': 'Everything the allotment office sends you in one place — application updates, renewal reminders and receipts. Open a notice to read the full message, then jump straight to the action it needs.',
           'empty.noFilterResults': 'No notifications in this category.',
           'modal.editApplication': 'Edit Application',
           'modal.editReceipt': 'Edit Receipt',
@@ -4663,7 +4661,6 @@ function notif_card_message(array $item): string {
           'section.earlier': 'Mas Maaga',
           'notif.titleLead': 'Notif',
           'notif.titleAccent': 'ications.',
-          'notif.subtitle': 'Lahat ng padala ng allotment office sa iyo — update sa aplikasyon, paalala sa pag-renew, at resibo. Buksan ang abiso para basahin ang buong mensahe, tapos gawin agad ang kailangan.',
           'empty.noFilterResults': 'Walang abiso sa kategoryang ito.',
           'modal.editApplication': 'I-edit ang Aplikasyon',
           'modal.editReceipt': 'I-edit ang Resibo',
