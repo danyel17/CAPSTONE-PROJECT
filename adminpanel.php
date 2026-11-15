@@ -11058,7 +11058,7 @@ console.log('Check console for errors and network requests');
               <button type="button" class="rep-tab" data-status="pending" onclick="setReportsStatus('pending', this)">Pending</button>
               <button type="button" class="rep-tab" data-status="incomplete" onclick="setReportsStatus('incomplete', this)">Incomplete</button>
             </div>
-            <button type="button" class="rep-export" id="repExportBtn" onclick="exportReportsCsv()"><i class="fas fa-download"></i> Export</button>
+            <button type="button" class="rep-export" id="repExportBtn" onclick="exportReportsPdf()"><i class="fas fa-download"></i> Export</button>
           </div>
 
           <div class="rep-range-overlay" id="repRangeOverlay" aria-hidden="true">
@@ -12393,6 +12393,8 @@ console.log('Check console for errors and network requests');
 
 <!-- Chart.js Library -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="assets/js/jspdf.umd.min.js"></script>
+<script src="assets/js/jspdf.plugin.autotable.min.js"></script>
 
 <script>
   // ========== REPORTS SECTION ==========
@@ -12820,27 +12822,185 @@ console.log('Check console for errors and network requests');
       window.applyReportsFilters();
     };
 
-    window.exportReportsCsv = function () {
-      var rows = getFiltered();
-      var header = ['Name', 'Type', 'Status', 'Section', 'Date'];
-      var lines = [header.join(',')];
-      rows.forEach(function (r) {
-        var vals = [r.name, r.type, r.status, r.section, r.date].map(function (x) {
-          var s = (x == null ? '' : String(x)).replace(/"/g, '""');
-          return /[",\n]/.test(s) ? '"' + s + '"' : s;
-        });
-        lines.push(vals.join(','));
+    function reportTypeLabel(type) {
+      return type === 'renewal' ? 'Renewal' : 'New Application';
+    }
+
+    function reportStatusLabel(status) {
+      if (status === 'approved') return 'Approved';
+      if (status === 'incomplete') return 'Incomplete';
+      return 'Pending';
+    }
+
+    function reportDateLabel(iso) {
+      var d = dateFromIso(iso);
+      if (!d) return '';
+      return pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '-' + d.getFullYear();
+    }
+
+    function exportScopeText() {
+      var parts = [rangeLabel() || scopeLabel()];
+      var type = (document.getElementById('repTypeFilter') || {}).value || 'all';
+      if (type === 'new') parts.push('New Application');
+      else if (type === 'renewal') parts.push('Renewal');
+      else if (type === 'pending') parts.push('Pending');
+      if (repStatus === 'approved') parts.push('Approved');
+      else if (repStatus === 'pending') parts.push('Pending');
+      else if (repStatus === 'incomplete') parts.push('Incomplete');
+      return parts.filter(function (part, index) { return parts.indexOf(part) === index; }).join('  ·  ');
+    }
+
+    function clearLogoBackground(img) {
+      var canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      var image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      var px = image.data;
+      var w = canvas.width;
+      var h = canvas.height;
+      var seen = new Uint8Array(w * h);
+      var stack = [];
+      function clearAt(x, y) {
+        if (x < 0 || y < 0 || x >= w || y >= h) return;
+        var i = y * w + x;
+        if (seen[i]) return;
+        var p = i * 4;
+        if (px[p] > 28 || px[p + 1] > 28 || px[p + 2] > 28) return;
+        seen[i] = 1;
+        px[p + 3] = 0;
+        stack.push(x, y);
+      }
+      var x, y;
+      for (x = 0; x < w; x++) { clearAt(x, 0); clearAt(x, h - 1); }
+      for (y = 0; y < h; y++) { clearAt(0, y); clearAt(w - 1, y); }
+      while (stack.length) {
+        y = stack.pop();
+        x = stack.pop();
+        clearAt(x + 1, y);
+        clearAt(x - 1, y);
+        clearAt(x, y + 1);
+        clearAt(x, y - 1);
+      }
+      ctx.putImageData(image, 0, 0);
+      return canvas.toDataURL('image/png');
+    }
+
+    function loadReportLogo() {
+      return new Promise(function (resolve) {
+        var img = new Image();
+        img.onload = function () {
+          try { resolve(clearLogoBackground(img)); }
+          catch (err) { resolve(''); }
+        };
+        img.onerror = function () { resolve(''); };
+        img.src = 'assets/imgs/market-division-logo.png';
       });
-      var blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'reports_' + new Date().toISOString().slice(0, 10) + '.csv';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+    }
+
+    function drawCenteredUnderline(doc, text, y, pageW) {
+      var width = doc.getTextWidth(text);
+      doc.text(text, pageW / 2, y, { align: 'center' });
+      doc.setLineWidth(0.25);
+      doc.line((pageW - width) / 2, y + 1.1, (pageW + width) / 2, y + 1.1);
+    }
+
+    window.exportReportsPdf = function () {
+      var btn = document.getElementById('repExportBtn');
+      if (btn && btn.dataset.busy === '1') return;
+      if (!window.jspdf || typeof window.jspdf.jsPDF !== 'function') {
+        alert('PDF export is still loading. Please try again.');
+        return;
+      }
+      if (btn) btn.dataset.busy = '1';
+      var rows = getFiltered().slice().sort(function (a, b) {
+        var byDate = String(a.date || '').localeCompare(String(b.date || ''));
+        return byDate || String(a.name || '').localeCompare(String(b.name || ''));
+      });
+      loadReportLogo().then(function (logo) {
+        try {
+        var jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF({ unit: 'mm', format: 'a4' });
+        var pageW = doc.internal.pageSize.getWidth();
+        var y = 12;
+        if (logo) {
+          var logoSize = 28;
+          doc.addImage(logo, 'PNG', (pageW - logoSize) / 2, y, logoSize, logoSize);
+          y += logoSize + 6;
+        }
+        doc.setTextColor(0, 0, 0);
+        doc.setFont('times', 'bold');
+        doc.setFontSize(16);
+        drawCenteredUnderline(doc, 'Daet Public Market', y, pageW);
+        y += 7;
+        doc.setFont('times', 'normal');
+        doc.setFontSize(11);
+        drawCenteredUnderline(doc, 'J. Lukban Street, Bagasbas Road, Brgy. VII, Daet, Camarines Norte', y, pageW);
+        y += 5;
+        doc.setLineWidth(0.6);
+        doc.line(18, y, pageW - 18, y);
+        y += 8;
+        doc.setFont('times', 'bold');
+        doc.setFontSize(14);
+        doc.text('Market Reports', pageW / 2, y, { align: 'center' });
+        y += 6;
+        doc.setFont('times', 'italic');
+        doc.setFontSize(10);
+        doc.text(exportScopeText(), pageW / 2, y, { align: 'center' });
+        y += 4;
+
+        var body = rows.map(function (row) {
+          return [
+            reportTypeLabel(row.type),
+            row.name || '',
+            reportDateLabel(row.date),
+            reportStatusLabel(row.status)
+          ];
+        });
+        if (!body.length) {
+          body = [['', 'No transactions for the selected date and filters.', '', '']];
+        }
+        doc.autoTable({
+          startY: y + 2,
+          head: [['Type', 'Name', 'Date', 'Status']],
+          body: body,
+          theme: 'grid',
+          styles: {
+            font: 'times',
+            fontSize: 10,
+            cellPadding: 2.2,
+            lineColor: [0, 0, 0],
+            lineWidth: 0.2,
+            textColor: [0, 0, 0],
+            valign: 'middle'
+          },
+          headStyles: {
+            fillColor: [255, 255, 255],
+            textColor: [0, 0, 0],
+            fontStyle: 'bold',
+            halign: 'center'
+          },
+          columnStyles: {
+            0: { cellWidth: 40, halign: 'center' },
+            1: { cellWidth: 78 },
+            2: { cellWidth: 32, halign: 'center' },
+            3: { cellWidth: 32, halign: 'center' }
+          },
+          margin: { left: 14, right: 14, top: 16, bottom: 14 }
+        });
+        var stamp = new Date();
+        var fileDate = stamp.getFullYear() + '-' + pad(stamp.getMonth() + 1) + '-' + pad(stamp.getDate());
+        doc.save('market-reports-' + fileDate + '.pdf');
+        } catch (err) {
+          alert('Could not create the PDF. Please try again.');
+        }
+      }).finally(function () {
+        if (btn) btn.dataset.busy = '';
+      });
     };
+
+    window.exportReportsCsv = window.exportReportsPdf;
 
     window.initReports = function () {
       var section = document.getElementById('reports-section');
