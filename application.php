@@ -2758,12 +2758,12 @@ if (!empty($_SESSION['error_message'])) {
     }
   </style>
   <link rel="stylesheet" href="assets/css/vendor-mobile-sidebar-logout.css">
-  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-icon-phone-1">
+  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-mob-labels-2">
   <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=1">
   <link rel="stylesheet" href="assets/css/vendor-portal-shell.css?v=1">
   <link rel="stylesheet" href="assets/css/menu-landing-nav.css?v=menu-nav-lock-4">
   <link rel="stylesheet" href="assets/css/application-page-theme.css?v=3">
-  <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-4">
+  <link rel="stylesheet" href="assets/css/vendor-portal-dark-nav-pills.css?v=phone-glass-6">
 </head>
 <body class="page-application" data-application-mode="<?php echo $editing ? 'edit' : 'new'; ?>">
   <script>try{if(localStorage.getItem('darkmode')==='active')document.body.classList.add('darkmode');}catch(e){}</script>

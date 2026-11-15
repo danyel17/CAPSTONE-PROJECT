@@ -51,19 +51,29 @@ $vpNavActive = static function (string $page) use ($vendor_nav_active): string {
     <div class="nav-pills-wrap" id="navPillsWrap">
       <div class="nav-pills-container">
         <a href="menu.php" class="nav-pill<?php echo $vpNavActive('home'); ?>" data-translate-title="nav.home" title="Home">
-          <i class="fas fa-home" aria-hidden="true"></i> <span class="nav-pill-label" data-translate="nav.home">Home</span>
+          <i class="fas fa-home" aria-hidden="true"></i>
+          <span class="nav-pill-label nav-pill-label--desk" data-translate="nav.home">Home</span>
+          <span class="nav-pill-label nav-pill-label--mob" aria-hidden="true">Home</span>
         </a>
         <a href="application.php" class="nav-pill<?php echo $vpNavActive('application'); ?>" data-translate-title="nav.application" title="Application">
-          <i class="fas fa-file-alt" aria-hidden="true"></i> <span class="nav-pill-label" data-translate="nav.application">Application</span>
+          <i class="fas fa-file-alt" aria-hidden="true"></i>
+          <span class="nav-pill-label nav-pill-label--desk" data-translate="nav.application">Application</span>
+          <span class="nav-pill-label nav-pill-label--mob" aria-hidden="true">New</span>
         </a>
         <a href="renewal.php" class="nav-pill<?php echo $vpNavActive('renewal'); ?>" data-translate-title="nav.renewal" title="Renewal">
-          <i class="fas fa-sync-alt" aria-hidden="true"></i> <span class="nav-pill-label" data-translate="nav.renewal">Renewal</span>
+          <i class="fas fa-sync-alt" aria-hidden="true"></i>
+          <span class="nav-pill-label nav-pill-label--desk" data-translate="nav.renewal">Renewal</span>
+          <span class="nav-pill-label nav-pill-label--mob" aria-hidden="true">Renew</span>
         </a>
         <a href="profile.php" class="nav-icon-pill<?php echo $vpNavActive('profile'); ?>" data-translate-title="nav.profile" title="Profile">
-          <i class="fas fa-user-circle" aria-hidden="true"></i> <span class="nav-pill-label" data-translate="nav.profile">Profile</span>
+          <i class="fas fa-user-circle" aria-hidden="true"></i>
+          <span class="nav-pill-label nav-pill-label--desk" data-translate="nav.profile">Profile</span>
+          <span class="nav-pill-label nav-pill-label--mob" aria-hidden="true">Profile</span>
         </a>
         <a href="notification.php" class="nav-icon-pill<?php echo $vpNavActive('notification'); ?>" data-translate-title="nav.notifications" title="Notifications">
-          <i class="fas fa-bell" aria-hidden="true"></i> <span class="nav-pill-label" data-translate="nav.notifications">Notifications</span>
+          <i class="fas fa-bell" aria-hidden="true"></i>
+          <span class="nav-pill-label nav-pill-label--desk" data-translate="nav.notifications">Notifications</span>
+          <span class="nav-pill-label nav-pill-label--mob" aria-hidden="true">Notif</span>
           <?php if ($unread_notifications_count > 0): ?>
             <span class="nav-icon-badge">
               <?php echo $unread_notifications_count > 9 ? '9+' : $unread_notifications_count; ?>
