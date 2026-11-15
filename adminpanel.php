@@ -6623,9 +6623,10 @@ console.log('Check console for errors and network requests');
   .rep-control {
     display: inline-flex; align-items: center; gap: 0.5rem;
     background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
-    padding: 0 0.75rem; height: 42px;
+    padding: 0 0.75rem; height: 42px; cursor: pointer;
   }
-  .rep-control i { color: #6b7280; font-size: 0.85rem; }
+  .rep-control i { color: #6b7280; font-size: 0.85rem; pointer-events: none; }
+  .rep-control .rep-caret { font-size: 0.72rem; }
   .rep-control select {
     border: none; background: transparent; outline: none; cursor: pointer;
     font-size: 0.88rem; color: #374151; font-weight: 500; padding-right: 0.5rem;
@@ -6823,6 +6824,7 @@ console.log('Check console for errors and network requests');
   body.dark-mode .rep-search { background: #2a2a2a; border-color: #3a3a3a; }
   body.dark-mode .rep-control select,
   body.dark-mode .rep-search input { color: #e0e0e0; }
+  body.dark-mode .rep-control i { color: #ffffff; }
   body.dark-mode .rep-tabs { background: #2a2a2a; }
   body.dark-mode .rep-tab { color: #9ca3af; }
   body.dark-mode .rep-tab:hover { color: #a5b4fc; }
@@ -11030,6 +11032,7 @@ console.log('Check console for errors and network requests');
 
           <div class="reports-toolbar">
             <div class="rep-control">
+              <i class="fas fa-chevron-down rep-caret" aria-hidden="true"></i>
               <i class="fas fa-calendar-days"></i>
               <select id="repDateRange">
                 <option value="all">All Time</option>
@@ -11039,6 +11042,7 @@ console.log('Check console for errors and network requests');
               </select>
             </div>
             <div class="rep-control">
+              <i class="fas fa-chevron-down rep-caret" aria-hidden="true"></i>
               <i class="fas fa-folder-open"></i>
               <select id="repTypeFilter" onchange="applyReportsFilters()">
                 <option value="all">Applications</option>
@@ -12729,6 +12733,17 @@ console.log('Check console for errors and network requests');
       var grid = document.getElementById('repRangeGrid');
       if (!openBtn || !overlay || openBtn.dataset.bound === '1') return;
       openBtn.dataset.bound = '1';
+      document.querySelectorAll('.reports-toolbar .rep-control').forEach(function (control) {
+        control.addEventListener('click', function (ev) {
+          if (ev.target.tagName === 'SELECT') return;
+          var sel = control.querySelector('select');
+          if (!sel) return;
+          if (typeof sel.showPicker === 'function') {
+            try { sel.showPicker(); return; } catch (err) {}
+          }
+          sel.focus();
+        });
+      });
       openBtn.addEventListener('click', openRangePicker);
       document.getElementById('repRangeClose').addEventListener('click', closeRangePicker);
       overlay.addEventListener('click', function (ev) { if (ev.target === overlay) closeRangePicker(); });
