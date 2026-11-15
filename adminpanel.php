@@ -3635,13 +3635,26 @@ $records_offset = ($records_page - 1) * $records_page_size;
 $all_records = array_slice($all_records, $records_offset, $records_page_size);
 
 if (count($all_records) > 0 && isset($conn) && $conn) {
+    $users_has_profile_image = false;
+    $users_image_col = $conn->query("SHOW COLUMNS FROM users LIKE 'profile_image'");
+    if ($users_image_col && $users_image_col->num_rows > 0) {
+        $users_has_profile_image = true;
+    }
+    $profiles_has_image = false;
+    $profiles_table = $conn->query("SHOW TABLES LIKE 'user_profiles'");
+    if ($profiles_table && $profiles_table->num_rows > 0) {
+        $profiles_image_col = $conn->query("SHOW COLUMNS FROM user_profiles LIKE 'profile_image'");
+        $profiles_has_image = $profiles_image_col && $profiles_image_col->num_rows > 0;
+    }
     foreach ($all_records as &$record) {
         $profile_user_id = (int)($record['user_id'] ?? 0);
-        $profile_query = $conn->query("SELECT profile_image FROM user_profiles WHERE user_id = " . $profile_user_id . " AND profile_type = 'vendor' LIMIT 1");
-        if ($profile_query && $profile_row = $profile_query->fetch_assoc()) {
-            $record['profile_image'] = $profile_row['profile_image'] ?? '';
+        if ($profiles_has_image) {
+            $profile_query = $conn->query("SELECT profile_image FROM user_profiles WHERE user_id = " . $profile_user_id . " AND profile_type = 'vendor' LIMIT 1");
+            if ($profile_query && $profile_row = $profile_query->fetch_assoc()) {
+                $record['profile_image'] = $profile_row['profile_image'] ?? '';
+            }
         }
-        if (empty($record['profile_image'])) {
+        if ($users_has_profile_image && empty($record['profile_image'])) {
             $user_profile_query = $conn->query("SELECT profile_image FROM users WHERE user_id = " . $profile_user_id . " LIMIT 1");
             if ($user_profile_query && $user_profile_row = $user_profile_query->fetch_assoc()) {
                 $record['profile_image'] = $user_profile_row['profile_image'] ?? '';
