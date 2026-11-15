@@ -39,27 +39,29 @@ body:not(.darkmode) .main-container .navbar .brand__place {
   -webkit-text-fill-color: var(--v-nav-text-light-soft) !important;
 }
 
-body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:hover,
-body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:hover {
-  background: rgba(255, 255, 255, 0.2) !important;
-  color: var(--v-nav-text-light) !important;
-  -webkit-text-fill-color: var(--v-nav-text-light) !important;
-}
+@media (min-width: 992px) {
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:hover,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: var(--v-nav-text-light) !important;
+    -webkit-text-fill-color: var(--v-nav-text-light) !important;
+  }
 
-body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
-body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active {
-  background: rgba(255, 255, 255, 0.34) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.38) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
-  color: var(--v-nav-text-light) !important;
-  -webkit-text-fill-color: var(--v-nav-text-light) !important;
-}
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active {
+    background: rgba(255, 255, 255, 0.34) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.38) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+    color: var(--v-nav-text-light) !important;
+    -webkit-text-fill-color: var(--v-nav-text-light) !important;
+  }
 
-body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
-body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
-  background: rgba(255, 255, 255, 0.38) !important;
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
+    background: rgba(255, 255, 255, 0.38) !important;
+  }
 }
 
 body:not(.darkmode) .main-container .navbar .logout-btn:hover,
@@ -277,35 +279,43 @@ body.darkmode .main-container .navbar .logout-btn:hover span {
     right: 0.2rem;
   }
 
-  /* Light mode: inactive = dark on glass; active = white on dark pill */
+  /* Light mode: black icons/labels on light glass bar; active = white on black pill */
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill i,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill i,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill span,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill span {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+  }
+
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill-label--mob {
+    opacity: 1;
+  }
+
   body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active),
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) {
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active),
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active):hover,
+  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active):hover {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-  }
-
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active) i,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) i,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill:not(.active) span,
-  body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill:not(.active) span {
-    color: #1c1c1e !important;
-    -webkit-text-fill-color: #1c1c1e !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
   body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active,
   body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active,
   body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active:hover,
   body:not(.darkmode) .main-container .nav-pills-wrap .nav-icon-pill.active:hover {
-    background: linear-gradient(
-      160deg,
-      rgba(32, 34, 42, 0.96) 0%,
-      rgba(18, 20, 26, 0.94) 100%
-    ) !important;
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-    box-shadow:
-      0 4px 14px rgba(0, 0, 0, 0.22),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: #121212 !important;
+    border: 1px solid rgba(0, 0, 0, 0.35) !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
   body:not(.darkmode) .main-container .nav-pills-wrap .nav-pill.active i,

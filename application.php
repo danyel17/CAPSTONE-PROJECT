@@ -2758,7 +2758,7 @@ if (!empty($_SESSION['error_message'])) {
     }
   </style>
   <link rel="stylesheet" href="assets/css/vendor-mobile-sidebar-logout.css">
-  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-mob-states-3">
+  <link rel="stylesheet" href="assets/css/vendor-navbar-glass.css?v=nav-mob-states-4">
   <link rel="stylesheet" href="assets/css/vendor-nav-theme-lock.css?v=1">
   <link rel="stylesheet" href="assets/css/vendor-portal-shell.css?v=1">
   <link rel="stylesheet" href="assets/css/menu-landing-nav.css?v=menu-nav-lock-4">
