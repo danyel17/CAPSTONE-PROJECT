@@ -11908,52 +11908,51 @@ console.log('Check console for errors and network requests');
         var ratingsDownload = document.getElementById('ratingsDownloadAll');
         if (ratingsDownload) {
           ratingsDownload.addEventListener('click', function () {
-            if (!window.jspdf || typeof window.jspdf.jsPDF !== 'function') {
-              alert('PDF download is still loading. Please try again.');
-              return;
-            }
             var rows = [];
             document.querySelectorAll('#ratings-section .ratings-item').forEach(function (el) {
               if (el.style.display === 'none') return;
               var rating = csfFindRating(parseInt(el.getAttribute('data-id'), 10));
               if (rating) rows.push(rating);
             });
-            var jsPDF = window.jspdf.jsPDF;
-            var doc = new jsPDF({ unit: 'mm', format: 'a4' });
-            var pageW = doc.internal.pageSize.getWidth();
-            doc.setFont('times', 'bold');
-            doc.setFontSize(16);
-            doc.text('Daet Public Market', pageW / 2, 18, { align: 'center' });
-            doc.setFont('times', 'normal');
-            doc.setFontSize(11);
-            doc.text('Vendor Satisfaction Ratings', pageW / 2, 26, { align: 'center' });
-            doc.setFont('times', 'italic');
-            doc.setFontSize(10);
-            doc.text(ratLabel(ratStart, ratEnd) || 'All ratings', pageW / 2, 32, { align: 'center' });
-            var body = rows.map(function (r) {
-              var when = String(r.created_at || '').slice(0, 10);
-              var parts = when.split('-');
-              var dateText = parts.length === 3 ? parts[1] + '-' + parts[2] + '-' + parts[0] : when;
-              return [
-                r.client_name || 'Anonymous',
-                dateText,
-                Number(r.overall_avg || 0).toFixed(1),
-                r.client_class || '',
-                r.service_availed || ''
-              ];
-            });
-            if (!body.length) body = [['', 'No ratings for the selected date.', '', '', '']];
-            doc.autoTable({
-              startY: 38,
-              head: [['Name', 'Date', 'Score', 'Classification', 'Service']],
-              body: body,
-              theme: 'grid',
-              styles: { font: 'times', fontSize: 10, textColor: [0, 0, 0], lineColor: [0, 0, 0], lineWidth: 0.2 },
-              headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'bold', halign: 'center' },
-              margin: { left: 14, right: 14 }
-            });
-            var now = new Date();
-            doc.save('ratings-' + ratIso(now) + '.pdf');
+            if (!rows.length) {
+              alert('No ratings to download for the selected date.');
+              return;
+            }
+            var win = window.open('', '_blank');
+            if (!win) { alert('Please allow pop-ups to download the forms.'); return; }
+            var forms = rows.map(function (r) { return buildRatingFormHTML(r); }).join('');
+            var styles = ''
+              + 'body{margin:0;background:#fff;}'
+              + '.csf-doc{background:#fff;color:#000;width:100%;max-width:720px;margin:0 auto 24px;padding:28px 34px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.45;page-break-after:always;}'
+              + '.csf-doc:last-child{page-break-after:auto;}'
+              + '.csf-head{text-align:center;margin-bottom:14px;}.csf-head p{margin:0;}'
+              + '.csf-head .csf-office{font-weight:800;color:#1e3a8a;font-size:14px;margin-top:4px;text-decoration:underline;}'
+              + '.csf-head .csf-unit{font-size:11px;border-top:1px solid #000;display:inline-block;padding-top:2px;margin-top:2px;}'
+              + '.csf-sec-title{font-weight:800;margin:14px 0 6px;}'
+              + '.csf-line{display:flex;gap:6px;align-items:baseline;margin:3px 0;}'
+              + '.csf-line .csf-fill{flex:1;border-bottom:1px solid #000;min-height:14px;padding:0 4px;font-weight:600;}'
+              + '.csf-box{display:inline-block;width:12px;height:12px;border:1px solid #000;text-align:center;line-height:12px;font-size:11px;margin-right:4px;vertical-align:middle;}'
+              + '.csf-box.checked::after{content:"\\2713";font-weight:800;}'
+              + '.csf-choices{display:flex;flex-wrap:wrap;gap:4px 22px;margin:2px 0;}.csf-choice{display:inline-flex;align-items:center;}'
+              + '.csf-age-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px 18px;}'
+              + '.csf-table{width:100%;border-collapse:collapse;margin-top:6px;}'
+              + '.csf-table th,.csf-table td{border:1px solid #000;padding:4px 5px;vertical-align:middle;color:#000;background:#fff;}'
+              + '.csf-table th{font-size:10.5px;text-align:center;font-weight:700;}'
+              + '.csf-table td.csf-crit{font-size:11px;text-align:left;width:42%;}'
+              + '.csf-table td.csf-mark{text-align:center;width:11.6%;}'
+              + '.csf-emoji{font-size:15px;display:block;}'
+              + '.csf-mark-box{display:inline-block;width:14px;height:14px;border:1px solid #000;line-height:14px;}'
+              + '.csf-mark-box.checked{background:#1e3a8a;color:#fff;}.csf-mark-box.checked::after{content:"\\2713";font-weight:800;font-size:11px;}'
+              + '.csf-feedback-line{border-bottom:1px solid #000;min-height:16px;margin:4px 0;padding:0 4px;}'
+              + '.csf-thanks{text-align:center;margin-top:12px;font-weight:600;}'
+              + '.csf-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:6px 0;}.csf-legend span{font-size:11px;}'
+              + '.csf-submitted{text-align:right;font-size:10px;color:#555;}'
+              + '@media print{@page{margin:12mm;} .csf-doc{max-width:none;margin:0;box-shadow:none;}}';
+            var scope = ratLabel(ratStart, ratEnd) || 'All ratings';
+            win.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Client Satisfaction Forms - ' + scope + '</title><style>' + styles + '</style></head><body>' + forms + '</body></html>');
+            win.document.close();
+            win.focus();
+            setTimeout(function () { win.print(); }, 400);
           });
         }
       })();
