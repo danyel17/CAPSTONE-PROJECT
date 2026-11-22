@@ -104,6 +104,7 @@ if (!function_exists('dpmEnsureStallColumns')) {
                 'image1'           => 'VARCHAR(255) NULL',
                 'image2'           => 'VARCHAR(255) NULL',
                 'image3'           => 'VARCHAR(255) NULL',
+                'photos_custom'    => 'TINYINT(1) NOT NULL DEFAULT 0',
             ] as $col => $def) {
                 $chk = $conn->query("SHOW COLUMNS FROM market_slots LIKE '" . $col . "'");
                 if ($chk && $chk->num_rows === 0) {

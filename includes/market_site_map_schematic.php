@@ -240,11 +240,12 @@ if (!empty($conn)) {
     }
 
     $dpm_slot_photos = [];
+    $dpm_slot_photos_locked = [];
     $dpm_photo_res = $conn->query(
-        "SELECT slot_number, image1, image2, image3
+        "SELECT slot_number, image1, image2, image3, photos_custom
          FROM market_slots
          WHERE block_name = 'SITE MAP'
-           AND (COALESCE(image1, '') <> '' OR COALESCE(image2, '') <> '' OR COALESCE(image3, '') <> '')"
+           AND (COALESCE(image1, '') <> '' OR COALESCE(image2, '') <> '' OR COALESCE(image3, '') <> '' OR photos_custom = 1)"
     );
     if ($dpm_photo_res) {
         while ($dpm_photo_row = $dpm_photo_res->fetch_assoc()) {
@@ -255,8 +256,13 @@ if (!empty($conn)) {
                     $dpm_photo_list[] = $dpm_photo_src;
                 }
             }
-            if ($dpm_photo_list) {
-                $dpm_slot_photos[(string) (int) $dpm_photo_row['slot_number']] = $dpm_photo_list;
+            $dpm_photo_key_num = (string) (int) $dpm_photo_row['slot_number'];
+            $dpm_photo_locked = (int) ($dpm_photo_row['photos_custom'] ?? 0) === 1;
+            if ($dpm_photo_locked) {
+                $dpm_slot_photos_locked[$dpm_photo_key_num] = true;
+            }
+            if ($dpm_photo_list || $dpm_photo_locked) {
+                $dpm_slot_photos[$dpm_photo_key_num] = $dpm_photo_list;
             }
         }
     }
@@ -266,13 +272,14 @@ sort($dpm_site_occupied_slots, SORT_NUMERIC);
 $dpm_admin_slot_meta = [];
 if (!empty($dpm_site_admin_mode) && !empty($conn)) {
     $dpm_meta_res = $conn->query(
-        "SELECT slot_number, status, image1, image2, image3, holder_vendor_id, holder_name, holder_section, holder_block
+        "SELECT slot_number, status, image1, image2, image3, photos_custom, holder_vendor_id, holder_name, holder_section, holder_block
          FROM market_slots WHERE block_name = 'SITE MAP'"
     );
     if ($dpm_meta_res) {
         while ($dpm_meta_row = $dpm_meta_res->fetch_assoc()) {
             $dpm_admin_slot_meta[(string) (int) $dpm_meta_row['slot_number']] = [
                 'status' => (string) ($dpm_meta_row['status'] ?? 'available'),
+                'photos_custom' => (int) ($dpm_meta_row['photos_custom'] ?? 0),
                 'image1' => (string) ($dpm_meta_row['image1'] ?? ''),
                 'image2' => (string) ($dpm_meta_row['image2'] ?? ''),
                 'image3' => (string) ($dpm_meta_row['image3'] ?? ''),
@@ -1236,6 +1243,9 @@ if (!function_exists('dpmRenderSiteStallGroup')) {
 if (!isset($dpm_slot_photos) || !is_array($dpm_slot_photos)) {
     $dpm_slot_photos = [];
 }
+if (!isset($dpm_slot_photos_locked) || !is_array($dpm_slot_photos_locked)) {
+    $dpm_slot_photos_locked = [];
+}
 $dpm_gallery_dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'imgs' . DIRECTORY_SEPARATOR . 'stall-map' . DIRECTORY_SEPARATOR;
 $dpm_gallery_names = [
     'Special Area Section' => ['slot4-photo-1.jpg', 'slot4-photo-2.jpg', 'slot4-photo-3.jpg'],
@@ -1272,7 +1282,7 @@ foreach ($dpm_site_stalls as $dpm_gallery_stall) {
             if (!is_array($dpm_gallery_have)) {
                 $dpm_gallery_have = [];
             }
-            if (count($dpm_gallery_have) < 3) {
+            if (empty($dpm_slot_photos_locked[$dpm_gallery_key]) && count($dpm_gallery_have) < 3) {
                 for ($dpm_gallery_guard = 0; count($dpm_gallery_have) < 3 && $dpm_gallery_guard < $dpm_gallery_size; $dpm_gallery_guard++) {
                     $dpm_gallery_src = $dpm_gallery_pool[($dpm_gallery_num + ($dpm_gallery_guard * $dpm_gallery_step)) % $dpm_gallery_size];
                     if (!in_array($dpm_gallery_src, $dpm_gallery_have, true)) {
@@ -1444,6 +1454,14 @@ foreach ($dpm_site_stalls as $dpm_gallery_stall) {
         chip.addEventListener('click', function (slotNum, isOccupied) {
           return function () {
             var meta = (window.DPM_ADMIN_SLOT_META && window.DPM_ADMIN_SLOT_META[String(slotNum)]) || {};
+            if (!meta.photos_custom) {
+              var pics = slotPhotos[String(slotNum)] || slotPhotos[slotNum] || [];
+              meta = Object.assign({}, meta, {
+                image1: pics[0] || '',
+                image2: pics[1] || '',
+                image3: pics[2] || ''
+              });
+            }
             if (window.dpmAdminEditSlot) {
               window.dpmAdminEditSlot({
                 slot: slotNum,

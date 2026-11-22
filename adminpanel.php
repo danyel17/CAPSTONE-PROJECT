@@ -1760,6 +1760,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $conn->query("ALTER TABLE market_slots ADD COLUMN " . $imgCol . " VARCHAR(255) NULL");
                     }
                 }
+                $customChk = $conn->query("SHOW COLUMNS FROM market_slots LIKE 'photos_custom'");
+                if ($customChk && $customChk->num_rows === 0) {
+                    $conn->query("ALTER TABLE market_slots ADD COLUMN photos_custom TINYINT(1) NOT NULL DEFAULT 0");
+                }
                 foreach ([
                     'holder_vendor_id' => 'INT NULL',
                     'holder_name'      => 'VARCHAR(255) NULL',
@@ -1855,9 +1859,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($old !== '') { $delete_file($old); }
                         $final[$key] = 'uploads/slots/' . $fname;
                     } else {
-                        // No new upload — honor keep value (else treat as removed)
+                        // No new upload — keep a saved upload or a vendor-map photo, otherwise remove it.
                         $keep = ltrim(str_replace('\\', '/', trim((string) ($_POST[$keepKey] ?? ''))), '/');
-                        if ($keep !== '' && $keep === $old && strpos($keep, 'uploads/slots/') === 0) {
+                        $galleryOk = preg_match('#^assets/imgs/stall-map/[A-Za-z0-9._-]+$#', $keep) === 1
+                            && is_file(__DIR__ . '/' . $keep);
+                        $uploadOk = $keep !== '' && $keep === $old && strpos($keep, 'uploads/slots/') === 0;
+                        if ($galleryOk || $uploadOk) {
                             $final[$key] = $keep;
                         } else {
                             if ($old !== '') { $delete_file($old); }
@@ -1867,10 +1874,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $holder_vendor_id_db = $holder_vendor_id > 0 ? $holder_vendor_id : null;
-                $stmt = $conn->prepare("INSERT INTO market_slots (block_name, slot_number, status, image1, image2, image3, holder_vendor_id, holder_name, holder_section, holder_block)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                $stmt = $conn->prepare("INSERT INTO market_slots (block_name, slot_number, status, image1, image2, image3, holder_vendor_id, holder_name, holder_section, holder_block, photos_custom)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
                     ON DUPLICATE KEY UPDATE status = VALUES(status), image1 = VALUES(image1), image2 = VALUES(image2), image3 = VALUES(image3),
-                        holder_vendor_id = VALUES(holder_vendor_id), holder_name = VALUES(holder_name), holder_section = VALUES(holder_section), holder_block = VALUES(holder_block)");
+                        holder_vendor_id = VALUES(holder_vendor_id), holder_name = VALUES(holder_name), holder_section = VALUES(holder_section), holder_block = VALUES(holder_block),
+                        photos_custom = 1");
                 $stmt->bind_param('sissssisss', $block_name, $slot_number, $status, $final['image1'], $final['image2'], $final['image3'], $holder_vendor_id_db, $holder_name, $holder_section, $holder_block);
                 $ok = $stmt->execute();
                 $stmt->close();
@@ -12489,7 +12497,8 @@ console.log('Check console for errors and network requests');
         </div>
       </div>
 
-      <label style="font-weight:600; display:block; margin-bottom:8px;">Photos <span style="color:#94a3b8; font-weight:400;">(up to 3)</span></label>
+      <label style="font-weight:600; display:block; margin-bottom:4px;">Photos <span style="color:#94a3b8; font-weight:400;">(up to 3)</span></label>
+      <p style="margin:0 0 8px; color:#64748b; font-size:0.85rem;">Same photos vendors see on the stall map. Remove one, or click a box to add a new photo.</p>
       <div id="slotDetailPhotos" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px;">
         <?php for ($sp = 1; $sp <= 3; $sp++): ?>
         <div class="slot-photo-cell" data-index="<?php echo $sp; ?>" style="border:2px dashed #cbd5e1; border-radius:10px; aspect-ratio:1/1; position:relative; overflow:hidden; background:#f8fafc; display:flex; align-items:center; justify-content:center; cursor:pointer;">
@@ -17105,6 +17114,7 @@ console.log('Check console for errors and network requests');
           window.DPM_ADMIN_SLOT_META = window.DPM_ADMIN_SLOT_META || {};
           window.DPM_ADMIN_SLOT_META[String(num)] = {
             status: mapStatus,
+            photos_custom: 1,
             image1: data.image1 || '',
             image2: data.image2 || '',
             image3: data.image3 || '',
