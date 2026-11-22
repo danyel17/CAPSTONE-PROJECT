@@ -11913,9 +11913,237 @@ console.log('Check console for errors and network requests');
           });
         }
 
+        function ratingsPdfLogo() {
+          return new Promise(function (resolve) {
+            var img = new Image();
+            img.onload = function () {
+              try {
+                var canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || img.width;
+                canvas.height = img.naturalHeight || img.height;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                var image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                var px = image.data;
+                var w = canvas.width;
+                var h = canvas.height;
+                var seen = new Uint8Array(w * h);
+                var stack = [];
+                function clearAt(x, y) {
+                  if (x < 0 || y < 0 || x >= w || y >= h) return;
+                  var i = y * w + x;
+                  if (seen[i]) return;
+                  var p = i * 4;
+                  if (px[p] > 28 || px[p + 1] > 28 || px[p + 2] > 28) return;
+                  seen[i] = 1;
+                  px[p + 3] = 0;
+                  stack.push(x, y);
+                }
+                var x, y;
+                for (x = 0; x < w; x++) { clearAt(x, 0); clearAt(x, h - 1); }
+                for (y = 0; y < h; y++) { clearAt(0, y); clearAt(w - 1, y); }
+                while (stack.length) {
+                  y = stack.pop();
+                  x = stack.pop();
+                  clearAt(x + 1, y);
+                  clearAt(x - 1, y);
+                  clearAt(x, y + 1);
+                  clearAt(x, y - 1);
+                }
+                ctx.putImageData(image, 0, 0);
+                resolve(canvas.toDataURL('image/png'));
+              } catch (err) { resolve(''); }
+            };
+            img.onerror = function () { resolve(''); };
+            img.src = 'assets/imgs/market-division-logo.png';
+          });
+        }
+
+        function ratingsPdfUnderline(doc, text, y, pageW) {
+          var width = doc.getTextWidth(text);
+          doc.text(text, pageW / 2, y, { align: 'center' });
+          doc.setLineWidth(0.25);
+          doc.line((pageW - width) / 2, y + 1.1, (pageW + width) / 2, y + 1.1);
+        }
+
+        function ratingsPdfTick(doc, x, y, on, label) {
+          doc.setDrawColor(0);
+          doc.setLineWidth(0.25);
+          doc.rect(x, y - 3.1, 3.2, 3.2);
+          if (on) {
+            doc.setFont('times', 'bold');
+            doc.setFontSize(8);
+            doc.text('X', x + 0.65, y - 0.45);
+          }
+          doc.setFont('times', 'normal');
+          doc.setFontSize(9);
+          doc.text(label, x + 4.2, y);
+        }
+
+        function ratingsPdfField(doc, label, value, x, y, width) {
+          doc.setFont('times', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(0, 0, 0);
+          doc.text(label, x, y);
+          var labelW = doc.getTextWidth(label + ' ');
+          doc.setFont('times', 'bold');
+          var clipped = doc.splitTextToSize(String(value || ''), Math.max(8, width - labelW))[0] || '';
+          doc.text(clipped, x + labelW, y);
+          doc.setDrawColor(0);
+          doc.setLineWidth(0.2);
+          doc.line(x + labelW, y + 1, x + width, y + 1);
+          return y + 5.4;
+        }
+
+        function drawRatingsPdfPage(doc, rating, logo, scope) {
+          var pageW = doc.internal.pageSize.getWidth();
+          var y = 10;
+          if (logo) {
+            var logoSize = 22;
+            doc.addImage(logo, 'PNG', (pageW - logoSize) / 2, y, logoSize, logoSize);
+            y += logoSize + 5;
+          }
+          doc.setTextColor(0, 0, 0);
+          doc.setFont('times', 'bold');
+          doc.setFontSize(14);
+          ratingsPdfUnderline(doc, 'Daet Public Market', y, pageW);
+          y += 6;
+          doc.setFont('times', 'normal');
+          doc.setFontSize(10);
+          ratingsPdfUnderline(doc, 'J. Lukban Street, Bagasbas Road, Brgy. VII, Daet, Camarines Norte', y, pageW);
+          y += 4.5;
+          doc.setLineWidth(0.6);
+          doc.line(14, y, pageW - 14, y);
+          y += 6;
+          doc.setFont('times', 'bold');
+          doc.setFontSize(13);
+          doc.text('Client Satisfaction Form', pageW / 2, y, { align: 'center' });
+          y += 5;
+          doc.setFont('times', 'italic');
+          doc.setFontSize(10);
+          doc.text(scope || 'All ratings', pageW / 2, y, { align: 'center' });
+          y += 6;
+
+          var left = 14;
+          var width = pageW - 28;
+          doc.setFont('times', 'bold');
+          doc.setFontSize(11);
+          doc.text("I. Client's Profile", left, y);
+          y += 5;
+          y = ratingsPdfField(doc, 'Name: (Optional)', rating.client_name || 'Anonymous', left, y, width);
+          doc.setFont('times', 'normal');
+          doc.setFontSize(10);
+          doc.text('Sex:', left, y);
+          ratingsPdfTick(doc, left + 14, y, rating.sex === 'Male', 'Male');
+          ratingsPdfTick(doc, left + 42, y, rating.sex === 'Female', 'Female');
+          y += 6;
+          doc.text('Age:', left, y);
+          var ages = ['17 and below', '18 and above', '19-24', '25-39', '40-59', '60 and above'];
+          var ageLabels = { '17 and below': '17 and below', '18 and above': '18 and above', '19-24': '19-24', '25-39': '25-39', '40-59': '40-59', '60 and above': '60 and above' };
+          ages.forEach(function (age, index) {
+            var col = index % 3;
+            var row = Math.floor(index / 3);
+            ratingsPdfTick(doc, left + 14 + (col * 58), y + (row * 5.2), rating.age_group === age, ageLabels[age]);
+          });
+          y += 12;
+          y = ratingsPdfField(doc, 'Address:', rating.address, left, y, width);
+          y = ratingsPdfField(doc, 'Email: (Optional)', rating.email, left, y, width);
+          y = ratingsPdfField(doc, 'Contact No.: (Optional)', rating.contact_no, left, y, width);
+          doc.setFont('times', 'normal');
+          doc.setFontSize(10);
+          doc.text('Client Classification:', left, y);
+          y += 5;
+          ratingsPdfTick(doc, left, y, rating.client_class === 'General Public', 'General Public');
+          ratingsPdfTick(doc, left + 48, y, rating.client_class === 'Government Employee', 'Government Employee');
+          ratingsPdfTick(doc, left + 108, y, rating.client_class === 'Business Organization/Sector', 'Business Organization/Sector');
+          y += 6;
+          y = ratingsPdfField(doc, 'Service/s Availed:', rating.service_availed, left, y, width);
+          y = ratingsPdfField(doc, 'Date of Transaction:', rating.transaction_date, left, y, width);
+
+          doc.setFont('times', 'bold');
+          doc.setFontSize(11);
+          doc.text('II. Client Satisfaction Rating', left, y);
+          y += 4.5;
+          doc.setFont('times', 'normal');
+          doc.setFontSize(8);
+          doc.text('Rate the service. An X marks the selected score.', left, y);
+          y += 2;
+          var body = [];
+          for (var i = 0; i < CSF_CRITERIA.length; i++) {
+            var ans = (rating.q && rating.q[i]) ? rating.q[i] : 0;
+            body.push([
+              (i + 1) + '. ' + CSF_CRITERIA[i],
+              ans === 5 ? 'X' : '',
+              ans === 4 ? 'X' : '',
+              ans === 3 ? 'X' : '',
+              ans === 2 ? 'X' : '',
+              ans === 1 ? 'X' : ''
+            ]);
+          }
+          doc.autoTable({
+            startY: y,
+            head: [['Criteria', 'Highly\nSatisfied\n(5)', 'Satisfied\n(4)', 'Neutral\n(3)', 'Dissatisfied\n(2)', 'Highly\nDissatisfied\n(1)']],
+            body: body,
+            theme: 'grid',
+            styles: {
+              font: 'times',
+              fontSize: 8,
+              cellPadding: 1.3,
+              lineColor: [0, 0, 0],
+              lineWidth: 0.2,
+              textColor: [0, 0, 0],
+              valign: 'middle'
+            },
+            headStyles: {
+              fillColor: [255, 255, 255],
+              textColor: [0, 0, 0],
+              fontStyle: 'bold',
+              halign: 'center',
+              fontSize: 7
+            },
+            columnStyles: {
+              0: { cellWidth: 92 },
+              1: { cellWidth: 18, halign: 'center', fontStyle: 'bold' },
+              2: { cellWidth: 18, halign: 'center', fontStyle: 'bold' },
+              3: { cellWidth: 18, halign: 'center', fontStyle: 'bold' },
+              4: { cellWidth: 18, halign: 'center', fontStyle: 'bold' },
+              5: { cellWidth: 18, halign: 'center', fontStyle: 'bold' }
+            },
+            margin: { left: 14, right: 14 }
+          });
+          y = doc.lastAutoTable.finalY + 6;
+          doc.setFont('times', 'bold');
+          doc.setFontSize(11);
+          doc.text('III. Feedback', left, y);
+          y += 5;
+          doc.setFont('times', 'normal');
+          doc.setFontSize(9);
+          doc.text('Comments/Suggestions/Complaints', left, y);
+          y += 4;
+          var comment = doc.splitTextToSize(String(rating.comments || ' '), width);
+          doc.setFont('times', 'italic');
+          doc.text(comment, left, y);
+          y += (comment.length * 4) + 2;
+          doc.setDrawColor(0);
+          doc.setLineWidth(0.2);
+          doc.line(left, y, left + width, y);
+          y += 5;
+          doc.setFont('times', 'normal');
+          doc.setFontSize(9);
+          doc.text('Thank you for your response.', pageW / 2, y, { align: 'center' });
+          y += 4;
+          doc.setFontSize(8);
+          doc.text('Submitted: ' + (rating.created_at || ''), pageW - 14, y, { align: 'right' });
+        }
+
         var ratingsDownload = document.getElementById('ratingsDownloadAll');
         if (ratingsDownload) {
           ratingsDownload.addEventListener('click', function () {
+            if (ratingsDownload.dataset.busy === '1') return;
+            if (!window.jspdf || typeof window.jspdf.jsPDF !== 'function') {
+              alert('PDF export is still loading. Please try again.');
+              return;
+            }
             var rows = [];
             document.querySelectorAll('#ratings-section .ratings-item').forEach(function (el) {
               if (el.style.display === 'none') return;
@@ -11926,41 +12154,27 @@ console.log('Check console for errors and network requests');
               alert('No ratings to download for the selected date.');
               return;
             }
-            var win = window.open('', '_blank');
-            if (!win) { alert('Please allow pop-ups to download the forms.'); return; }
-            var forms = rows.map(function (r) { return buildRatingFormHTML(r); }).join('');
-            var styles = ''
-              + 'body{margin:0;background:#fff;}'
-              + '.csf-doc{background:#fff;color:#000;width:100%;max-width:720px;margin:0 auto 24px;padding:28px 34px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.45;page-break-after:always;}'
-              + '.csf-doc:last-child{page-break-after:auto;}'
-              + '.csf-head{text-align:center;margin-bottom:14px;}.csf-head p{margin:0;}'
-              + '.csf-head .csf-office{font-weight:800;color:#1e3a8a;font-size:14px;margin-top:4px;text-decoration:underline;}'
-              + '.csf-head .csf-unit{font-size:11px;border-top:1px solid #000;display:inline-block;padding-top:2px;margin-top:2px;}'
-              + '.csf-sec-title{font-weight:800;margin:14px 0 6px;}'
-              + '.csf-line{display:flex;gap:6px;align-items:baseline;margin:3px 0;}'
-              + '.csf-line .csf-fill{flex:1;border-bottom:1px solid #000;min-height:14px;padding:0 4px;font-weight:600;}'
-              + '.csf-box{display:inline-block;width:12px;height:12px;border:1px solid #000;text-align:center;line-height:12px;font-size:11px;margin-right:4px;vertical-align:middle;}'
-              + '.csf-box.checked::after{content:"\\2713";font-weight:800;}'
-              + '.csf-choices{display:flex;flex-wrap:wrap;gap:4px 22px;margin:2px 0;}.csf-choice{display:inline-flex;align-items:center;}'
-              + '.csf-age-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px 18px;}'
-              + '.csf-table{width:100%;border-collapse:collapse;margin-top:6px;}'
-              + '.csf-table th,.csf-table td{border:1px solid #000;padding:4px 5px;vertical-align:middle;color:#000;background:#fff;}'
-              + '.csf-table th{font-size:10.5px;text-align:center;font-weight:700;}'
-              + '.csf-table td.csf-crit{font-size:11px;text-align:left;width:42%;}'
-              + '.csf-table td.csf-mark{text-align:center;width:11.6%;}'
-              + '.csf-emoji{font-size:15px;display:block;}'
-              + '.csf-mark-box{display:inline-block;width:14px;height:14px;border:1px solid #000;line-height:14px;}'
-              + '.csf-mark-box.checked{background:#1e3a8a;color:#fff;}.csf-mark-box.checked::after{content:"\\2713";font-weight:800;font-size:11px;}'
-              + '.csf-feedback-line{border-bottom:1px solid #000;min-height:16px;margin:4px 0;padding:0 4px;}'
-              + '.csf-thanks{text-align:center;margin-top:12px;font-weight:600;}'
-              + '.csf-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:6px 0;}.csf-legend span{font-size:11px;}'
-              + '.csf-submitted{text-align:right;font-size:10px;color:#555;}'
-              + '@media print{@page{margin:12mm;} .csf-doc{max-width:none;margin:0;box-shadow:none;}}';
+            ratingsDownload.dataset.busy = '1';
             var scope = ratLabel(ratStart, ratEnd) || 'All ratings';
-            win.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Client Satisfaction Forms - ' + scope + '</title><style>' + styles + '</style></head><body>' + forms + '</body></html>');
-            win.document.close();
-            win.focus();
-            setTimeout(function () { win.print(); }, 400);
+            ratingsPdfLogo().then(function (logo) {
+              try {
+                var jsPDF = window.jspdf.jsPDF;
+                var doc = new jsPDF({ unit: 'mm', format: 'a4' });
+                rows.forEach(function (rating, index) {
+                  if (index > 0) doc.addPage();
+                  drawRatingsPdfPage(doc, rating, logo, scope);
+                });
+                var stamp = new Date();
+                var fileDate = stamp.getFullYear() + '-'
+                  + ratPad(stamp.getMonth() + 1) + '-'
+                  + ratPad(stamp.getDate());
+                doc.save('vendor-satisfaction-ratings-' + fileDate + '.pdf');
+              } catch (err) {
+                alert('Could not create the PDF. Please try again.');
+              }
+            }).finally(function () {
+              ratingsDownload.dataset.busy = '';
+            });
           });
         }
       })();
