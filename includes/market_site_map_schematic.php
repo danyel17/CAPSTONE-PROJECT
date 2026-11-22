@@ -1238,11 +1238,11 @@ if (!isset($dpm_slot_photos) || !is_array($dpm_slot_photos)) {
 }
 $dpm_gallery_dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'imgs' . DIRECTORY_SEPARATOR . 'stall-map' . DIRECTORY_SEPARATOR;
 $dpm_gallery_names = [
-    'Special Area Section' => ['special-2.jpg', 'special-5.jpg', 'special-8.jpg'],
+    'Special Area Section' => ['slot4-photo-1.jpg', 'slot4-photo-2.jpg', 'slot4-photo-3.jpg'],
     'Meat and Chicken Section' => ['real-market-1.jpg', 'real-market-2.jpg', 'real-market-3.jpg'],
     'Fresh Fish Section' => ['real-market-1.jpg', 'real-market-2.jpg', 'real-market-3.jpg'],
     'Fruits and Vegetables Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
-    'Groceries Sari-Sari Section' => ['special-2.jpg', 'special-5.jpg', 'special-8.jpg'],
+    'Groceries Sari-Sari Section' => ['slot4-photo-1.jpg', 'slot4-photo-2.jpg', 'slot4-photo-3.jpg'],
     'Service Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
     'Dry Goods Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
     'Dried and Salted Fish Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
