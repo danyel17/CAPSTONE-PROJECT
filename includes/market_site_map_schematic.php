@@ -1238,15 +1238,15 @@ if (!isset($dpm_slot_photos) || !is_array($dpm_slot_photos)) {
 }
 $dpm_gallery_dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'imgs' . DIRECTORY_SEPARATOR . 'stall-map' . DIRECTORY_SEPARATOR;
 $dpm_gallery_names = [
-    'Special Area Section' => ['special-1.jpg', 'special-2.jpg', 'special-3.jpg', 'special-4.jpg', 'special-5.jpg', 'special-6.jpg', 'special-7.jpg', 'special-8.jpg', 'special-9.jpg'],
+    'Special Area Section' => ['special-2.jpg', 'special-5.jpg', 'special-8.jpg'],
     'Meat and Chicken Section' => ['real-market-1.jpg', 'real-market-2.jpg', 'real-market-3.jpg'],
     'Fresh Fish Section' => ['real-market-1.jpg', 'real-market-2.jpg', 'real-market-3.jpg'],
-    'Fruits and Vegetables Section' => ['produce-1.jpg', 'produce-2.jpg', 'produce-3.jpg', 'produce-4.jpg', 'produce-5.jpg', 'produce-6.jpg', 'produce-7.jpg', 'produce-8.jpg', 'produce-9.jpg'],
-    'Groceries Sari-Sari Section' => ['grocery-1.jpg', 'grocery-2.jpg', 'grocery-3.jpg', 'grocery-4.jpg', 'grocery-5.jpg', 'grocery-6.jpg'],
-    'Service Section' => ['service-1.jpg', 'service-2.jpg', 'service-3.jpg', 'service-4.jpg', 'service-5.jpg', 'service-6.jpg'],
-    'Dry Goods Section' => ['dry-1.jpg', 'dry-2.jpg', 'dry-3.jpg', 'dry-4.jpg', 'dry-5.jpg', 'dry-6.jpg'],
-    'Dried and Salted Fish Section' => ['dried-1.jpg', 'dried-2.jpg', 'dried-3.jpg', 'dried-4.jpg', 'dried-5.jpg', 'dried-6.jpg'],
-    'Eateries and Cooked Food Section' => ['eatery-1.jpg', 'eatery-2.jpg', 'eatery-3.jpg', 'eatery-4.jpg', 'eatery-5.jpg', 'eatery-6.jpg'],
+    'Fruits and Vegetables Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
+    'Groceries Sari-Sari Section' => ['special-2.jpg', 'special-5.jpg', 'special-8.jpg'],
+    'Service Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
+    'Dry Goods Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
+    'Dried and Salted Fish Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
+    'Eateries and Cooked Food Section' => ['real-market-4.jpg', 'real-market-5.jpg', 'real-market-6.jpg'],
 ];
 $dpm_gallery_pools = [];
 foreach ($dpm_gallery_names as $dpm_gallery_section => $dpm_gallery_files) {
