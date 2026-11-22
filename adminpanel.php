@@ -11251,22 +11251,28 @@ console.log('Check console for errors and network requests');
               <h2 style="margin:0; font-size:1.4rem;"><i class="fas fa-star" style="color:#fbbf24;"></i> Vendor Satisfaction Ratings</h2>
               <p style="margin:0.25rem 0 0; color:#64748b;">Feedback submitted by vendors</p>
             </div>
+            <div class="ratings-head-actions">
+              <button type="button" class="rep-date-btn ratings-date-btn" id="ratingsDateBtn">Select date for ratings</button>
+              <button type="button" class="ratings-download-all" id="ratingsDownloadAll">
+                <i class="fas fa-download"></i> Download Ratings
+              </button>
+            </div>
           </div>
 
           <div class="ratings-summary">
             <div class="ratings-stat ratings-stat-main">
-              <div class="ratings-stat-num"><?php echo number_format($ratings_avg, 2); ?></div>
-              <div class="ratings-stars-display">
+              <div class="ratings-stat-num" id="ratingsStatNum"><?php echo number_format($ratings_avg, 2); ?></div>
+              <div class="ratings-stars-display" id="ratingsStarsDisplay">
                 <?php $full = (int) floor($ratings_avg); for ($s = 1; $s <= 5; $s++): ?>
                   <i class="fas fa-star" style="color:<?php echo $s <= $full ? '#fbbf24' : '#e2e8f0'; ?>;"></i>
                 <?php endfor; ?>
               </div>
-              <div class="ratings-stat-label"><?php echo (int) $ratings_total; ?> total response<?php echo $ratings_total === 1 ? '' : 's'; ?></div>
+              <div class="ratings-stat-label" id="ratingsStatLabel"><?php echo (int) $ratings_total; ?> total response<?php echo $ratings_total === 1 ? '' : 's'; ?></div>
             </div>
             <div class="ratings-dist">
               <?php for ($s = 5; $s >= 1; $s--):
                   $pct = $ratings_total > 0 ? round(($ratings_dist[$s] / $ratings_total) * 100) : 0; ?>
-                <div class="ratings-dist-row">
+                <div class="ratings-dist-row" data-star="<?php echo $s; ?>">
                   <span class="ratings-dist-label"><?php echo $s; ?> <i class="fas fa-star"></i></span>
                   <span class="ratings-dist-bar"><span class="ratings-dist-fill" style="width:<?php echo $pct; ?>%;"></span></span>
                   <span class="ratings-dist-count"><?php echo (int) $ratings_dist[$s]; ?></span>
@@ -11289,7 +11295,7 @@ console.log('Check console for errors and network requests');
                   $rfull = (int) round($ravg);
                   $when = htmlspecialchars((string) ($r['created_at'] ?? ''), ENT_QUOTES, 'UTF-8');
               ?>
-              <div class="ratings-item">
+              <div class="ratings-item" data-id="<?php echo (int) $r['rating_id']; ?>" data-date="<?php echo htmlspecialchars(substr((string) ($r['created_at'] ?? ''), 0, 10), ENT_QUOTES, 'UTF-8'); ?>" data-avg="<?php echo htmlspecialchars(number_format($ravg, 2, '.', ''), ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="ratings-item-head">
                   <div>
                     <span class="ratings-item-name"><?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></span>
@@ -11326,12 +11332,13 @@ console.log('Check console for errors and network requests');
                   <button type="button" class="ratings-btn ratings-btn-view" onclick="viewRatingForm(<?php echo (int) $r['rating_id']; ?>)">
                     <i class="fas fa-file-alt"></i> View Form
                   </button>
-                  <button type="button" class="ratings-btn ratings-btn-download" onclick="downloadRatingForm(<?php echo (int) $r['rating_id']; ?>)">
-                    <i class="fas fa-download"></i> Download
-                  </button>
                 </div>
               </div>
               <?php endforeach; ?>
+            </div>
+            <div class="ratings-empty ratings-filter-empty" id="ratingsFilterEmpty" hidden>
+              <i class="fas fa-calendar-xmark"></i>
+              <p>No ratings on the selected date.</p>
             </div>
           <?php endif; ?>
         </div>
@@ -11362,15 +11369,38 @@ console.log('Check console for errors and network requests');
         </script>
       </div>
 
-      <!-- Rating form viewer modal (official Market Division Office form) -->
+      <div class="rep-range-overlay" id="ratingsRangeOverlay" aria-hidden="true">
+        <div class="rep-range-card" role="dialog" aria-modal="true" aria-labelledby="ratingsRangeTitle">
+          <div class="rep-range-head">
+            <h3 id="ratingsRangeTitle">Select Date Range</h3>
+            <button type="button" class="rep-range-close" id="ratingsRangeClose" aria-label="Close">&times;</button>
+          </div>
+          <p class="rep-range-label">Show ratings for</p>
+          <div class="rep-range-presets" id="ratingsRangePresets">
+            <button type="button" data-days="1">Today</button>
+            <button type="button" data-days="3">3 Days</button>
+            <button type="button" data-days="7">7 Days</button>
+            <button type="button" data-days="30">30 Days</button>
+          </div>
+          <div class="rep-range-nav">
+            <strong id="ratingsRangeMonth">November 2026</strong>
+            <div class="rep-range-nav-btns">
+              <button type="button" id="ratingsRangePrev" aria-label="Previous month">&lsaquo;</button>
+              <button type="button" id="ratingsRangeNext" aria-label="Next month">&rsaquo;</button>
+            </div>
+          </div>
+          <div class="rep-range-week" aria-hidden="true">
+            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+          </div>
+          <div class="rep-range-grid" id="ratingsRangeGrid"></div>
+          <button type="button" class="rep-range-apply" id="ratingsRangeApply">Apply</button>
+        </div>
+      </div>
       <div class="rating-form-overlay" id="ratingFormOverlay" aria-hidden="true">
         <div class="rating-form-shell" role="dialog" aria-modal="true">
           <div class="rating-form-toolbar">
             <span class="rating-form-toolbar-title"><i class="fas fa-file-alt"></i> Client Satisfaction Form</span>
             <div class="rating-form-toolbar-actions">
-              <button type="button" class="ratings-btn ratings-btn-download" id="ratingFormDownloadBtn">
-                <i class="fas fa-download"></i> Download
-              </button>
               <button type="button" class="rating-form-close" id="ratingFormClose" aria-label="Close">&times;</button>
             </div>
           </div>
@@ -11381,7 +11411,9 @@ console.log('Check console for errors and network requests');
       </div>
 
       <style>
-        .ratings-head { margin-bottom: 1.2rem; }
+        .ratings-head { margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+        .ratings-head-actions { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; }
+        .ratings-date-btn { flex: 0 1 240px; min-width: 200px; }
         .ratings-summary { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.2rem 1.4rem; margin-bottom: 1.4rem; }
         .ratings-stat-main { text-align: center; min-width: 140px; }
         .ratings-stat-num { font-size: 2.6rem; font-weight: 800; color: #1e293b; line-height: 1; }
@@ -11416,10 +11448,33 @@ console.log('Check console for errors and network requests');
         .ratings-item-actions { margin-top: 0.8rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .ratings-btn { border: none; border-radius: 8px; padding: 0.45rem 0.9rem; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.12s ease, box-shadow 0.12s ease; }
         .ratings-btn:hover { transform: translateY(-1px); }
-        .ratings-btn-view { background: #e0e7ff; color: #4338ca; }
-        .ratings-btn-view:hover { box-shadow: 0 4px 10px rgba(67,56,202,0.25); }
-        .ratings-btn-download { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
-        .ratings-btn-download:hover { box-shadow: 0 4px 12px rgba(99,102,241,0.4); }
+        .ratings-btn-view { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
+        .ratings-btn-view:hover { box-shadow: 0 4px 12px rgba(99,102,241,0.4); }
+        .ratings-download-all {
+          position: relative; overflow: hidden; border: none; cursor: pointer;
+          border-radius: 12px; padding: 0 1.15rem; height: 42px;
+          display: inline-flex; align-items: center; gap: 0.45rem;
+          font: inherit; font-size: 0.9rem; font-weight: 800; color: #fff;
+          background: linear-gradient(135deg, #6366f1 0%, #4f46e5 55%, #7c3aed 100%);
+          box-shadow: 0 10px 22px rgba(79, 70, 229, 0.35);
+          animation: ratingsFloat 2.6s ease-in-out infinite;
+        }
+        .ratings-download-all::after {
+          content: ''; position: absolute; top: 0; left: -70%; width: 45%; height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+          animation: ratingsShine 2.6s ease-in-out infinite;
+        }
+        .ratings-download-all:hover { animation: none; transform: translateY(-2px); box-shadow: 0 16px 30px rgba(79, 70, 229, 0.45); }
+        @keyframes ratingsFloat {
+          0%, 100% { transform: translateY(0); box-shadow: 0 8px 18px rgba(79, 70, 229, 0.28); }
+          50% { transform: translateY(-3px); box-shadow: 0 16px 28px rgba(79, 70, 229, 0.42); }
+        }
+        @keyframes ratingsShine {
+          0% { left: -70%; }
+          55%, 100% { left: 140%; }
+        }
+        .ratings-filter-empty { display: none; }
+        .ratings-filter-empty.is-shown { display: block; }
 
         /* Rating form viewer modal */
         .rating-form-overlay { position: fixed; inset: 0; z-index: 5000; display: none; align-items: center; justify-content: center; padding: 1rem; background: rgba(15,23,42,0.65); }
@@ -11459,6 +11514,34 @@ console.log('Check console for errors and network requests');
         .csf-thanks { text-align: center; margin-top: 12px; font-weight: 600; }
         .csf-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 6px 0; }
         .csf-legend span { font-size: 11px; }
+        .csf-submitted { text-align: right; font-size: 10px; color: #555; }
+        body.dark-mode .rating-form-shell,
+        body.dark-mode .rating-form-scroll { background: #0f172a; }
+        body.dark-mode .csf-doc {
+          background: #1e293b; color: #f8fafc;
+          box-shadow: none;
+        }
+        body.dark-mode .csf-doc,
+        body.dark-mode .csf-doc p,
+        body.dark-mode .csf-doc .csf-sec-title,
+        body.dark-mode .csf-doc .csf-choice,
+        body.dark-mode .csf-doc .csf-legend span,
+        body.dark-mode .csf-doc .csf-thanks,
+        body.dark-mode .csf-submitted { color: #f8fafc; }
+        body.dark-mode .csf-head .csf-office { color: #c7d2fe; }
+        body.dark-mode .csf-head .csf-unit { border-top-color: #94a3b8; color: #e2e8f0; }
+        body.dark-mode .csf-line .csf-fill,
+        body.dark-mode .csf-feedback-line { border-bottom-color: #94a3b8; color: #ffffff; }
+        body.dark-mode .csf-box,
+        body.dark-mode .csf-mark-box { border-color: #e2e8f0; background: transparent; color: #ffffff; }
+        body.dark-mode .csf-mark-box.checked { background: #6366f1; color: #ffffff; }
+        body.dark-mode .csf-doc .csf-table,
+        body.dark-mode .csf-doc .csf-table th,
+        body.dark-mode .csf-doc .csf-table td {
+          background: #1e293b !important;
+          color: #ffffff !important;
+          border-color: #94a3b8 !important;
+        }
       </style>
 
       <script>
@@ -11558,7 +11641,7 @@ console.log('Check console for errors and network requests');
           html += '<div class="csf-feedback-line">' + comment + '</div>';
           html += '<div class="csf-feedback-line"></div>';
           html += '<p class="csf-thanks">Thank you for your response! \uD83D\uDE0A</p>';
-          html += '<p style="text-align:right; font-size:10px; color:#555;">Submitted: ' + esc(r.created_at) + '</p>';
+          html += '<p class="csf-submitted">Submitted: ' + esc(r.created_at) + '</p>';
           html += '</div>';
           return html;
         }
@@ -11622,11 +11705,257 @@ console.log('Check console for errors and network requests');
         };
 
         var closeBtn = document.getElementById('ratingFormClose');
-        var dlBtn = document.getElementById('ratingFormDownloadBtn');
         if (closeBtn) closeBtn.addEventListener('click', closeForm);
-        if (dlBtn) dlBtn.addEventListener('click', function () { if (currentId != null) window.downloadRatingForm(currentId); });
         if (overlay) overlay.addEventListener('click', function (e) { if (e.target === overlay) closeForm(); });
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeForm(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay && overlay.classList.contains('is-open')) closeForm(); });
+
+        var ratStart = '';
+        var ratEnd = '';
+        var ratDraftStart = null;
+        var ratDraftEnd = null;
+        var ratYear = new Date().getFullYear();
+        var ratMonth = new Date().getMonth();
+
+        function ratPad(n) { return n < 10 ? '0' + n : '' + n; }
+        function ratIso(d) { return d.getFullYear() + '-' + ratPad(d.getMonth() + 1) + '-' + ratPad(d.getDate()); }
+        function ratFromIso(iso) {
+          var p = String(iso || '').slice(0, 10).split('-');
+          if (p.length < 3) return null;
+          var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+          return isNaN(d.getTime()) ? null : d;
+        }
+        function ratDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+
+        function ratLabel(start, end) {
+          var a = ratFromIso(start);
+          var b = ratFromIso(end);
+          if (!a || !b) return '';
+          if (a > b) { var t = a; a = b; b = t; }
+          var opts = { month: 'short', day: 'numeric', year: 'numeric' };
+          var left = a.toLocaleDateString('en-US', opts);
+          var right = b.toLocaleDateString('en-US', opts);
+          return left === right ? left : left + ' – ' + right;
+        }
+
+        function renderRatingsPicker() {
+          var grid = document.getElementById('ratingsRangeGrid');
+          var label = document.getElementById('ratingsRangeMonth');
+          if (!grid || !label) return;
+          var names = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          label.textContent = names[ratMonth] + ' ' + ratYear;
+          var first = new Date(ratYear, ratMonth, 1);
+          var startWeek = first.getDay();
+          var daysInMonth = new Date(ratYear, ratMonth + 1, 0).getDate();
+          var prevDays = new Date(ratYear, ratMonth, 0).getDate();
+          var s = ratDraftStart ? ratDay(ratDraftStart).getTime() : null;
+          var e = ratDraftEnd ? ratDay(ratDraftEnd).getTime() : null;
+          if (s != null && e != null && s > e) { var swap = s; s = e; e = swap; }
+          var html = '';
+          for (var i = 0; i < 42; i++) {
+            var dayNum, muted = false, cell;
+            if (i < startWeek) {
+              dayNum = prevDays - startWeek + 1 + i;
+              muted = true;
+              cell = new Date(ratYear, ratMonth - 1, dayNum);
+            } else if (i >= startWeek + daysInMonth) {
+              dayNum = i - (startWeek + daysInMonth) + 1;
+              muted = true;
+              cell = new Date(ratYear, ratMonth + 1, dayNum);
+            } else {
+              dayNum = i - startWeek + 1;
+              cell = new Date(ratYear, ratMonth, dayNum);
+            }
+            var t = ratDay(cell).getTime();
+            var cls = 'rep-range-day' + (muted ? ' is-muted' : '');
+            if (s != null && e != null && t > s && t < e) cls += ' is-in';
+            if (s != null && t === s) cls += ' is-start';
+            if (e != null && t === e) cls += ' is-end';
+            if (s != null && e == null && t === s) cls += ' is-start is-end';
+            html += '<button type="button" class="' + cls + '" data-iso="' + ratIso(cell) + '"><span>' + dayNum + '</span></button>';
+          }
+          grid.innerHTML = html;
+        }
+
+        function applyRatingsFilter() {
+          var items = document.querySelectorAll('#ratings-section .ratings-item');
+          var shown = 0;
+          var sum = 0;
+          var dist = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+          items.forEach(function (el) {
+            var d = el.getAttribute('data-date') || '';
+            var keep = true;
+            if (ratStart && ratEnd) {
+              var a = ratStart <= ratEnd ? ratStart : ratEnd;
+              var b = ratStart <= ratEnd ? ratEnd : ratStart;
+              keep = d >= a && d <= b;
+            }
+            el.style.display = keep ? '' : 'none';
+            if (!keep) return;
+            shown++;
+            var avg = parseFloat(el.getAttribute('data-avg') || '0') || 0;
+            sum += avg;
+            var bucket = Math.round(avg);
+            if (bucket < 1) bucket = 1;
+            if (bucket > 5) bucket = 5;
+            dist[bucket]++;
+          });
+          var avgAll = shown ? (sum / shown) : 0;
+          var num = document.getElementById('ratingsStatNum');
+          var label = document.getElementById('ratingsStatLabel');
+          var stars = document.getElementById('ratingsStarsDisplay');
+          if (num) num.textContent = avgAll.toFixed(2);
+          if (label) label.textContent = shown + ' total response' + (shown === 1 ? '' : 's');
+          if (stars) {
+            var full = Math.floor(avgAll);
+            var starHtml = '';
+            for (var s = 1; s <= 5; s++) {
+              starHtml += '<i class="fas fa-star" style="color:' + (s <= full ? '#fbbf24' : '#e2e8f0') + ';"></i>';
+            }
+            stars.innerHTML = starHtml;
+          }
+          document.querySelectorAll('#ratings-section .ratings-dist-row').forEach(function (row) {
+            var star = parseInt(row.getAttribute('data-star'), 10);
+            var count = dist[star] || 0;
+            var fill = row.querySelector('.ratings-dist-fill');
+            var countEl = row.querySelector('.ratings-dist-count');
+            if (fill) fill.style.width = (shown ? Math.round((count / shown) * 100) : 0) + '%';
+            if (countEl) countEl.textContent = String(count);
+          });
+          var empty = document.getElementById('ratingsFilterEmpty');
+          if (empty) empty.classList.toggle('is-shown', !!(ratStart && shown === 0));
+          var btn = document.getElementById('ratingsDateBtn');
+          if (btn) btn.textContent = ratLabel(ratStart, ratEnd) || 'Select date for ratings';
+        }
+
+        function openRatingsPicker() {
+          var box = document.getElementById('ratingsRangeOverlay');
+          if (!box) return;
+          ratDraftStart = ratFromIso(ratStart);
+          ratDraftEnd = ratFromIso(ratEnd);
+          if (ratDraftStart) {
+            ratYear = ratDraftStart.getFullYear();
+            ratMonth = ratDraftStart.getMonth();
+          }
+          renderRatingsPicker();
+          box.classList.add('is-open');
+          box.setAttribute('aria-hidden', 'false');
+        }
+        function closeRatingsPicker() {
+          var box = document.getElementById('ratingsRangeOverlay');
+          if (!box) return;
+          box.classList.remove('is-open');
+          box.setAttribute('aria-hidden', 'true');
+        }
+
+        var ratingsDateBtn = document.getElementById('ratingsDateBtn');
+        var ratingsOverlay = document.getElementById('ratingsRangeOverlay');
+        if (ratingsDateBtn && ratingsOverlay && ratingsDateBtn.dataset.bound !== '1') {
+          ratingsDateBtn.dataset.bound = '1';
+          ratingsDateBtn.addEventListener('click', openRatingsPicker);
+          document.getElementById('ratingsRangeClose').addEventListener('click', closeRatingsPicker);
+          ratingsOverlay.addEventListener('click', function (ev) { if (ev.target === ratingsOverlay) closeRatingsPicker(); });
+          document.getElementById('ratingsRangePrev').addEventListener('click', function () {
+            ratMonth -= 1;
+            if (ratMonth < 0) { ratMonth = 11; ratYear -= 1; }
+            renderRatingsPicker();
+          });
+          document.getElementById('ratingsRangeNext').addEventListener('click', function () {
+            ratMonth += 1;
+            if (ratMonth > 11) { ratMonth = 0; ratYear += 1; }
+            renderRatingsPicker();
+          });
+          document.getElementById('ratingsRangePresets').addEventListener('click', function (ev) {
+            var btn = ev.target.closest('button[data-days]');
+            if (!btn) return;
+            document.querySelectorAll('#ratingsRangePresets button').forEach(function (b) { b.classList.remove('is-active'); });
+            btn.classList.add('is-active');
+            var days = parseInt(btn.getAttribute('data-days'), 10) || 1;
+            var end = ratDay(new Date());
+            var start = new Date(end.getFullYear(), end.getMonth(), end.getDate() - (days - 1));
+            ratDraftStart = start;
+            ratDraftEnd = end;
+            ratYear = start.getFullYear();
+            ratMonth = start.getMonth();
+            renderRatingsPicker();
+          });
+          document.getElementById('ratingsRangeGrid').addEventListener('click', function (ev) {
+            var btn = ev.target.closest('.rep-range-day');
+            if (!btn) return;
+            document.querySelectorAll('#ratingsRangePresets button').forEach(function (b) { b.classList.remove('is-active'); });
+            var picked = ratFromIso(btn.getAttribute('data-iso'));
+            if (!picked) return;
+            if (!ratDraftStart || (ratDraftStart && ratDraftEnd)) {
+              ratDraftStart = picked;
+              ratDraftEnd = null;
+            } else {
+              ratDraftEnd = picked;
+            }
+            renderRatingsPicker();
+          });
+          document.getElementById('ratingsRangeApply').addEventListener('click', function () {
+            if (!ratDraftStart) return;
+            var end = ratDraftEnd || ratDraftStart;
+            var a = ratDay(ratDraftStart);
+            var b = ratDay(end);
+            if (a > b) { var tmp = a; a = b; b = tmp; }
+            ratStart = ratIso(a);
+            ratEnd = ratIso(b);
+            closeRatingsPicker();
+            applyRatingsFilter();
+          });
+        }
+
+        var ratingsDownload = document.getElementById('ratingsDownloadAll');
+        if (ratingsDownload) {
+          ratingsDownload.addEventListener('click', function () {
+            if (!window.jspdf || typeof window.jspdf.jsPDF !== 'function') {
+              alert('PDF download is still loading. Please try again.');
+              return;
+            }
+            var rows = [];
+            document.querySelectorAll('#ratings-section .ratings-item').forEach(function (el) {
+              if (el.style.display === 'none') return;
+              var rating = csfFindRating(parseInt(el.getAttribute('data-id'), 10));
+              if (rating) rows.push(rating);
+            });
+            var jsPDF = window.jspdf.jsPDF;
+            var doc = new jsPDF({ unit: 'mm', format: 'a4' });
+            var pageW = doc.internal.pageSize.getWidth();
+            doc.setFont('times', 'bold');
+            doc.setFontSize(16);
+            doc.text('Daet Public Market', pageW / 2, 18, { align: 'center' });
+            doc.setFont('times', 'normal');
+            doc.setFontSize(11);
+            doc.text('Vendor Satisfaction Ratings', pageW / 2, 26, { align: 'center' });
+            doc.setFont('times', 'italic');
+            doc.setFontSize(10);
+            doc.text(ratLabel(ratStart, ratEnd) || 'All ratings', pageW / 2, 32, { align: 'center' });
+            var body = rows.map(function (r) {
+              var when = String(r.created_at || '').slice(0, 10);
+              var parts = when.split('-');
+              var dateText = parts.length === 3 ? parts[1] + '-' + parts[2] + '-' + parts[0] : when;
+              return [
+                r.client_name || 'Anonymous',
+                dateText,
+                Number(r.overall_avg || 0).toFixed(1),
+                r.client_class || '',
+                r.service_availed || ''
+              ];
+            });
+            if (!body.length) body = [['', 'No ratings for the selected date.', '', '', '']];
+            doc.autoTable({
+              startY: 38,
+              head: [['Name', 'Date', 'Score', 'Classification', 'Service']],
+              body: body,
+              theme: 'grid',
+              styles: { font: 'times', fontSize: 10, textColor: [0, 0, 0], lineColor: [0, 0, 0], lineWidth: 0.2 },
+              headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'bold', halign: 'center' },
+              margin: { left: 14, right: 14 }
+            });
+            var now = new Date();
+            doc.save('ratings-' + ratIso(now) + '.pdf');
+          });
+        }
       })();
       </script>
 
