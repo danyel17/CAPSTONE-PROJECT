@@ -11301,7 +11301,9 @@ console.log('Check console for errors and network requests');
                   if ($name === '') $name = 'Anonymous';
                   $ravg = (float) ($r['overall_avg'] ?? 0);
                   $rfull = (int) round($ravg);
-                  $when = htmlspecialchars((string) ($r['created_at'] ?? ''), ENT_QUOTES, 'UTF-8');
+                  $whenRaw = (string) ($r['created_at'] ?? '');
+                  $whenTs = $whenRaw !== '' ? strtotime($whenRaw) : false;
+                  $when = htmlspecialchars($whenTs ? date('Y-m-d g:i:s A', $whenTs) : $whenRaw, ENT_QUOTES, 'UTF-8');
               ?>
               <div class="ratings-item" data-id="<?php echo (int) $r['rating_id']; ?>" data-date="<?php echo htmlspecialchars(substr((string) ($r['created_at'] ?? ''), 0, 10), ENT_QUOTES, 'UTF-8'); ?>" data-avg="<?php echo htmlspecialchars(number_format($ravg, 2, '.', ''), ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="ratings-item-head">
@@ -11579,6 +11581,16 @@ console.log('Check console for errors and network requests');
           d.textContent = (s == null ? '' : String(s));
           return d.innerHTML;
         }
+        function submittedLabel(value) {
+          var raw = String(value || '').trim();
+          var match = raw.match(/^(\d{4}-\d{2}-\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?/);
+          if (!match) return raw;
+          var hour = parseInt(match[2], 10);
+          var suffix = hour >= 12 ? 'PM' : 'AM';
+          hour = hour % 12;
+          if (hour === 0) hour = 12;
+          return match[1] + ' ' + hour + ':' + match[3] + ':' + (match[4] || '00') + ' ' + suffix;
+        }
         function box(checked) { return '<span class="csf-box' + (checked ? ' checked' : '') + '"></span>'; }
 
         function csfFindRating(id) {
@@ -11649,7 +11661,7 @@ console.log('Check console for errors and network requests');
           html += '<div class="csf-feedback-line">' + comment + '</div>';
           html += '<div class="csf-feedback-line"></div>';
           html += '<p class="csf-thanks">Thank you for your response! \uD83D\uDE0A</p>';
-          html += '<p class="csf-submitted">Submitted: ' + esc(r.created_at) + '</p>';
+          html += '<p class="csf-submitted">Submitted: ' + esc(submittedLabel(r.created_at)) + '</p>';
           html += '</div>';
           return html;
         }
@@ -12133,7 +12145,7 @@ console.log('Check console for errors and network requests');
           doc.text('Thank you for your response.', pageW / 2, y, { align: 'center' });
           y += 4;
           doc.setFontSize(8);
-          doc.text('Submitted: ' + (rating.created_at || ''), pageW - 14, y, { align: 'right' });
+          doc.text('Submitted: ' + submittedLabel(rating.created_at), pageW - 14, y, { align: 'right' });
         }
 
         var ratingsDownload = document.getElementById('ratingsDownloadAll');
