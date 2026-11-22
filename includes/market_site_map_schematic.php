@@ -1239,8 +1239,8 @@ if (!isset($dpm_slot_photos) || !is_array($dpm_slot_photos)) {
 $dpm_gallery_dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'imgs' . DIRECTORY_SEPARATOR . 'stall-map' . DIRECTORY_SEPARATOR;
 $dpm_gallery_names = [
     'Special Area Section' => ['special-1.jpg', 'special-2.jpg', 'special-3.jpg', 'special-4.jpg', 'special-5.jpg', 'special-6.jpg', 'special-7.jpg', 'special-8.jpg', 'special-9.jpg'],
-    'Meat and Chicken Section' => ['meat-1.jpg', 'meat-2.jpg', 'meat-3.jpg', 'meat-4.jpg', 'meat-5.jpg', 'meat-6.jpg', 'meat-7.jpg', 'meat-8.jpg', 'meat-9.jpg'],
-    'Fresh Fish Section' => ['fish-1.jpg', 'fish-2.jpg', 'fish-3.jpg', 'fish-4.jpg', 'fish-5.jpg', 'fish-6.jpg'],
+    'Meat and Chicken Section' => ['real-market-1.jpg', 'real-market-2.jpg', 'real-market-3.jpg'],
+    'Fresh Fish Section' => ['real-market-1.jpg', 'real-market-2.jpg', 'real-market-3.jpg'],
     'Fruits and Vegetables Section' => ['produce-1.jpg', 'produce-2.jpg', 'produce-3.jpg', 'produce-4.jpg', 'produce-5.jpg', 'produce-6.jpg', 'produce-7.jpg', 'produce-8.jpg', 'produce-9.jpg'],
     'Groceries Sari-Sari Section' => ['grocery-1.jpg', 'grocery-2.jpg', 'grocery-3.jpg', 'grocery-4.jpg', 'grocery-5.jpg', 'grocery-6.jpg'],
     'Service Section' => ['service-1.jpg', 'service-2.jpg', 'service-3.jpg', 'service-4.jpg', 'service-5.jpg', 'service-6.jpg'],
