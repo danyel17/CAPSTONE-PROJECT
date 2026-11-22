@@ -1011,11 +1011,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       height: 100%;
       object-fit: cover;
       object-position: center;
-      opacity: 0;
       transform: scale(1);
-      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease;
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .feature-card-img.is-active { opacity: 1; }
     .feature-card:hover .feature-card-img {
       transform: scale(1.06);
     }
@@ -1069,21 +1067,6 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
     }
 
     /* Label at the bottom */
-    .feature-card-dots {
-      position: absolute;
-      left: 14px;
-      bottom: 58px;
-      z-index: 3;
-      display: flex;
-      gap: 5px;
-    }
-    .feature-card-dots span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.45);
-    }
-    .feature-card-dots span.is-on { background: #fff; }
     .feature-card-label {
       position: absolute;
       bottom: 0;
@@ -3383,12 +3366,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
       <div class="features-cards" id="featuresCards">
         <!-- Card 1 -->
         <div class="feature-card">
-          <img src="assets/imgs/available-slot-1.jpg" alt="Slot 1" class="feature-card-img is-active">
-          <img src="assets/imgs/available-slot-1b.jpg" alt="" class="feature-card-img">
-          <img src="assets/imgs/available-slot-1c.jpg" alt="" class="feature-card-img">
+          <img src="assets/imgs/available-slot-1.jpg" alt="Slot 1" class="feature-card-img">
           <div class="feature-card-overlay"></div>
           <div class="feature-card-num">01</div>
-          <div class="feature-card-dots" aria-hidden="true"><span class="is-on"></span><span></span><span></span></div>
           <div class="feature-card-label">
             <p class="feature-card-title">Slot 1</p>
             
@@ -3397,12 +3377,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
 
         <!-- Card 2 -->
         <div class="feature-card">
-          <img src="assets/imgs/available-slot-2.jpg" alt="Slot 2" class="feature-card-img is-active">
-          <img src="assets/imgs/available-slot-2b.jpg" alt="" class="feature-card-img">
-          <img src="assets/imgs/available-slot-2c.jpg" alt="" class="feature-card-img">
+          <img src="assets/imgs/available-slot-2.jpg" alt="Slot 2" class="feature-card-img">
           <div class="feature-card-overlay"></div>
           <div class="feature-card-num">02</div>
-          <div class="feature-card-dots" aria-hidden="true"><span class="is-on"></span><span></span><span></span></div>
           <div class="feature-card-label">
             <p class="feature-card-title">Slot 2</p>
            
@@ -3411,12 +3388,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
 
         <!-- Card 3 -->
         <div class="feature-card">
-          <img src="assets/imgs/available-slot-3.jpg" alt="Slot 3" class="feature-card-img is-active">
-          <img src="assets/imgs/available-slot-3b.jpg" alt="" class="feature-card-img">
-          <img src="assets/imgs/available-slot-3c.jpg" alt="" class="feature-card-img">
+          <img src="assets/imgs/available-slot-3.jpg" alt="Slot 3" class="feature-card-img">
           <div class="feature-card-overlay"></div>
           <div class="feature-card-num">03</div>
-          <div class="feature-card-dots" aria-hidden="true"><span class="is-on"></span><span></span><span></span></div>
           <div class="feature-card-label">
             <p class="feature-card-title">Slot 3</p>
             
@@ -3425,12 +3399,9 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
 
         <!-- Card 4: -->
         <div class="feature-card">
-          <img src="assets/imgs/available-slot-4.jpg" alt="Slot 4" class="feature-card-img is-active">
-          <img src="assets/imgs/available-slot-4b.jpg" alt="" class="feature-card-img">
-          <img src="assets/imgs/available-slot-4c.jpg" alt="" class="feature-card-img">
+          <img src="assets/imgs/available-slot-4.jpg" alt="Slot 4" class="feature-card-img">
           <div class="feature-card-overlay"></div>
           <div class="feature-card-num">04</div>
-          <div class="feature-card-dots" aria-hidden="true"><span class="is-on"></span><span></span><span></span></div>
           <div class="feature-card-label">
             <p class="feature-card-title">Slot 4</p>
             
@@ -3896,17 +3867,6 @@ $fee_new = application_fees_get_by_type($conn, 'new') ?? application_fees_defaul
             if (window.innerWidth <= 576) return;
             setExpandedCard(card);
           });
-          var imgs = card.querySelectorAll('.feature-card-img');
-          var dots = card.querySelectorAll('.feature-card-dots span');
-          if (imgs.length < 2) return;
-          var current = 0;
-          setInterval(function () {
-            imgs[current].classList.remove('is-active');
-            if (dots[current]) dots[current].classList.remove('is-on');
-            current = (current + 1) % imgs.length;
-            imgs[current].classList.add('is-active');
-            if (dots[current]) dots[current].classList.add('is-on');
-          }, 3400 + index * 500);
         });
       })();
 

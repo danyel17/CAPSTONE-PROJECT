@@ -470,6 +470,7 @@ if (!function_exists('dpmRenderSiteStallGroup')) {
       </div>
     </dl>
     <div class="dpm-slot-detail__photos" id="dpmSlotDetailPhotos" hidden></div>
+    <p class="dpm-slot-detail__note" id="dpmSlotDetailNote" hidden>This slot is occupied.</p>
     <a class="dpm-slot-detail__apply" id="dpmSlotDetailApply" href="application.php">Apply for this slot now</a>
   </div>
 </div>
@@ -978,6 +979,18 @@ if (!function_exists('dpmRenderSiteStallGroup')) {
     box-shadow: 0 8px 22px rgba(79, 70, 229, 0.35);
   }
 
+  .dpm-slot-detail__note {
+    margin: 0 0 0.85rem;
+    text-align: center;
+    font-weight: 700;
+    color: #b91c1c;
+  }
+
+  .dpm-slot-detail__note[hidden],
+  .dpm-slot-detail__apply[hidden] {
+    display: none;
+  }
+
   .dpm-slot-detail__apply:hover,
   .dpm-slot-detail__apply:focus-visible {
     background: #4338ca;
@@ -1219,6 +1232,60 @@ if (!function_exists('dpmRenderSiteStallGroup')) {
   }
 </style>
 
+<?php
+if (!isset($dpm_slot_photos) || !is_array($dpm_slot_photos)) {
+    $dpm_slot_photos = [];
+}
+$dpm_gallery_dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'imgs' . DIRECTORY_SEPARATOR . 'stall-map' . DIRECTORY_SEPARATOR;
+$dpm_gallery_names = [
+    'Special Area Section' => ['special-1.jpg', 'special-2.jpg', 'special-3.jpg', 'special-4.jpg', 'special-5.jpg', 'special-6.jpg', 'special-7.jpg', 'special-8.jpg', 'special-9.jpg'],
+    'Meat and Chicken Section' => ['meat-1.jpg', 'meat-2.jpg', 'meat-3.jpg', 'meat-4.jpg', 'meat-5.jpg', 'meat-6.jpg', 'meat-7.jpg', 'meat-8.jpg', 'meat-9.jpg'],
+    'Fresh Fish Section' => ['fish-1.jpg', 'fish-2.jpg', 'fish-3.jpg', 'fish-4.jpg', 'fish-5.jpg', 'fish-6.jpg'],
+    'Fruits and Vegetables Section' => ['produce-1.jpg', 'produce-2.jpg', 'produce-3.jpg', 'produce-4.jpg', 'produce-5.jpg', 'produce-6.jpg', 'produce-7.jpg', 'produce-8.jpg', 'produce-9.jpg'],
+    'Groceries Sari-Sari Section' => ['grocery-1.jpg', 'grocery-2.jpg', 'grocery-3.jpg', 'grocery-4.jpg', 'grocery-5.jpg', 'grocery-6.jpg'],
+    'Service Section' => ['service-1.jpg', 'service-2.jpg', 'service-3.jpg', 'service-4.jpg', 'service-5.jpg', 'service-6.jpg'],
+    'Dry Goods Section' => ['dry-1.jpg', 'dry-2.jpg', 'dry-3.jpg', 'dry-4.jpg', 'dry-5.jpg', 'dry-6.jpg'],
+    'Dried and Salted Fish Section' => ['dried-1.jpg', 'dried-2.jpg', 'dried-3.jpg', 'dried-4.jpg', 'dried-5.jpg', 'dried-6.jpg'],
+    'Eateries and Cooked Food Section' => ['eatery-1.jpg', 'eatery-2.jpg', 'eatery-3.jpg', 'eatery-4.jpg', 'eatery-5.jpg', 'eatery-6.jpg'],
+];
+$dpm_gallery_pools = [];
+foreach ($dpm_gallery_names as $dpm_gallery_section => $dpm_gallery_files) {
+    $dpm_gallery_pools[$dpm_gallery_section] = [];
+    foreach ($dpm_gallery_files as $dpm_gallery_file) {
+        if (is_file($dpm_gallery_dir . $dpm_gallery_file)) {
+            $dpm_gallery_pools[$dpm_gallery_section][] = 'assets/imgs/stall-map/' . $dpm_gallery_file;
+        }
+    }
+}
+$dpm_gallery_cursor = 1;
+foreach ($dpm_site_stalls as $dpm_gallery_stall) {
+    $dpm_gallery_section = (string) ($dpm_gallery_stall['section'] ?? '');
+    $dpm_gallery_pool = $dpm_gallery_pools[$dpm_gallery_section] ?? [];
+    $dpm_gallery_count = (int) ($dpm_gallery_stall['count'] ?? 0);
+    $dpm_gallery_size = count($dpm_gallery_pool);
+    if ($dpm_gallery_size > 0) {
+        $dpm_gallery_step = max(1, intdiv($dpm_gallery_size, 3));
+        for ($dpm_gallery_i = 0; $dpm_gallery_i < $dpm_gallery_count; $dpm_gallery_i++) {
+            $dpm_gallery_num = $dpm_gallery_cursor + $dpm_gallery_i;
+            $dpm_gallery_key = (string) $dpm_gallery_num;
+            $dpm_gallery_have = $dpm_slot_photos[$dpm_gallery_key] ?? [];
+            if (!is_array($dpm_gallery_have)) {
+                $dpm_gallery_have = [];
+            }
+            if (count($dpm_gallery_have) < 3) {
+                for ($dpm_gallery_guard = 0; count($dpm_gallery_have) < 3 && $dpm_gallery_guard < $dpm_gallery_size; $dpm_gallery_guard++) {
+                    $dpm_gallery_src = $dpm_gallery_pool[($dpm_gallery_num + ($dpm_gallery_guard * $dpm_gallery_step)) % $dpm_gallery_size];
+                    if (!in_array($dpm_gallery_src, $dpm_gallery_have, true)) {
+                        $dpm_gallery_have[] = $dpm_gallery_src;
+                    }
+                }
+                $dpm_slot_photos[$dpm_gallery_key] = $dpm_gallery_have;
+            }
+        }
+    }
+    $dpm_gallery_cursor += $dpm_gallery_count;
+}
+?>
 <script type="application/json" id="dpmSiteOccupiedSlots"><?php echo json_encode($dpm_site_occupied_slots, JSON_UNESCAPED_UNICODE); ?></script>
 <script type="application/json" id="dpmSiteSlotPhotos"><?php echo json_encode($dpm_slot_photos ?? [], JSON_UNESCAPED_UNICODE); ?></script>
 <?php if (!empty($dpm_site_admin_mode)): ?>
@@ -1298,7 +1365,7 @@ if (!function_exists('dpmRenderSiteStallGroup')) {
     detail.hidden = true;
   }
 
-  function openSlotDetail(num, section, block) {
+  function openSlotDetail(num, section, block, occupied) {
     if (!detail) return;
     var lang = preferredLang();
     var titleEl = document.getElementById('dpmSlotDetailTitle');
@@ -1316,6 +1383,11 @@ if (!function_exists('dpmRenderSiteStallGroup')) {
     if (numEl) numEl.textContent = String(num);
     if (secEl) secEl.textContent = sectionLabel(section);
     if (blkEl) blkEl.textContent = block || '—';
+    var noteEl = document.getElementById('dpmSlotDetailNote');
+    if (noteEl) {
+      noteEl.textContent = lang === 'ph' ? 'Okupado ang slot na ito.' : 'This slot is occupied.';
+      noteEl.hidden = !occupied;
+    }
     if (applyEl) {
       var params = new URLSearchParams();
       if (section) params.set('section', section);
@@ -1323,6 +1395,7 @@ if (!function_exists('dpmRenderSiteStallGroup')) {
       params.set('slot', String(num));
       applyEl.href = 'application.php?' + params.toString();
       applyEl.textContent = lang === 'ph' ? 'Mag-apply para sa slot na ito ngayon' : 'Apply for this slot now';
+      applyEl.hidden = !!occupied;
     }
     var photosEl = document.getElementById('dpmSlotDetailPhotos');
     if (photosEl) {
@@ -1382,13 +1455,10 @@ if (!function_exists('dpmRenderSiteStallGroup')) {
             }
           };
         }(num, occupied));
-      } else if (occupied) {
-        chip.disabled = true;
-        chip.setAttribute('aria-disabled', 'true');
       } else {
-        chip.addEventListener('click', function (slotNum) {
-          return function () { openSlotDetail(slotNum, section, block); };
-        }(num));
+        chip.addEventListener('click', function (slotNum, isOccupied) {
+          return function () { openSlotDetail(slotNum, section, block, isOccupied); };
+        }(num, occupied));
       }
       grid.appendChild(chip);
     }
