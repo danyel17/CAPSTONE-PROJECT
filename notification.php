@@ -2898,7 +2898,7 @@ function notif_card_message(array $item): string {
     }
 
     .notif-admin-notes {
-      margin: 0.55rem 0 0;
+      margin: 0.12rem 0 0;
       font-size: 0.95rem;
       font-weight: 800;
       line-height: 1.45;
