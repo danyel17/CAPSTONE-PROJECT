@@ -2898,22 +2898,15 @@ function notif_card_message(array $item): string {
     }
 
     .notif-admin-notes {
-      margin-top: 0.55rem;
-    }
-
-    .notif-admin-notes-label {
-      display: block;
-      margin-bottom: 0.15rem;
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: #1c1c1e;
-    }
-
-    .notif-admin-notes p {
-      margin: 0;
+      margin: 0.55rem 0 0;
       font-size: 0.95rem;
       font-weight: 800;
       line-height: 1.45;
+      color: #1c1c1e;
+    }
+
+    .notif-admin-notes-label {
+      font-weight: 800;
       color: #1c1c1e;
     }
 
@@ -3121,8 +3114,8 @@ function notif_card_message(array $item): string {
       color: rgba(255, 255, 255, 0.62) !important;
       -webkit-text-fill-color: rgba(255, 255, 255, 0.62) !important;
     }
-    body.darkmode .notif-admin-notes-label,
-    body.darkmode .notif-admin-notes p {
+    body.darkmode .notif-admin-notes,
+    body.darkmode .notif-admin-notes-label {
       color: #f8fafc !important;
       -webkit-text-fill-color: #f8fafc !important;
     }
@@ -4303,10 +4296,7 @@ function notif_card_message(array $item): string {
               <p class="notif-card-reason"><?php echo htmlspecialchars($card_reason, ENT_QUOTES, 'UTF-8'); ?></p>
               <?php endif; ?>
               <?php if ($card_admin_notes !== ''): ?>
-              <div class="notif-admin-notes">
-                <span class="notif-admin-notes-label" data-translate="label.adminNotes">Notes</span>
-                <p><?php echo htmlspecialchars($card_admin_notes, ENT_QUOTES, 'UTF-8'); ?></p>
-              </div>
+              <p class="notif-admin-notes"><span class="notif-admin-notes-label" data-translate="label.adminNotes">Notes</span>: <?php echo htmlspecialchars($card_admin_notes, ENT_QUOTES, 'UTF-8'); ?></p>
               <?php endif; ?>
               <?php if ($card_incomplete_details !== ''): ?>
               <p class="notif-card-desc notif-card-incomplete-details"><?php echo htmlspecialchars($card_incomplete_details, ENT_QUOTES, 'UTF-8'); ?></p>
@@ -4316,10 +4306,7 @@ function notif_card_message(array $item): string {
               <p class="notif-card-desc"><?php echo htmlspecialchars($card_summary, ENT_QUOTES, 'UTF-8'); ?></p>
               <?php endif; ?>
               <?php if ($card_admin_notes !== ''): ?>
-              <div class="notif-admin-notes">
-                <span class="notif-admin-notes-label" data-translate="label.adminNotes">Notes</span>
-                <p><?php echo htmlspecialchars($card_admin_notes, ENT_QUOTES, 'UTF-8'); ?></p>
-              </div>
+              <p class="notif-admin-notes"><span class="notif-admin-notes-label" data-translate="label.adminNotes">Notes</span>: <?php echo htmlspecialchars($card_admin_notes, ENT_QUOTES, 'UTF-8'); ?></p>
               <?php endif; ?>
               <?php endif; ?>
             </div>
