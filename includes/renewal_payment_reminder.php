@@ -2,15 +2,11 @@
 /**
  * Renewal payment reminder.
  *
- * After an application/renewal is APPROVED, the next renewal payment is due one
- * month later (Asia/Manila). This file provides the due-date math and the Gmail
- * email builder used by renewal_payment_reminder_cron.php.
+ * The countdown starts when an admin approves the vendor's receipt. The next
+ * renewal payment is due one month after that approval (Asia/Manila).
  *
  * Reminder schedule (one email per day, per vendor, per due-date cycle):
  *   7, 6, 5, 4, 3, 2, 1 day(s) left, and on the due date (0 = today).
- *
- * Non-invasive by design: the due date is derived from vendors.reviewed_date, so
- * nothing in the admin approval code needs to change.
  */
 
 require_once __DIR__ . '/submission_notify_email.php'; // dpm_mail_send_html()
@@ -35,7 +31,7 @@ if (!function_exists('dpm_renewal_reminder_days_before')) {
 
 if (!function_exists('dpm_renewal_due_day')) {
     /**
-     * Due date at start of day (Manila, 00:00), one month after the approval instant.
+     * Due date at start of day (Manila, 00:00), one month after the receipt was approved.
      * PHP "+1 month" clamps short months (e.g. Jan 31 -> Feb 28/29).
      */
     function dpm_renewal_due_day(string $approvedAtMysql): DateTimeImmutable
@@ -114,11 +110,18 @@ if (!function_exists('dpm_send_renewal_payment_reminder_email')) {
         $safeLoc = htmlspecialchars($stallLocation, ENT_QUOTES, 'UTF-8');
         $safeDue = htmlspecialchars($dueDisplay, ENT_QUOTES, 'UTF-8');
         $amountTxt = '₱' . number_format(max(0, $feeAmount));
-        $unit = $daysLeft === 1 ? 'day' : 'days';
-        $dueLine = 'Your due is ' . $daysLeft . ' ' . $unit . ' on ' . ($dueDisplay !== '' ? $dueDisplay : 'your due date') . '.';
-        $subject = $dueLine . ' — Daet Public Market';
-        $headline = 'Your due is ' . $daysLeft . ' ' . $unit;
-        $intro = 'Your due is <strong>' . $daysLeft . ' ' . $unit . '</strong> on <strong>' . $safeDue . '</strong>.';
+        if ($daysLeft === 1) {
+            $dueLine = 'Your due is Today.';
+            $subject = 'Your due is Today — Daet Public Market';
+            $headline = 'Your due is Today';
+            $intro = 'Your due is <strong>Today</strong>.';
+        } else {
+            $unit = 'days';
+            $dueLine = 'Your due is ' . $daysLeft . ' ' . $unit . ' on ' . ($dueDisplay !== '' ? $dueDisplay : 'your due date') . '.';
+            $subject = $dueLine . ' — Daet Public Market';
+            $headline = 'Your due is ' . $daysLeft . ' ' . $unit;
+            $intro = 'Your due is <strong>' . $daysLeft . ' ' . $unit . '</strong> on <strong>' . $safeDue . '</strong>.';
+        }
         $countdown = '<p style="margin:0;font-size:18px;color:#b45309;"><strong>' . htmlspecialchars($dueLine, ENT_QUOTES, 'UTF-8') . '</strong></p>';
 
         $logo_html = '';
@@ -153,7 +156,7 @@ if (!function_exists('dpm_send_renewal_payment_reminder_email')) {
             . '<p style="margin:0 0 8px 0;"><strong>Due date:</strong> ' . $safeDue . '</p>'
             . $countdown
             . '</div>'
-            . '<p>Please settle your renewal on or before the due date to keep your stall clearance active. You can renew through the <strong>Renewal</strong> page on the website.</p>'
+            . '<p>Please settle your renewal on or before the due date to keep your stall slot active. You can renew to <strong>Treasurer Office</strong>.</p>'
             . '<p>If you have already paid, you may ignore this message.</p>'
             . '<p style="color:#666;font-size:13px;margin-top:24px;">— Daet Public Market Office<br><span style="font-size:12px;">This is an automated message.</span></p>'
             . '</div></div></body></html>';
@@ -170,8 +173,8 @@ if (!function_exists('dpm_send_renewal_payment_reminder_email')) {
 
 if (!function_exists('dpm_run_renewal_payment_reminders')) {
     /**
-     * Email each approved vendor once per countdown day (7, 6, 5, 4, 3, 2, 1, 0)
-     * when the one-month renewal due date is inside that window.
+     * Email once per countdown day (7, 6, 5, 4, 3, 2, 1, 0).
+     * The due date is one month after the latest approved receipt.
      */
     function dpm_run_renewal_payment_reminders(mysqli $conn): int
     {
@@ -197,33 +200,76 @@ if (!function_exists('dpm_run_renewal_payment_reminders')) {
             }
         }
 
+        $receiptCol = $conn->query("SHOW COLUMNS FROM renewal_payment_reminders LIKE 'receipt_id'");
+        if ($receiptCol && $receiptCol->num_rows === 0) {
+            $conn->query("ALTER TABLE renewal_payment_reminders ADD COLUMN receipt_id INT NULL AFTER vendor_id");
+        }
+        $idxReceipt = $conn->query("SHOW INDEX FROM renewal_payment_reminders WHERE Key_name = 'uniq_receipt_due_days'");
+        if (!$idxReceipt || $idxReceipt->num_rows === 0) {
+            $conn->query("ALTER TABLE renewal_payment_reminders ADD UNIQUE KEY uniq_receipt_due_days (receipt_id, due_date, days_left)");
+        }
+        $idxVendor = $conn->query("SHOW INDEX FROM renewal_payment_reminders WHERE Key_name = 'uniq_vendor_due_days'");
+        if ($idxVendor && $idxVendor->num_rows > 0) {
+            $conn->query("ALTER TABLE renewal_payment_reminders DROP INDEX uniq_vendor_due_days");
+        }
+
         $feeAmount = dpm_renewal_fee_amount($conn);
         $threshold = dpm_renewal_reminder_days_before();
 
-        $sql = "SELECT v.vendor_id, v.vendor_name, v.section, v.block, v.reviewed_date,
+        $sql = "SELECT r.id AS receipt_id, r.user_id, r.reviewed_at, r.section AS receipt_section, r.block AS receipt_block,
                        u.email AS user_email, u.full_name AS user_name
-                FROM vendors v
-                INNER JOIN users u ON u.user_id = v.user_id
-                WHERE LOWER(TRIM(COALESCE(v.status, ''))) = 'approved'
-                  AND v.reviewed_date IS NOT NULL
-                  AND u.email IS NOT NULL AND u.email <> ''";
+                FROM receipts r
+                INNER JOIN users u ON u.user_id = r.user_id
+                WHERE LOWER(TRIM(COALESCE(r.status, ''))) = 'approved'
+                  AND r.reviewed_at IS NOT NULL
+                  AND u.email IS NOT NULL AND u.email <> ''
+                ORDER BY r.reviewed_at DESC, r.id DESC";
         $res = $conn->query($sql);
         if (!$res) {
             error_log('dpm_run_renewal_payment_reminders: query failed ' . $conn->error);
             return 0;
         }
 
-        $checkStmt = $conn->prepare("SELECT 1 FROM renewal_payment_reminders WHERE vendor_id = ? AND due_date = ? AND days_left = ? LIMIT 1");
-        $insStmt = $conn->prepare("INSERT IGNORE INTO renewal_payment_reminders (vendor_id, due_date, days_left) VALUES (?, ?, ?)");
+        $checkStmt = $conn->prepare("SELECT 1 FROM renewal_payment_reminders WHERE receipt_id = ? AND due_date = ? AND days_left = ? LIMIT 1");
+        $insStmt = $conn->prepare("INSERT IGNORE INTO renewal_payment_reminders (vendor_id, receipt_id, due_date, days_left) VALUES (?, ?, ?, ?)");
+        $vendorStmt = $conn->prepare("SELECT vendor_id, vendor_name, section, block FROM vendors WHERE user_id = ? ORDER BY vendor_id DESC LIMIT 1");
 
         $sent = 0;
+        $seenUsers = [];
         while ($row = $res->fetch_assoc()) {
-            $vendorId = (int) ($row['vendor_id'] ?? 0);
-            $approvedAt = (string) ($row['reviewed_date'] ?? '');
-            $email = trim((string) ($row['user_email'] ?? ''));
-            $name = (string) ($row['user_name'] ?? ($row['vendor_name'] ?? ''));
-            if ($vendorId <= 0 || $approvedAt === '' || $email === '') {
+            $userId = (int) ($row['user_id'] ?? 0);
+            if ($userId <= 0 || isset($seenUsers[$userId])) {
                 continue;
+            }
+            $seenUsers[$userId] = true;
+
+            $receiptId = (int) ($row['receipt_id'] ?? 0);
+            $approvedAt = (string) ($row['reviewed_at'] ?? '');
+            $email = trim((string) ($row['user_email'] ?? ''));
+            $name = (string) ($row['user_name'] ?? '');
+            if ($receiptId <= 0 || $approvedAt === '' || $email === '') {
+                continue;
+            }
+
+            $vendorId = 0;
+            $section = trim((string) ($row['receipt_section'] ?? ''));
+            $block = trim((string) ($row['receipt_block'] ?? ''));
+            if ($vendorStmt) {
+                $vendorStmt->bind_param('i', $userId);
+                $vendorStmt->execute();
+                $vendorRow = $vendorStmt->get_result()->fetch_assoc();
+                if ($vendorRow) {
+                    $vendorId = (int) ($vendorRow['vendor_id'] ?? 0);
+                    if ($name === '') {
+                        $name = (string) ($vendorRow['vendor_name'] ?? '');
+                    }
+                    if ($section === '') {
+                        $section = trim((string) ($vendorRow['section'] ?? ''));
+                    }
+                    if ($block === '') {
+                        $block = trim((string) ($vendorRow['block'] ?? ''));
+                    }
+                }
             }
 
             $daysLeft = dpm_renewal_days_left_until_due($approvedAt);
@@ -234,7 +280,7 @@ if (!function_exists('dpm_run_renewal_payment_reminders')) {
             $dueDate = dpm_renewal_due_day($approvedAt)->format('Y-m-d');
             $already = false;
             if ($checkStmt) {
-                $checkStmt->bind_param('isi', $vendorId, $dueDate, $daysLeft);
+                $checkStmt->bind_param('isi', $receiptId, $dueDate, $daysLeft);
                 $checkStmt->execute();
                 $checkStmt->store_result();
                 $already = $checkStmt->num_rows > 0;
@@ -244,8 +290,6 @@ if (!function_exists('dpm_run_renewal_payment_reminders')) {
                 continue;
             }
 
-            $section = trim((string) ($row['section'] ?? ''));
-            $block = trim((string) ($row['block'] ?? ''));
             $stallLocation = trim($section . ($section !== '' && $block !== '' ? ' — ' : '') . $block);
             $dueDisplay = dpm_renewal_format_due($approvedAt);
 
@@ -254,7 +298,7 @@ if (!function_exists('dpm_run_renewal_payment_reminders')) {
             }
 
             if ($insStmt) {
-                $insStmt->bind_param('isi', $vendorId, $dueDate, $daysLeft);
+                $insStmt->bind_param('iisi', $vendorId, $receiptId, $dueDate, $daysLeft);
                 $insStmt->execute();
             }
             $sent++;
@@ -265,6 +309,9 @@ if (!function_exists('dpm_run_renewal_payment_reminders')) {
         }
         if ($insStmt) {
             $insStmt->close();
+        }
+        if ($vendorStmt) {
+            $vendorStmt->close();
         }
         $res->free();
 

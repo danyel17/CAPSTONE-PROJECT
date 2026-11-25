@@ -6,7 +6,7 @@
  * You can still run it by hand:
  *   php "C:\Users\user\Desktop\Market Clearance System\renewal_payment_reminder_cron.php"
  *
- * Approved stalls are due one month after approval. From 7 days before that
+ * The countdown starts when the admin approves the receipt. The payment is due one month after that approval. From 7 days before that
  * date through the due date (0), the vendor gets one Gmail each day:
  * "Your due is 7 days on dd/mm/yyyy" down to 0 days.
  */

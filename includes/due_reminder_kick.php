@@ -34,7 +34,6 @@ if (!function_exists('dpm_kick_due_reminders')) {
 
         try {
             require_once __DIR__ . '/renewal_payment_reminder.php';
-            require_once __DIR__ . '/receipt_expiry_helpers.php';
             $conn = @new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
             if ($conn->connect_error) {
                 flock($fh, LOCK_UN);
@@ -44,7 +43,6 @@ if (!function_exists('dpm_kick_due_reminders')) {
             $conn->set_charset('utf8mb4');
             $conn->query("SET time_zone = '+08:00'");
             dpm_run_renewal_payment_reminders($conn);
-            dpm_run_receipt_due_reminders($conn);
             $conn->close();
 
             ftruncate($fh, 0);

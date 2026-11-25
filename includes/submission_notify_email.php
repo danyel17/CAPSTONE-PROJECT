@@ -48,13 +48,15 @@ if (!function_exists('dpm_mail_send_html')) {
             $mail->SMTPAuth = true;
             $mail->Username = $smtp_username;
             $mail->Password = $smtp_password;
-            // Prefer configured encryption; default to STARTTLS (Gmail port 587).
-            if ($smtp_encryption === 'ssl' || $smtp_port === 465) {
+            // Implicit TLS on port 465. The whole session is encrypted before SMTP starts.
+            if ($smtp_encryption === 'ssl' || $smtp_encryption === 'tls' || $smtp_port === 465 || $smtp_port === 587) {
                 $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+                $mail->Port = 465;
             } else {
                 $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = $smtp_port;
             }
-            $mail->Port = $smtp_port;
+            $mail->SMTPAutoTLS = false;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
             $mail->SMTPDebug = 0;
@@ -69,11 +71,16 @@ if (!function_exists('dpm_mail_send_html')) {
             $mail->MessageID = '<' . bin2hex(random_bytes(12)) . '@' . $fromDomain . '>';
             $mail->XMailer = 'Daet Public Market';
             $mail->Priority = 3; // normal — avoid "urgent" spam signals
+            $tlsMethod = STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+            if (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')) {
+                $tlsMethod |= STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT;
+            }
             $mail->SMTPOptions = [
                 'ssl' => [
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true,
+                    'verify_peer' => true,
+                    'verify_peer_name' => true,
+                    'allow_self_signed' => false,
+                    'crypto_method' => $tlsMethod,
                 ],
             ];
             // From must match the authenticated Gmail mailbox (same as other DPM notifies).
@@ -216,15 +223,6 @@ if (!function_exists('dpm_notify_submission_email')) {
         }
 
         $receiptSchedule = '';
-        if ($kind === 'receipt') {
-            $expDisp = trim((string)($vars['expires_display'] ?? ''));
-            if ($expDisp !== '') {
-                $receiptSchedule = '<div style="background:#f0f4ff;border:1px solid #c7d2fe;border-radius:10px;padding:16px;margin:16px 0;">'
-                    . '<p style="margin:0 0 8px 0;"><strong>Due date:</strong> ' . htmlspecialchars($expDisp, ENT_QUOTES, 'UTF-8') . '</p>'
-                    . '<p style="margin:12px 0 0 0;font-size:13px;color:#444;">The review period is one month from when you sent the receipt. You will get an email each day from 7 days before the due date down to the due date.</p>'
-                    . '</div>';
-            }
-        }
 
         $logo_html = '';
         $logo_path = $root . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'imgs' . DIRECTORY_SEPARATOR . 'logo.jpeg';
