@@ -881,6 +881,8 @@ if ($conn) {
             n.action_required,
             n.action_url,
             v.vendor_name,
+            v.admin_notes AS vendor_admin_notes,
+            r.notes AS receipt_notes,
             COALESCE(r.section, v.section) AS section,
             COALESCE(r.block, v.block) AS block,
             v.stall_number,
@@ -1033,6 +1035,8 @@ if ($conn) {
             'application_type' => $n['application_type'] ?? '',
             'status' => $n['status'] ?? '',
             'receipt_id' => $receipt_id,
+            'admin_notes' => $n['vendor_admin_notes'] ?? '',
+            'receipt_notes' => $n['receipt_notes'] ?? '',
         ];
     }
     foreach ($activity_logs as $a) {
@@ -1477,6 +1481,47 @@ function notif_is_receipt_invalid(array $item): bool {
 function notif_extract_reason(string $message): string {
     if (preg_match('/(?:Invalid\s+)?Reason:\s*(.+?)(?:\n\n|\nNotes:|\nYou can|$)/is', $message, $m)) {
         return trim($m[1]);
+    }
+    return '';
+}
+
+function notif_extract_admin_notes(array $item): string {
+    $message = str_replace(
+        ['Additional Notes:', 'Additional notes:', 'additional notes:', 'Admin Notes:', 'Admin notes:'],
+        'Notes:',
+        (string) ($item['message'] ?? '')
+    );
+    if (preg_match('/Notes:\s*(.+?)(?:\r?\n\s*\r?\n|$)/is', $message, $m)) {
+        $fromMessage = trim($m[1]);
+        if ($fromMessage !== ''
+            && stripos($fromMessage, 'You can resubmit') !== 0
+            && stripos($fromMessage, 'Please open Notifications') !== 0) {
+            return $fromMessage;
+        }
+    }
+
+    $stored = trim((string) ($item['admin_notes'] ?? ''));
+    if ($stored === '') {
+        $stored = trim((string) ($item['receipt_notes'] ?? ''));
+    }
+    if ($stored === '') {
+        return '';
+    }
+    if (preg_match('/Additional Notes:\s*(.+)$/is', $stored, $m)) {
+        return trim($m[1]);
+    }
+    if (stripos($stored, 'Incomplete Reason:') === 0 || stripos($stored, 'Invalid Reason:') === 0) {
+        return '';
+    }
+    $type = (string) ($item['notification_type'] ?? '');
+    $title = (string) ($item['title'] ?? '');
+    $isDecision = in_array($type, ['approval', 'approved', 'incomplete', 'rejection'], true)
+        || stripos($message, 'has been approved') !== false
+        || stripos($message, 'marked as incomplete') !== false
+        || stripos($message, 'marked as invalid') !== false
+        || stripos($title, 'Approved') !== false;
+    if ($isDecision) {
+        return $stored;
     }
     return '';
 }
@@ -2852,6 +2897,26 @@ function notif_card_message(array $item): string {
       margin-top: 0.45rem;
     }
 
+    .notif-admin-notes {
+      margin-top: 0.55rem;
+    }
+
+    .notif-admin-notes-label {
+      display: block;
+      margin-bottom: 0.15rem;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #1c1c1e;
+    }
+
+    .notif-admin-notes p {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1.45;
+      color: #1c1c1e;
+    }
+
     .notif-new-dot,
     .notif-incomplete-dot,
     .notif-pending-dot {
@@ -3055,6 +3120,11 @@ function notif_card_message(array $item): string {
     body.darkmode .notif-time {
       color: rgba(255, 255, 255, 0.62) !important;
       -webkit-text-fill-color: rgba(255, 255, 255, 0.62) !important;
+    }
+    body.darkmode .notif-admin-notes-label,
+    body.darkmode .notif-admin-notes p {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
     }
     body.darkmode .notif-incomplete-dot {
       background: #facc15;
@@ -4170,6 +4240,7 @@ function notif_card_message(array $item): string {
           $is_incomplete = notif_is_incomplete($item);
           $is_pending = notif_is_pending($item);
           $card_reason = $is_incomplete ? notif_extract_reason(notif_card_message($item)) : '';
+          $card_admin_notes = notif_extract_admin_notes($item);
           $card_incomplete_details = ($is_incomplete && !$is_pending) ? notif_incomplete_followup($item) : '';
           $card_summary = (!$is_incomplete || $is_pending) ? notif_display_summary($item) : '';
           $can_edit = notif_can_edit($item);
@@ -4231,11 +4302,25 @@ function notif_card_message(array $item): string {
               <?php if ($card_reason !== ''): ?>
               <p class="notif-card-reason"><?php echo htmlspecialchars($card_reason, ENT_QUOTES, 'UTF-8'); ?></p>
               <?php endif; ?>
+              <?php if ($card_admin_notes !== ''): ?>
+              <div class="notif-admin-notes">
+                <span class="notif-admin-notes-label" data-translate="label.adminNotes">Notes</span>
+                <p><?php echo htmlspecialchars($card_admin_notes, ENT_QUOTES, 'UTF-8'); ?></p>
+              </div>
+              <?php endif; ?>
               <?php if ($card_incomplete_details !== ''): ?>
               <p class="notif-card-desc notif-card-incomplete-details"><?php echo htmlspecialchars($card_incomplete_details, ENT_QUOTES, 'UTF-8'); ?></p>
               <?php endif; ?>
-              <?php elseif (trim($card_summary) !== ''): ?>
+              <?php elseif (trim($card_summary) !== '' || $card_admin_notes !== ''): ?>
+              <?php if (trim($card_summary) !== ''): ?>
               <p class="notif-card-desc"><?php echo htmlspecialchars($card_summary, ENT_QUOTES, 'UTF-8'); ?></p>
+              <?php endif; ?>
+              <?php if ($card_admin_notes !== ''): ?>
+              <div class="notif-admin-notes">
+                <span class="notif-admin-notes-label" data-translate="label.adminNotes">Notes</span>
+                <p><?php echo htmlspecialchars($card_admin_notes, ENT_QUOTES, 'UTF-8'); ?></p>
+              </div>
+              <?php endif; ?>
               <?php endif; ?>
             </div>
           </div>
@@ -4579,6 +4664,7 @@ function notif_card_message(array $item): string {
           'label.notReviewed': 'Not reviewed',
           'label.completed': 'Completed',
           'label.incompleteReason': 'Incomplete Reason:',
+          'label.adminNotes': 'Notes',
           'action.edit': 'Edit',
           'badge.new': 'New',
           'profile.darkModeTitle': 'Dark mode',
@@ -4644,6 +4730,7 @@ function notif_card_message(array $item): string {
           'label.notReviewed': 'Hindi pa nasusuri',
           'label.completed': 'Tapos na',
           'label.incompleteReason': 'Dahilan ng Hindi Kumpleto:',
+          'label.adminNotes': 'Mga Tala',
           'action.edit': 'I-edit',
           'badge.new': 'Bago',
           'profile.darkModeTitle': 'Madilim na mode',
